@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://dml1ix7tajdq3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
+size = Vector2(124.121, 126.769)
+
+[node name="Whisk" type="Node2D"]
+position = Vector2(754, 752)
+scale = Vector2(0.515625, 0.8125)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.615417)
+shape = SubResource("RectangleShape2D_yi0ix")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfkws1qmnesy7"]
+[gd_scene load_steps=6 format=3 uid="uid://cs7w5dpiy256w"]
 
 [ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://icon.svg" id="1_cpvn7"]
-[ext_resource type="Script" path="res://Controller.cs" id="1_hd2c0"]
-[ext_resource type="PackedScene" uid="uid://ds0xylf8ncgh7" path="res://speedometer.tscn" id="3_kb3yn"]
+[ext_resource type="Script" path="res://Scripts/Controller.cs" id="2_5v0hj"]
+[ext_resource type="PackedScene" path="res://Prefabs/Speedometer.tscn" id="3_kb3yn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
 size = Vector2(124.121, 126.769)
@@ -27,12 +27,8 @@ offset_top = 45.0
 offset_right = 835.0
 offset_bottom = 120.0
 
-[node name="Game Stuff" type="Node2D" parent="." node_paths=PackedStringArray("_whisk", "_centerPoint", "_reticle", "_speedometer")]
-script = ExtResource("1_hd2c0")
-_whisk = NodePath("Whisk")
-_centerPoint = NodePath("Center Point")
-_reticle = NodePath("Reticle")
-_speedometer = NodePath("../UI/Speedometer")
+[node name="Game Stuff" type="Node2D" parent="."]
+script = ExtResource("2_5v0hj")
 
 [node name="Center Point" type="Sprite2D" parent="Game Stuff"]
 position = Vector2(960, 540)

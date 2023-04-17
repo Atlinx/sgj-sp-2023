@@ -1,12 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://ds0xylf8ncgh7"]
 
-[ext_resource type="Script" path="res://Speedometer.cs" id="1_imma2"]
+[ext_resource type="Script" path="res://Scripts/Speedometer.cs" id="1_imma2"]
 
-[node name="Speedometer" type="ColorRect" node_paths=PackedStringArray("_fill")]
+[node name="Speedometer" type="ColorRect"]
 offset_right = 800.0
 offset_bottom = 75.0
 script = ExtResource("1_imma2")
-_fill = NodePath("Fill")
 
 [node name="Fill" type="ColorRect" parent="."]
 layout_mode = 1
