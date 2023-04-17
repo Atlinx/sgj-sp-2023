@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://briidloxwl1or"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerActionInput.cs" id="1_43ucq"]
+
+[node name="PlayerActionInput" type="Node"]
+script = ExtResource("1_43ucq")

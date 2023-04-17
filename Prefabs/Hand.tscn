@@ -1,0 +1,44 @@
+[gd_scene load_steps=10 format=3 uid="uid://bunt18u2eealn"]
+
+[ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/HandGrabBase.png" id="1_0irne"]
+[ext_resource type="Script" path="res://Scripts/Hand.cs" id="1_6ir43"]
+[ext_resource type="Texture2D" uid="uid://cxpd847eaiba4" path="res://Art/HandOpen.png" id="2_kohd7"]
+[ext_resource type="Texture2D" uid="uid://4hokf5txobm1" path="res://Art/HandGrab.png" id="2_x4r0j"]
+[ext_resource type="Texture2D" uid="uid://dwum1aedsgcta" path="res://Art/HandOpenBase.png" id="3_8ah0y"]
+[ext_resource type="Texture2D" uid="uid://da3cq13kmoqxq" path="res://Art/HandPoint.png" id="6_nfjyi"]
+[ext_resource type="Texture2D" uid="uid://dcu81153n1nbs" path="res://Art/HandPointBase.png" id="7_dmkj1"]
+[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Airbrush.png" id="8_28ry6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
+radius = 65.3758
+
+[node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "shadowSprite", "Collider")]
+script = ExtResource("1_6ir43")
+spritesContainer = NodePath("Sprites")
+baseSprite = NodePath("Sprites/BaseSprite")
+colorSprite = NodePath("Sprites/ColorSprite")
+shadowSprite = NodePath("Sprites/Shadow")
+Collider = NodePath("Area2D")
+handOpenTexture = ExtResource("2_kohd7")
+handOpenBaseTexture = ExtResource("3_8ah0y")
+handGrabTexture = ExtResource("2_x4r0j")
+handGrabBaseTexture = ExtResource("1_0irne")
+handPointTexture = ExtResource("6_nfjyi")
+handPointBaseTexture = ExtResource("7_dmkj1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ikcq1")
+
+[node name="Sprites" type="Node2D" parent="."]
+
+[node name="Shadow" type="Sprite2D" parent="Sprites"]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_28ry6")
+
+[node name="BaseSprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("1_0irne")
+
+[node name="ColorSprite" type="Sprite2D" parent="Sprites"]
+texture = ExtResource("2_x4r0j")

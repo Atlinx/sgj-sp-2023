@@ -1,21 +1,22 @@
 using Godot;
-using System;
 
-public partial class Speedometer : ColorRect
+namespace Game
 {
-    [Export]
-    private ColorRect _fill;
-
-    public void SetFill(float ratio, Color color)
+    public partial class Speedometer : ColorRect
     {
-        GD.Print(ratio);
-        _fill.Size = new Vector2(ratio * Size.X, Size.Y);
-        _fill.Color = color;
+        [Export]
+        private ColorRect _fill;
+
+        public void SetFill(float ratio, Color color)
+        {
+            _fill.Size = new Vector2(ratio * Size.X, Size.Y);
+            _fill.Color = color;
+        }
+
+        public void SetFill(float ratio)
+        {
+            SetFill(ratio, _fill.Color);
+        }
     }
 
-    public void SetFill(float ratio)
-    {
-        SetFill(ratio, _fill.Color);
-    }
 }
-

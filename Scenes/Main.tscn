@@ -1,14 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://cs7w5dpiy256w"]
+[gd_scene load_steps=8 format=3 uid="uid://drtl3v86y1j5x"]
 
-[ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://icon.svg" id="1_cpvn7"]
-[ext_resource type="Script" path="res://Scripts/Controller.cs" id="2_5v0hj"]
-[ext_resource type="PackedScene" path="res://Prefabs/Speedometer.tscn" id="3_kb3yn"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
-size = Vector2(124.121, 126.769)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
-radius = 65.3758
+[ext_resource type="Script" path="res://Scripts/PlayerUI.cs" id="1_nq7xa"]
+[ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://Art/icon.svg" id="3_7bi4x"]
+[ext_resource type="PackedScene" uid="uid://ds0xylf8ncgh7" path="res://Prefabs/Speedometer.tscn" id="3_kb3yn"]
+[ext_resource type="PackedScene" uid="uid://b7l5i0cp8i11n" path="res://Scenes/Player.tscn" id="4_p20om"]
+[ext_resource type="Script" path="res://Scripts/ManualPlayerConstruct.cs" id="6_a6tyk"]
+[ext_resource type="PackedScene" uid="uid://b3r1mqbf40chv" path="res://Scenes/PlayerMouseInput.tscn" id="6_p10wq"]
+[ext_resource type="Resource" uid="uid://csx6a0leljpb4" path="res://Prefabs/StaticPlayerData/P1.tres" id="7_4yxhp"]
 
 [node name="Node" type="Node"]
 
@@ -19,8 +17,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="Speedometer" parent="UI" instance=ExtResource("3_kb3yn")]
+[node name="PlayerUI" type="Control" parent="UI" node_paths=PackedStringArray("_speedometer")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_nq7xa")
+_speedometer = NodePath("Speedometer")
+
+[node name="Speedometer" parent="UI/PlayerUI" instance=ExtResource("3_kb3yn")]
 layout_mode = 0
 offset_left = 35.0
 offset_top = 45.0
@@ -28,39 +38,24 @@ offset_right = 835.0
 offset_bottom = 120.0
 
 [node name="Game Stuff" type="Node2D" parent="."]
-script = ExtResource("2_5v0hj")
 
 [node name="Center Point" type="Sprite2D" parent="Game Stuff"]
 position = Vector2(960, 540)
-texture = ExtResource("1_cpvn7")
+texture = ExtResource("3_7bi4x")
 
-[node name="Whisk" type="Sprite2D" parent="Game Stuff"]
-position = Vector2(754, 752)
-scale = Vector2(0.515625, 0.8125)
-texture = ExtResource("1_cpvn7")
-flip_v = true
+[node name="Player" parent="Game Stuff" instance=ExtResource("4_p20om")]
 
-[node name="Area2D" type="Area2D" parent="Game Stuff/Whisk"]
+[node name="Whisk" parent="Game Stuff/Player" index="0"]
+position = Vector2(388, 368)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game Stuff/Whisk/Area2D"]
-position = Vector2(0, -0.615417)
-shape = SubResource("RectangleShape2D_yi0ix")
+[node name="ManualConstruct" type="Node" parent="Game Stuff/Player" node_paths=PackedStringArray("_player", "_playerUI", "_centerPoint")]
+script = ExtResource("6_a6tyk")
+StaticData = ExtResource("7_4yxhp")
+InputType = 1
+_player = NodePath("..")
+_playerUI = NodePath("../../../UI/PlayerUI")
+_centerPoint = NodePath("../../Center Point")
 
-[node name="Reticle" type="Area2D" parent="Game Stuff"]
+[node name="PlayerMouseInput" parent="Game Stuff" instance=ExtResource("6_p10wq")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game Stuff/Reticle"]
-shape = SubResource("CircleShape2D_ikcq1")
-
-[node name="ColorRect" type="ColorRect" parent="Game Stuff/Reticle"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -48.5
-offset_top = -49.0
-offset_right = 48.5
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.384314, 1, 1, 0.478431)
+[editable path="Game Stuff/Player"]

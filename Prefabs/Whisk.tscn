@@ -1,11 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dml1ix7tajdq3"]
+[gd_scene load_steps=6 format=3 uid="uid://dml1ix7tajdq3"]
+
+[ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/WhiskBase.png" id="1_biprv"]
+[ext_resource type="Script" path="res://Scripts/Whisk.cs" id="1_q8l7d"]
+[ext_resource type="Texture2D" uid="uid://c41re6hyaimyw" path="res://Art/WhiskOutline.png" id="2_e7fti"]
+[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Airbrush.png" id="2_muqjg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
 size = Vector2(124.121, 126.769)
 
-[node name="Whisk" type="Node2D"]
-position = Vector2(754, 752)
-scale = Vector2(0.515625, 0.8125)
+[node name="Whisk" type="Node2D" node_paths=PackedStringArray("baseSprite", "colorSprite", "shadowSprite", "Collider")]
+script = ExtResource("1_q8l7d")
+baseSprite = NodePath("BaseSprite")
+colorSprite = NodePath("ColorSprite")
+shadowSprite = NodePath("Shadow")
+Collider = NodePath("Area2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -13,4 +21,12 @@ scale = Vector2(0.515625, 0.8125)
 position = Vector2(0, -0.615417)
 shape = SubResource("RectangleShape2D_yi0ix")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Shadow" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_muqjg")
+
+[node name="BaseSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_biprv")
+
+[node name="ColorSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_e7fti")

@@ -2,10 +2,12 @@
 
 [ext_resource type="Script" path="res://Scripts/Speedometer.cs" id="1_imma2"]
 
-[node name="Speedometer" type="ColorRect"]
+[node name="Speedometer" type="ColorRect" node_paths=PackedStringArray("_fill")]
 offset_right = 800.0
 offset_bottom = 75.0
+mouse_filter = 2
 script = ExtResource("1_imma2")
+_fill = NodePath("Fill")
 
 [node name="Fill" type="ColorRect" parent="."]
 layout_mode = 1
@@ -16,4 +18,5 @@ offset_top = -37.5
 offset_right = 800.0
 offset_bottom = 37.5
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.211765, 0.854902, 0.34902, 1)

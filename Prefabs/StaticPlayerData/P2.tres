@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cplh4ntyqdidt"]
+
+[ext_resource type="Script" path="res://Scripts/StaticPlayerData.cs" id="1_6lni8"]
+
+[resource]
+script = ExtResource("1_6lni8")
+Number = 2
+Color = Color(0.14902, 0.784314, 0.933333, 1)
