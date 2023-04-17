@@ -12,6 +12,8 @@ public partial class Controller : Node
 	private Node2D _centerPoint;
 	[Export]
 	private Area2D _reticle;
+	[Export]
+	private Speedometer _speedometer;
 
 	private bool _held = false;
 
@@ -28,13 +30,12 @@ public partial class Controller : Node
 			_whisk.Position = GetViewport().GetMousePosition();
         }
 		
-		Label label = GetNode<Label>("Label");
 		Vector2 direction = _whisk.Position - _centerPoint.Position;
 		float angle = Mathf.Atan2(direction.Y, direction.X);
 
 		float average = MovingAverage(angle, delta);
 
-		label.Text = average.ToString();
+		_speedometer.SetFill(Mathf.Clamp(average / 30f, 0, 1));
 	}
 
     public override void _Input(InputEvent e)

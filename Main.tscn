@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfkws1qmnesy7"]
+[gd_scene load_steps=6 format=3 uid="uid://dfkws1qmnesy7"]
 
 [ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://icon.svg" id="1_cpvn7"]
 [ext_resource type="Script" path="res://Controller.cs" id="1_hd2c0"]
+[ext_resource type="PackedScene" uid="uid://ds0xylf8ncgh7" path="res://speedometer.tscn" id="3_kb3yn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
 size = Vector2(124.121, 126.769)
@@ -9,41 +10,52 @@ size = Vector2(124.121, 126.769)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("_whisk", "_centerPoint", "_reticle")]
+[node name="Node" type="Node"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Speedometer" parent="UI" instance=ExtResource("3_kb3yn")]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 45.0
+offset_right = 835.0
+offset_bottom = 120.0
+
+[node name="Game Stuff" type="Node2D" parent="." node_paths=PackedStringArray("_whisk", "_centerPoint", "_reticle", "_speedometer")]
 script = ExtResource("1_hd2c0")
 _whisk = NodePath("Whisk")
 _centerPoint = NodePath("Center Point")
 _reticle = NodePath("Reticle")
+_speedometer = NodePath("../UI/Speedometer")
 
-[node name="Center Point" type="Sprite2D" parent="."]
+[node name="Center Point" type="Sprite2D" parent="Game Stuff"]
 position = Vector2(960, 540)
 texture = ExtResource("1_cpvn7")
 
-[node name="Whisk" type="Sprite2D" parent="."]
+[node name="Whisk" type="Sprite2D" parent="Game Stuff"]
 position = Vector2(754, 752)
 scale = Vector2(0.515625, 0.8125)
 texture = ExtResource("1_cpvn7")
 flip_v = true
 
-[node name="Area2D" type="Area2D" parent="Whisk"]
+[node name="Area2D" type="Area2D" parent="Game Stuff/Whisk"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Whisk/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game Stuff/Whisk/Area2D"]
 position = Vector2(0, -0.615417)
 shape = SubResource("RectangleShape2D_yi0ix")
 
-[node name="Label" type="Label" parent="."]
-offset_left = 1464.0
-offset_top = 61.0
-offset_right = 1840.0
-offset_bottom = 250.0
-theme_override_font_sizes/font_size = 60
+[node name="Reticle" type="Area2D" parent="Game Stuff"]
 
-[node name="Reticle" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Reticle"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game Stuff/Reticle"]
 shape = SubResource("CircleShape2D_ikcq1")
 
-[node name="ColorRect" type="ColorRect" parent="Reticle"]
+[node name="ColorRect" type="ColorRect" parent="Game Stuff/Reticle"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
