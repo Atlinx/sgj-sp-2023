@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 public partial class Controller : Node
 {
@@ -29,7 +32,9 @@ public partial class Controller : Node
 		Vector2 direction = _whisk.Position - _centerPoint.Position;
 		float angle = Mathf.Atan2(direction.Y, direction.X);
 
-		label.Text = angle.ToString();
+		float average = MovingAverage(angle, delta);
+
+		label.Text = average.ToString();
 	}
 
     public override void _Input(InputEvent e)
@@ -39,13 +44,50 @@ public partial class Controller : Node
 			if (emb.IsPressed() && emb.ButtonIndex == MouseButton.Left)
             {
 				_held = true;
-				GD.Print("held");
             }
 			else
             {
 				_held = false;
-				GD.Print("unheld");
 			}
         }
     }
+
+    private float _lastAngle;
+    private List<float> _angularVelocityDeltas = new List<float>();
+	private const int DATAPOINTS = 30;
+
+    private float MovingAverage(float newAngle, double delta)
+	{
+        float angleDelta = newAngle - _lastAngle;
+
+		// Pi to -pi
+		// Delta should still be positive
+        if (_lastAngle > Mathf.Pi / 2 && newAngle < -Mathf.Pi / 2)
+		{
+			angleDelta = newAngle + Mathf.Tau - _lastAngle;
+		}
+		// -Pi to pi
+		// Delta should still be negative
+        else if (_lastAngle < -Mathf.Pi / 2 && newAngle > Mathf.Pi / 2)
+		{
+			angleDelta = newAngle - Mathf.Tau - _lastAngle;
+        }
+
+        _lastAngle = newAngle;
+
+        float angleVelocity = angleDelta / (float)delta;
+
+        _angularVelocityDeltas.Add(angleVelocity);
+		if (_angularVelocityDeltas.Count > DATAPOINTS) {
+            _angularVelocityDeltas.RemoveAt(0);
+        }
+
+		float sum = 0;
+		foreach (float i in _angularVelocityDeltas)
+		{
+			sum += i;
+		}
+
+		return sum / DATAPOINTS;
+	}
 }
