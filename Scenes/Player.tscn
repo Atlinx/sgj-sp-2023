@@ -1,18 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7l5i0cp8i11n"]
+[gd_scene load_steps=5 format=3 uid="uid://b7l5i0cp8i11n"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_el4a8"]
 [ext_resource type="PackedScene" uid="uid://dml1ix7tajdq3" path="res://Prefabs/Whisk.tscn" id="2_ln7vn"]
 [ext_resource type="PackedScene" uid="uid://bunt18u2eealn" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
-[ext_resource type="PackedScene" uid="uid://d2wc4yyk4ky2y" path="res://Scenes/PlayerGamepadInput.tscn" id="4_s7m3b"]
-[ext_resource type="PackedScene" uid="uid://b3r1mqbf40chv" path="res://Scenes/PlayerMouseInput.tscn" id="5_aq7v4"]
 [ext_resource type="PackedScene" uid="uid://briidloxwl1or" path="res://Scenes/PlayerActionInput.tscn" id="6_c3pk7"]
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("_whisk", "_hand")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("whisk", "hand")]
 script = ExtResource("1_el4a8")
-_whisk = NodePath("Whisk")
-_hand = NodePath("Hand")
-_gamepadInputPrefab = ExtResource("4_s7m3b")
-_mouseInputPrefab = ExtResource("5_aq7v4")
+whisk = NodePath("Whisk")
+hand = NodePath("Hand")
 _actionInputPrefab = ExtResource("6_c3pk7")
 
 [node name="Whisk" parent="." instance=ExtResource("2_ln7vn")]

@@ -6,7 +6,7 @@ namespace Game
     {
         [ExportCategory("Settings")]
         [Export]
-        private StaticPlayerData _staticPlayerData;
+        private PlayerStaticData _staticPlayerData;
         [ExportCategory("Dependencies")]
         [Export]
         private Sprite2D baseSprite;
@@ -17,7 +17,7 @@ namespace Game
         [Export]
         public Area2D Collider { get; private set; }
 
-        public void Construct(StaticPlayerData staticPlayerData)
+        public void Construct(PlayerStaticData staticPlayerData)
         {
             this._staticPlayerData = staticPlayerData;
             colorSprite.SelfModulate = staticPlayerData.Color;

@@ -6,19 +6,19 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        private Player _player;
+        private Player player;
         [Export]
-        private Speedometer _speedometer;
+        private Speedometer speedometer;
 
         public void Construct(Player player)
         {
-            this._player = player;
-            _speedometer.SetFill(1, player.PlayerData.StaticData.Color);
+            this.player = player;
+            speedometer.SetFill(1, player.PlayerData.StaticData.Color);
         }
 
         public override void _Process(double delta)
         {
-            _speedometer.SetFill(Mathf.Clamp(_player.AverageAngularVelocity / 30f, 0, 1));
+            speedometer.SetFill(Mathf.Clamp(player.AverageAngularVelocity / 30f, 0, 1));
         }
     }
 }
