@@ -46,7 +46,7 @@ namespace Game
         }
 
         [Export]
-        private StaticPlayerData _staticPlayerData;
+        private PlayerStaticData _staticPlayerData;
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -72,7 +72,7 @@ namespace Game
         [Export]
         private Texture2D handPointBaseTexture;
 
-        public void Construct(StaticPlayerData staticPlayerData)
+        public void Construct(PlayerStaticData staticPlayerData)
         {
             this._staticPlayerData = staticPlayerData;
             colorSprite.SelfModulate = staticPlayerData.Color;

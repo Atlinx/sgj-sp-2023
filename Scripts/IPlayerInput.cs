@@ -6,6 +6,6 @@ namespace Game
     {
         public bool Held { get; }
         public Vector2 PlayerPosition { get; set; }
-        public StaticPlayerData StaticPlayerData { get; set; }
+        public PlayerStaticData PlayerStaticData { get; set; }
     }
 }

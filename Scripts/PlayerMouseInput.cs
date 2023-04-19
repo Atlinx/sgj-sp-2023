@@ -20,7 +20,7 @@ namespace Game
             }
         }
         [ExportCategory("Dependencies")]
-        public StaticPlayerData StaticPlayerData { get; set; }
+        public PlayerStaticData PlayerStaticData { get; set; }
 
         public override void _UnhandledInput(InputEvent @event)
         {

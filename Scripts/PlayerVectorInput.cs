@@ -11,14 +11,14 @@ namespace Game
         public Vector2 PlayerPosition { get; set; }
         [ExportCategory("Dependencies")]
         [Export]
-        public StaticPlayerData StaticPlayerData { get; set; }
+        public PlayerStaticData PlayerStaticData { get; set; }
         [Export]
-        private float _movementSpeed;
-        protected Vector2 _movementDirection;
+        protected float movementSpeed;
+        protected Vector2 movementDirection;
 
         public override void _Process(double delta)
         {
-            PlayerPosition += _movementDirection * (float)delta;
+            PlayerPosition += movementDirection * movementSpeed * (float)delta;
         }
     }
 }
