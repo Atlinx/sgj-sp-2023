@@ -95,18 +95,13 @@ namespace Game
         public delegate void GrabEndedEventHandler();
 
         public PlayerData PlayerData { get; set; }
+        public float AverageAngularVelocity { get; private set; }
 
         [ExportCategory("Settings")]
-        [Export]
-        public float AverageAngularVelocity { get; private set; }
         [Export]
         private float minHeldTime = 0.5f;
         [Export]
         private float maxDoubleClickTime = 0.2f;
-        [Export]
-        private int angularVelocitySamples = 30;
-        [Export]
-        private float angularVelocitySampleInterval = 0.1f;
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -126,32 +121,25 @@ namespace Game
         public IPlayerIdleHandler[] IdleHandlers { get; private set; }
 
         [Export]
-        private Whisk whisk;
-        [Export]
         private Hand hand;
-
+        [Export]
+        private StatusHolder statusHolder;
+        
+        private Whisk whisk = null;
         private IPlayerInput input;
-        private Node2D centerPoint;
         private bool grabStarted = false;
         private bool prevHeld = false;
         private float heldTime;
-        private float prevAngle;
-        private float[] angularVelocityDeltaBuffer;
-        private int angularVelocityCurrIndex = 0;
-        private float angularVelocitySampleTime = 0;
 
-        public void Construct(PlayerData playerData, Node2D centerPoint, IPlayerInput input)
+        public void Construct(PlayerData playerData, IPlayerInput input)
         {
             PlayerData = playerData;
-            this.centerPoint = centerPoint;
             this.input = input;
-            whisk.Construct(playerData.StaticData);
             hand.Construct(playerData.StaticData, input);
         }
 
         public override void _Ready()
         {
-            angularVelocityDeltaBuffer = new float[angularVelocitySamples];
             ClickHandlers = clickHandlerNodes.Select(x => GetNode<IPlayerClickHandler>(x)).ToArray();
             GrabStartHandlers = grabStartHandlerNodes.Select(x => GetNode<IPlayerGrabStartHandler>(x)).ToArray();
             GrabbingHandlers = grabbingHandlerNodes.Select(x => GetNode<IPlayerGrabbingHandler>(x)).ToArray();
@@ -162,7 +150,24 @@ namespace Game
         public override void _Process(double delta)
         {
             UpdateInput(delta);
-            UpdateAverageAngularVelocity(delta);
+            if (whisk != null)
+            {
+                AverageAngularVelocity = whisk.AverageAngularVelocity;
+            }
+            else
+            {
+                AverageAngularVelocity = 0;
+            }
+        }
+
+        public void SetWhisk(Whisk whisk)
+        {
+            this.whisk = whisk; 
+        }
+
+        public void RemoveWhisk()
+        {
+            this.whisk = null;
         }
 
         private void UpdateInput(double delta)
@@ -242,43 +247,6 @@ namespace Game
                     handler.OnIdled(delta);
                     break;
                 }
-        }
-
-        private void UpdateAverageAngularVelocity(double delta)
-        {
-            angularVelocitySampleTime += (float)delta;
-            while (angularVelocitySampleTime > angularVelocitySampleInterval)
-            {
-                angularVelocitySampleTime -= angularVelocitySampleInterval;
-
-                Vector2 direction = whisk.Position - centerPoint.Position;
-                float newAngle = Mathf.Atan2(direction.Y, direction.X);
-
-
-                float angleDelta = newAngle - prevAngle;
-                // Pi to -pi
-                // Delta should still be positive
-                if (prevAngle > Mathf.Pi / 2 && newAngle < -Mathf.Pi / 2)
-                    angleDelta = newAngle + Mathf.Tau - prevAngle;
-                // -Pi to pi
-                // Delta should still be negative
-                else if (prevAngle < -Mathf.Pi / 2 && newAngle > Mathf.Pi / 2)
-                    angleDelta = newAngle - Mathf.Tau - prevAngle;
-
-                prevAngle = newAngle;
-
-                float angleVelocity = angleDelta / (float)delta;
-
-                angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = angleVelocity;
-                if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)
-                    angularVelocityCurrIndex = 0;
-
-                float sum = 0;
-                foreach (float i in angularVelocityDeltaBuffer)
-                    sum += i;
-
-                AverageAngularVelocity = sum / angularVelocityDeltaBuffer.Length;
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=10 format=3 uid="uid://d2t8hd3r6khk6"]
 
 [ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/Old/HandGrabBase.png" id="1_0irne"]
 [ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]

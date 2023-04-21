@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://34um5ve0bqxg"]
 
 [ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/Old/WhiskBase.png" id="1_biprv"]
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
@@ -6,15 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Old/Airbrush.png" id="2_muqjg"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="6_sntna"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/WhiskPlayerConnector.cs" id="7_dwn1w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
 size = Vector2(124.121, 126.769)
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "colorSprite", "shadowSprite")]
+[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite")]
 script = ExtResource("1_us5e8")
 baseSprite = NodePath("BaseSprite")
-colorSprite = NodePath("ColorSprite")
-shadowSprite = NodePath("Shadow")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.615417)
@@ -37,3 +36,8 @@ script = ExtResource("5_4y483")
 script = ExtResource("6_sntna")
 grabbable = NodePath("..")
 target = NodePath("../..")
+
+[node name="WhiskPlayerConnector" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "whisk")]
+script = ExtResource("7_dwn1w")
+grabbable = NodePath("..")
+whisk = NodePath("../..")

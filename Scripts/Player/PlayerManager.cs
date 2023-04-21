@@ -11,6 +11,8 @@ namespace Game
         [Export]
         private PackedScene playerPrefab;
         [Export]
+        private PackedScene whiskPrefab;
+        [Export]
         private PackedScene gamepadInputPrefab;
         [Export]
         private PackedScene mouseInputPrefab;
@@ -34,7 +36,10 @@ namespace Game
             foreach (var child in playersContainer.GetChildren())
                 child.QueueFree();
             foreach (var player in players)
+            {
                 AddPlayer(player);
+                AddWhisk(centerPoint);
+            }
         }
 
         public void AddPlayer(PlayerData playerData)
@@ -64,13 +69,20 @@ namespace Game
 
             var playerInput = inputNode as IPlayerInput;
             playersContainer.AddChild(player);
-            player.Construct(playerData, centerPoint, playerInput);
+            player.Construct(playerData, playerInput);
 
             PlayerUI playerUI = playerUIPrefab.Instantiate<PlayerUI>();
             playerUIContainer.AddChild(playerUI);
             playerUI.Construct(player);
 
             Players.Add(player);
+        }
+
+        public void AddWhisk(Node2D centerPoint)
+        {
+            Whisk whisk = whiskPrefab.Instantiate<Whisk>();
+            whisk.Construct(centerPoint);
+            AddChild(whisk);
         }
     }
 }

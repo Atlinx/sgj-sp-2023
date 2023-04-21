@@ -1,21 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://bveimq6uc4e6v"]
+[gd_scene load_steps=7 format=3 uid="uid://bveimq6uc4e6v"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_vqmcc"]
-[ext_resource type="PackedScene" uid="uid://3ygbv27sqflf" path="res://Prefabs/Whisk.tscn" id="2_ln7vn"]
-[ext_resource type="PackedScene" uid="uid://b0507cfhs7otu" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
+[ext_resource type="PackedScene" uid="uid://d2t8hd3r6khk6" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabbableGrabHandler.cs" id="4_dkout"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/DefaultIdleHandler.cs" id="5_kps04"]
+[ext_resource type="Script" path="res://Scripts/Status/StatusHolder.cs" id="6_eavp1"]
+[ext_resource type="Script" path="res://Scripts/Status/StatusHandler/HandDisableMovementStatusHandler.cs" id="7_4odfo"]
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("whisk", "hand")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("hand", "statusHolder")]
+z_index = 1
 script = ExtResource("1_vqmcc")
 grabStartHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabbingHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabEndHandlerNodes = [NodePath("GrabbableGrabHandler")]
 idleHandlerNodes = [NodePath("GrabbableGrabHandler"), NodePath("DefaultIdleHandler")]
-whisk = NodePath("Whisk")
 hand = NodePath("Hand")
-
-[node name="Whisk" parent="." instance=ExtResource("2_ln7vn")]
+statusHolder = NodePath("StatusHolder")
 
 [node name="Hand" parent="." instance=ExtResource("3_2h0t6")]
 
@@ -26,3 +26,11 @@ hand = NodePath("../Hand")
 [node name="DefaultIdleHandler" type="Node" parent="." node_paths=PackedStringArray("hand")]
 script = ExtResource("5_kps04")
 hand = NodePath("../Hand")
+
+[node name="StatusHolder" type="Node" parent="."]
+script = ExtResource("6_eavp1")
+handlerNodes = [NodePath("HandDisableMovementHandler")]
+
+[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("hand")]
+script = ExtResource("7_4odfo")
+hand = NodePath("../../Hand")
