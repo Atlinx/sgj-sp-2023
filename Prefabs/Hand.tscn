@@ -1,18 +1,18 @@
-[gd_scene load_steps=17 format=3 uid="uid://d2t8hd3r6khk6"]
+[gd_scene load_steps=17 format=3 uid="uid://bb40p58r81q01"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]
-[ext_resource type="Texture2D" uid="uid://biajq27thdka0" path="res://Art/UI/hand_grb_1.png" id="8_cbh77"]
-[ext_resource type="Texture2D" uid="uid://xvqsc57lui7a" path="res://Art/UI/hand_grb_glow_1.png" id="8_ungkv"]
-[ext_resource type="Texture2D" uid="uid://b6ujbaqb0a2nr" path="res://Art/UI/hand_grb_glow_2.png" id="9_ae7kn"]
-[ext_resource type="Texture2D" uid="uid://bjrtrt4hy64hh" path="res://Art/UI/hand_grb_2.png" id="9_u2mfi"]
-[ext_resource type="Texture2D" uid="uid://rm3q7krdrhxe" path="res://Art/UI/hand_opn_glow_1.png" id="10_s1nv6"]
-[ext_resource type="Texture2D" uid="uid://kqjemxltr5l4" path="res://Art/UI/hand_opn_1.png" id="10_wvgls"]
-[ext_resource type="Texture2D" uid="uid://b5q5qu53a3vr3" path="res://Art/UI/hand_opn_2.png" id="11_qlf8y"]
-[ext_resource type="Texture2D" uid="uid://dpgaenra55btc" path="res://Art/UI/hand_opn_glow_2.png" id="11_yowgk"]
-[ext_resource type="Texture2D" uid="uid://df4tmnanwtkg8" path="res://Art/UI/hand_ptr_glow_1.png" id="12_3crqc"]
-[ext_resource type="Texture2D" uid="uid://d4by4i6m8h1go" path="res://Art/UI/hand_ptr_1.png" id="12_jndwj"]
-[ext_resource type="Texture2D" uid="uid://b4gjnx16rhhy" path="res://Art/UI/hand_ptr_2.png" id="13_2bx47"]
-[ext_resource type="Texture2D" uid="uid://tv2trt3nbnmq" path="res://Art/UI/hand_ptr_glow_2.png" id="13_vfef8"]
+[ext_resource type="Texture2D" uid="uid://ciijl5eprajr6" path="res://Art/UI/Hands/hand_grab_1_outline.png" id="2_tfshp"]
+[ext_resource type="Texture2D" uid="uid://bobmkmvbf60bc" path="res://Art/UI/Hands/hand_grab_2_outline.png" id="3_2ijtg"]
+[ext_resource type="Texture2D" uid="uid://b0xngeshpp08c" path="res://Art/UI/Hands/hand_open_1_outline.png" id="4_m3k3a"]
+[ext_resource type="Texture2D" uid="uid://8gj52iyb4wh8" path="res://Art/UI/Hands/hand_open_2_outline.png" id="5_lirsc"]
+[ext_resource type="Texture2D" uid="uid://682cdkywow5x" path="res://Art/UI/Hands/hand_point_1_outline.png" id="6_cc1mi"]
+[ext_resource type="Texture2D" uid="uid://5c8ykq3453xx" path="res://Art/UI/Hands/hand_point_2_outline.png" id="7_e6awn"]
+[ext_resource type="Texture2D" uid="uid://bj1jfxf4uhi6u" path="res://Art/UI/Hands/hand_grab_1.png" id="8_ncb7g"]
+[ext_resource type="Texture2D" uid="uid://bt7cygtgyx5jb" path="res://Art/UI/Hands/hand_grab_2.png" id="9_6ryyn"]
+[ext_resource type="Texture2D" uid="uid://c7i3f1x8uftfi" path="res://Art/UI/Hands/hand_open_1.png" id="10_0qhs5"]
+[ext_resource type="Texture2D" uid="uid://cyg1eijcbfnit" path="res://Art/UI/Hands/hand_open_2.png" id="11_1kwv0"]
+[ext_resource type="Texture2D" uid="uid://ce0tigr0pjv5y" path="res://Art/UI/Hands/hand_point_1.png" id="12_fx2rh"]
+[ext_resource type="Texture2D" uid="uid://c2agojlrg47vh" path="res://Art/UI/Hands/hand_point_2.png" id="13_7icax"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758
@@ -21,10 +21,10 @@ radius = 65.3758
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_ungkv")
+"texture": ExtResource("2_tfshp")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_ae7kn")
+"texture": ExtResource("3_2ijtg")
 }],
 "loop": true,
 "name": &"grab",
@@ -32,10 +32,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("10_s1nv6")
+"texture": ExtResource("4_m3k3a")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_yowgk")
+"texture": ExtResource("5_lirsc")
 }],
 "loop": true,
 "name": &"open",
@@ -43,10 +43,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("12_3crqc")
+"texture": ExtResource("6_cc1mi")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_vfef8")
+"texture": ExtResource("7_e6awn")
 }],
 "loop": true,
 "name": &"pointer",
@@ -57,10 +57,10 @@ animations = [{
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_cbh77")
+"texture": ExtResource("8_ncb7g")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_u2mfi")
+"texture": ExtResource("9_6ryyn")
 }],
 "loop": true,
 "name": &"grab",
@@ -68,10 +68,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("10_wvgls")
+"texture": ExtResource("10_0qhs5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_qlf8y")
+"texture": ExtResource("11_1kwv0")
 }],
 "loop": true,
 "name": &"open",
@@ -79,10 +79,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("12_jndwj")
+"texture": ExtResource("12_fx2rh")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_2bx47")
+"texture": ExtResource("13_7icax")
 }],
 "loop": true,
 "name": &"pointer",
@@ -106,11 +106,12 @@ handPointerAnimation = "pointer"
 shape = SubResource("CircleShape2D_ikcq1")
 
 [node name="Sprites" type="Node2D" parent="."]
+position = Vector2(-1, -5)
 
 [node name="ColorSprite" type="AnimatedSprite2D" parent="Sprites"]
 sprite_frames = SubResource("SpriteFrames_4h5k8")
-animation = &"pointer"
+animation = &"open"
 
 [node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
 sprite_frames = SubResource("SpriteFrames_1vwh8")
-animation = &"pointer"
+animation = &"open"

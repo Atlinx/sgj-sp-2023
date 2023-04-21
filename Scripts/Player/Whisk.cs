@@ -9,6 +9,10 @@ namespace Game
         private AnimatedSprite2D baseSprite;
         [Export]
         private Area2D tip;
+        [Export]
+        private Sprite2D whiskShadow;
+        [Export]
+        private Sprite2D tipShadow;
 
         [Export]
         public float AverageAngularVelocity { get; private set; }
@@ -43,10 +47,14 @@ namespace Game
             if (tip.OverlapsArea(bowl.Area))
             {
                 baseSprite.Animation = SUBMERGED;
+                whiskShadow.Visible = false;
+                tipShadow.Visible = true;
             }
             else
             {
                 baseSprite.Animation = DEFAULT;
+                whiskShadow.Visible = true;
+                tipShadow.Visible = false;
             }
             UpdateAverageAngularVelocity(delta);
         }

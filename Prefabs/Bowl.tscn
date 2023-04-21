@@ -1,34 +1,47 @@
-[gd_scene load_steps=10 format=3 uid="uid://pfg12bqu827b"]
+[gd_scene load_steps=13 format=3 uid="uid://dxfi5i52hxso7"]
 
-[ext_resource type="Texture2D" uid="uid://bt3fp6y2eqqmr" path="res://Art/BG/rim.png" id="1_cq3gw"]
 [ext_resource type="Script" path="res://Scripts/Bowl.cs" id="1_stter"]
-[ext_resource type="Texture2D" uid="uid://dw61uuano0v31" path="res://Art/BG/fill_1.png" id="1_vgk15"]
-[ext_resource type="Texture2D" uid="uid://b4lh8ofuv28d" path="res://Art/BG/fill_2.png" id="2_nql7k"]
-[ext_resource type="Texture2D" uid="uid://bk57k6cxq2mwg" path="res://Art/BG/center_1.png" id="4_xcln3"]
-[ext_resource type="Texture2D" uid="uid://cx2veaw5kbed8" path="res://Art/BG/center_2.png" id="5_buri1"]
+[ext_resource type="Texture2D" uid="uid://des3pkmhkou8q" path="res://Art/BG/bowl_fill_1.png" id="2_1kx4d"]
+[ext_resource type="Texture2D" uid="uid://bykheiytmid5c" path="res://Art/BG/bowl_shadow.png" id="2_gshv6"]
+[ext_resource type="Texture2D" uid="uid://l3inmukgrsjh" path="res://Art/BG/bowl_fill_2.png" id="3_cetjg"]
+[ext_resource type="Texture2D" uid="uid://cgre66qi3c8sh" path="res://Art/BG/bowl_fill_3.png" id="4_7yrw1"]
+[ext_resource type="Texture2D" uid="uid://bhpo1f8uyj3yn" path="res://Art/BG/bowl.png" id="4_kb4lb"]
+[ext_resource type="Texture2D" uid="uid://c0mgobjiwiqgs" path="res://Art/BG/bowl_fill_4.png" id="5_rbyd0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2rhm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_vgk15")
+"texture": ExtResource("2_1kx4d")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_nql7k")
+"texture": ExtResource("3_cetjg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7yrw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_rbyd0")
 }],
 "loop": true,
 "name": &"egg_swirl",
 "speed": 2.0
 }]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d56pl"]
+load_path = "res://.godot/imported/center_1.png-fc6a5a1b83fd6108ef4045adde67bc52.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qk7nv"]
+load_path = "res://.godot/imported/center_2.png-321cd9ecc1c36930c9bc9d50d01bb47d.ctex"
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_kbru4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_xcln3")
+"texture": SubResource("CompressedTexture2D_d56pl")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_buri1")
+"texture": SubResource("CompressedTexture2D_qk7nv")
 }],
 "loop": true,
 "name": &"centerpoint",
@@ -36,11 +49,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rrjra"]
-radius = 57.0
+radius = 478.707
 
 [node name="Bowl" type="Node2D" node_paths=PackedStringArray("CenterPoint", "Area", "Fill", "X")]
 texture_filter = 1
-scale = Vector2(4, 4)
 script = ExtResource("1_stter")
 resistance = 20.0
 CenterPoint = NodePath("Center Point")
@@ -48,12 +60,18 @@ Area = NodePath("Area2D")
 Fill = NodePath("Egg")
 X = NodePath("Center Point/X")
 
+[node name="BowlShadow" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.156863)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_gshv6")
+
 [node name="Egg" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_g2rhm")
 animation = &"egg_swirl"
+frame_progress = 0.770299
 
 [node name="Rim" type="Sprite2D" parent="."]
-texture = ExtResource("1_cq3gw")
+texture = ExtResource("4_kb4lb")
 
 [node name="Center Point" type="Node2D" parent="."]
 

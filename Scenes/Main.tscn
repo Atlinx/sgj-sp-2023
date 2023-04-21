@@ -1,20 +1,23 @@
-[gd_scene load_steps=16 format=3 uid="uid://dkgdiul5k6cby"]
+[gd_scene load_steps=17 format=3 uid="uid://bhca7h1eypey"]
 
 [ext_resource type="PackedScene" uid="uid://v6p2j33kf7pe" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
-[ext_resource type="PackedScene" uid="uid://cjtj6l61vi0ix" path="res://Scenes/Background.tscn" id="3_ephuc"]
-[ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://Art/Old/icon.svg" id="3_x6muu"]
+[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="3_ephuc"]
 [ext_resource type="Script" path="res://Scripts/General/ManualStart.cs" id="4_55uik"]
 [ext_resource type="PackedScene" uid="uid://bveimq6uc4e6v" path="res://Prefabs/Player/Player.tscn" id="4_p20om"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerManager.cs" id="6_e57j2"]
 [ext_resource type="PackedScene" uid="uid://ck48jr2nl2rx2" path="res://Prefabs/Player/Inputs/PlayerMouseInput.tscn" id="6_p10wq"]
 [ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P1.tres" id="7_4yxhp"]
+[ext_resource type="PackedScene" uid="uid://uhqe7woq762y" path="res://Prefabs/SmallWhisk.tscn" id="9_d01yy"]
 [ext_resource type="PackedScene" uid="uid://cxfptt2tswm52" path="res://Prefabs/Player/Inputs/PlayerGamepadInput.tscn" id="9_se1wm"]
-[ext_resource type="PackedScene" uid="uid://34um5ve0bqxg" path="res://Prefabs/Whisk.tscn" id="9_w6u3u"]
 [ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="10_1e1ef"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="11_afk25"]
 [ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
-[ext_resource type="PackedScene" uid="uid://pfg12bqu827b" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
+[ext_resource type="Texture2D" uid="uid://vs05p8ptcm3w" path="res://Art/BG/Giant_Egg.png" id="15_e0ogn"]
+[ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v7qc7"]
+load_path = "res://.godot/imported/icon.svg-97940bc3a0a6f3cbadb8017a29702146.ctex"
 
 [node name="Node" type="Node"]
 
@@ -44,11 +47,9 @@ playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
 
 [node name="Background" parent="GameManager" instance=ExtResource("3_ephuc")]
-position = Vector2(-1910, -1067)
-scale = Vector2(8, 8)
 
 [node name="CenterPoint" type="Sprite2D" parent="GameManager"]
-texture = ExtResource("3_x6muu")
+texture = SubResource("CompressedTexture2D_v7qc7")
 
 [node name="ManualGameStart" type="Node" parent="GameManager" node_paths=PackedStringArray("gameManager")]
 script = ExtResource("4_55uik")
@@ -59,7 +60,7 @@ gameManager = NodePath("..")
 [node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("bowl", "playerUIContainer", "playersContainer")]
 script = ExtResource("6_e57j2")
 playerPrefab = ExtResource("4_p20om")
-whiskPrefab = ExtResource("9_w6u3u")
+whiskPrefab = ExtResource("9_d01yy")
 gamepadInputPrefab = ExtResource("9_se1wm")
 mouseInputPrefab = ExtResource("6_p10wq")
 mouseDragInputPrefab = ExtResource("10_1e1ef")
@@ -87,9 +88,27 @@ obstacleSpawners = Array[PackedScene]([])
 [node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
-zoom = Vector2(0.5, 0.5)
 
 [node name="Bowl" parent="." instance=ExtResource("15_njrld")]
 position = Vector2(1, -4)
-scale = Vector2(10, 10)
 angularVelocitySamples = 60
+
+[node name="GiantEgg" type="Sprite2D" parent="."]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+position = Vector2(767, -647.5)
+texture = ExtResource("15_e0ogn")
+
+[node name="GiantEgg2" type="Sprite2D" parent="."]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+position = Vector2(1030, -460.5)
+texture = ExtResource("15_e0ogn")
+
+[node name="GiantEgg3" type="Sprite2D" parent="."]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+position = Vector2(-987, -15)
+texture = ExtResource("15_e0ogn")
+
+[node name="GiantEgg4" type="Sprite2D" parent="."]
+self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+position = Vector2(876, 491)
+texture = ExtResource("15_e0ogn")

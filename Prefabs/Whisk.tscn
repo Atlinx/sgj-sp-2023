@@ -1,13 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://34um5ve0bqxg"]
+[gd_scene load_steps=13 format=3 uid="uid://dy0otxdf6f5i5"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
+[ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="2_jynll"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
-[ext_resource type="Texture2D" uid="uid://b2e3os8bs7to4" path="res://Art/Entities/whisk_1.png" id="6_lgyhc"]
+[ext_resource type="Texture2D" uid="uid://cvxb5hdkgoro8" path="res://Art/Entities/whisk_1.png" id="6_lgyhc"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="6_sntna"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/WhiskPlayerConnector.cs" id="7_dwn1w"]
-[ext_resource type="Texture2D" uid="uid://c22n203fh2nru" path="res://Art/Entities/whisk_2.png" id="7_ohtnk"]
-[ext_resource type="Texture2D" uid="uid://c5fex5jwf8f6t" path="res://Art/Entities/whisk_sub_1.png" id="8_2frv6"]
-[ext_resource type="Texture2D" uid="uid://doy5ke7kumqyj" path="res://Art/Entities/whisk_sub_2.png" id="9_i8xs5"]
+[ext_resource type="Texture2D" uid="uid://bhbqqjqu7waf5" path="res://Art/Entities/whisk_2.png" id="7_ohtnk"]
+[ext_resource type="Texture2D" uid="uid://dha7n8cqjfra6" path="res://Art/Entities/whisk_sub_1.png" id="8_2frv6"]
+[ext_resource type="Texture2D" uid="uid://d4jesjbpia76o" path="res://Art/Entities/whisk_sub_2.png" id="9_i8xs5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7uis8"]
 animations = [{
@@ -35,25 +36,39 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h8oer"]
-radius = 69.0
+radius = 35.6931
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_twwwl"]
-radius = 57.0088
+radius = 28.1603
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip")]
+[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow")]
 z_index = 1
 script = ExtResource("1_us5e8")
-baseSprite = NodePath("Base Sprite")
+baseSprite = NodePath("BaseSprite")
 tip = NodePath("Tip")
+whiskShadow = NodePath("WhiskShadow")
+tipShadow = NodePath("TipShadow")
 
-[node name="Base Sprite" type="AnimatedSprite2D" parent="."]
+[node name="WhiskShadow" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.392157)
+position = Vector2(0, 34)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_jynll")
+
+[node name="TipShadow" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.392157)
+position = Vector2(-20, 20)
+texture = ExtResource("2_jynll")
+
+[node name="BaseSprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_7uis8")
 animation = &"whisk"
+frame_progress = 0.027955
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(46, -45)
+position = Vector2(19, -21)
 shape = SubResource("CircleShape2D_h8oer")
 
 [node name="Grabbable" type="Node" parent="."]
@@ -72,5 +87,5 @@ whisk = NodePath("../..")
 [node name="Tip" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
-position = Vector2(-56, 50)
+position = Vector2(-19, 16)
 shape = SubResource("CircleShape2D_twwwl")

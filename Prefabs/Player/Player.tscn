@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bveimq6uc4e6v"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_vqmcc"]
-[ext_resource type="PackedScene" uid="uid://d2t8hd3r6khk6" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
+[ext_resource type="PackedScene" uid="uid://bb40p58r81q01" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabbableGrabHandler.cs" id="4_dkout"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/DefaultIdleHandler.cs" id="5_kps04"]
 [ext_resource type="Script" path="res://Scripts/Status/StatusHolder.cs" id="6_eavp1"]

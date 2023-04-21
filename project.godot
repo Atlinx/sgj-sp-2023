@@ -19,13 +19,14 @@ ResourceScriptDirectories=["res://"]
 config/name="SGJSP2023"
 run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
-config/icon="res://Art/Old/icon.svg"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
+window/size/viewport_width=2304
+window/size/viewport_height=1296
 window/size/mode=2
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [dotnet]
 

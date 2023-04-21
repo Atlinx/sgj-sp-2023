@@ -38,7 +38,7 @@ namespace Game
                     case SpriteStateEnum.Grab:
                         baseSprite.Animation = handGrabAnimation;
                         colorSprite.Animation = handGrabAnimation;
-                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 0.9f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
+                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", new Vector2(1, -1) * 32, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
                     case SpriteStateEnum.Point:
