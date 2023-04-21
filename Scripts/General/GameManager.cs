@@ -42,7 +42,7 @@ namespace Game
             Time += delta;
             
             // if game started
-            scoreMultiplier = (int)bowl.TotalAverageLinearVelocity / 540;
+            scoreMultiplier = Mathf.Clamp((int)bowl.TotalAverageLinearVelocity / 540, 1, 10);
             if ((int)Time > lastTick)
             {
                 ScoreTick();
@@ -57,7 +57,7 @@ namespace Game
 
         public void AddPointsWithMultiplier(int points)
         {
-            Score += points * Mathf.Clamp(scoreMultiplier, 1, 10);
+            Score += points * scoreMultiplier;
         }
         
         public void RemovePointsNoMultiplier(int points)

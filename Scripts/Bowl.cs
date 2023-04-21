@@ -6,7 +6,7 @@ namespace Game
 {
 	public partial class Bowl : Node2D
 	{
-		public const float MaxBowlVelocity = 30f;
+		public const float MaxBowlVelocity = 5400f;
 
 		[ExportCategory("Settings")]
 		[Export]
