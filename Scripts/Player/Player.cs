@@ -167,12 +167,14 @@ namespace Game
 
         private void UpdateInput(double delta)
         {
+            // Block A
             if (input.Held)
             {
                 heldTime += (float)delta;
                 if (heldTime >= minHeldTime && !grabStarted)
                 {
                     // We held for more than the min held time so this is a drag.
+                    // GD.Print("Entered Grab");
                     grabStarted = true;
                     EmitSignal(nameof(GrabStarted));
                     foreach (var handler in GrabStartHandlers)
@@ -195,21 +197,19 @@ namespace Game
                 }
             }
 
+            // Block B
             if (input.Held != prevHeld)
             {
                 prevHeld = input.Held;
-                if (input.Held)
-                {
-                    // Pressed
-                    heldTime = 0;
-                    grabStarted = false;
-                }
-                else
+                if (!input.Held)
                 {
                     // Released
                     if (heldTime < minHeldTime)
                     {
+                        // GD.Print("Clicked");
                         // We held for less than the min held time so this was a click
+                        heldTime = 0;
+                        grabStarted = false;
                         EmitSignal(nameof(Clicked));
                         foreach (var handler in ClickHandlers)
                             if (handler.CanHandle())
@@ -220,7 +220,10 @@ namespace Game
                     }
                     else
                     {
+                        // GD.Print("Let Go");
                         // We held for more than the min held time so this was the end of a grab.
+                        // Have to reset this here instead of in the next update loop or else Block A will run first and cause bugs
+                        heldTime = 0;
                         grabStarted = false;
                         EmitSignal(nameof(GrabEnded));
                         foreach (var handler in GrabEndHandlers)

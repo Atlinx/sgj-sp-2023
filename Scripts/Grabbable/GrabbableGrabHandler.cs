@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-    public partial class GrabbableGrabHandler : Node, IPlayerGrabStartHandler, IPlayerGrabbingHandler, IPlayerGrabEndHandler, IPlayerIdleHandler
+    public partial class GrabbableGrabHandler : Node, IPlayerGrabStartHandler, IPlayerGrabbingHandler, IPlayerGrabEndHandler, IPlayerIdleHandler, IPlayerClickHandler
     {
         [ExportCategory("Settings")]
         [Export]
@@ -82,6 +82,11 @@ namespace Game
         {
             if (!IsGrabbing)
                 hand.SpriteState = Hand.SpriteStateEnum.Open;
+        }
+
+        public void OnClicked()
+        {
+            hand.SpriteState = Hand.SpriteStateEnum.Open;
         }
     }
 }

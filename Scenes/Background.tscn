@@ -19,7 +19,7 @@
 
 [node name="Background" type="Node2D"]
 texture_filter = 1
-position = Vector2(-20, 11)
+position = Vector2(2, -6)
 scale = Vector2(4, 4)
 metadata/_edit_group_ = true
 
