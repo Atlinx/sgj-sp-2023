@@ -1,33 +1,56 @@
-[gd_scene load_steps=9 format=3 uid="uid://34um5ve0bqxg"]
+[gd_scene load_steps=11 format=3 uid="uid://34um5ve0bqxg"]
 
-[ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/Old/WhiskBase.png" id="1_biprv"]
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
-[ext_resource type="Texture2D" uid="uid://c41re6hyaimyw" path="res://Art/Old/WhiskOutline.png" id="2_e7fti"]
-[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Old/Airbrush.png" id="2_muqjg"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
+[ext_resource type="Texture2D" uid="uid://b2e3os8bs7to4" path="res://Art/Entities/whisk_1.png" id="6_lgyhc"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="6_sntna"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/WhiskPlayerConnector.cs" id="7_dwn1w"]
+[ext_resource type="Texture2D" uid="uid://c22n203fh2nru" path="res://Art/Entities/whisk_2.png" id="7_ohtnk"]
+[ext_resource type="Texture2D" uid="uid://c5fex5jwf8f6t" path="res://Art/Entities/whisk_sub_1.png" id="8_2frv6"]
+[ext_resource type="Texture2D" uid="uid://doy5ke7kumqyj" path="res://Art/Entities/whisk_sub_2.png" id="9_i8xs5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
-size = Vector2(124.121, 126.769)
+size = Vector2(218, 211)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7uis8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_lgyhc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ohtnk")
+}],
+"loop": true,
+"name": &"whisk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_2frv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_i8xs5")
+}],
+"loop": true,
+"name": &"whisk_sub",
+"speed": 5.0
+}]
 
 [node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite")]
+z_index = 1
 script = ExtResource("1_us5e8")
-baseSprite = NodePath("BaseSprite")
+baseSprite = NodePath("Base Sprite")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.615417)
+position = Vector2(0.999996, 1.5)
 shape = SubResource("RectangleShape2D_yi0ix")
 
-[node name="Shadow" type="Sprite2D" parent="."]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_muqjg")
-
-[node name="BaseSprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_biprv")
-
-[node name="ColorSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_e7fti")
+[node name="Base Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_7uis8")
+animation = &"whisk"
 
 [node name="Grabbable" type="Node" parent="."]
 script = ExtResource("5_4y483")

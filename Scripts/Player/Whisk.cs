@@ -6,7 +6,7 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        private Sprite2D baseSprite;
+        private AnimatedSprite2D baseSprite;
 
         [Export]
         public float AverageAngularVelocity { get; private set; }
@@ -19,16 +19,32 @@ namespace Game
         private int angularVelocityCurrIndex = 0;
         private float angularVelocitySampleTime = 0;
         private float prevAngle;
-        private Node2D centerPoint;
+        private Bowl bowl;
 
-        public void Construct(Node2D centerPoint)
+        private const string SUBMERGED = "whisk_sub";
+        private const string DEFAULT = "whisk";
+
+        public void Construct(Bowl bowl)
         {
-            this.centerPoint = centerPoint;
+            this.bowl = bowl;
             angularVelocityDeltaBuffer = new float[angularVelocitySamples];
+        }
+
+        public override void _Ready()
+        {
+            baseSprite.Play();
         }
 
         public override void _Process(double delta)
         {
+            if (OverlapsArea(bowl.Area))
+            {
+                baseSprite.Animation = SUBMERGED;
+            }
+            else
+            {
+                baseSprite.Animation = DEFAULT;
+            }
             UpdateAverageAngularVelocity(delta);
         }
 
@@ -39,7 +55,7 @@ namespace Game
             {
                 angularVelocitySampleTime -= angularVelocitySampleInterval;
 
-                Vector2 direction = Position - centerPoint.Position;
+                Vector2 direction = Position - bowl.CenterPoint.Position;
                 float newAngle = Mathf.Atan2(direction.Y, direction.X);
 
 
@@ -55,7 +71,15 @@ namespace Game
 
                 prevAngle = newAngle;
 
-                float angleVelocity = angleDelta / (float)delta;
+                float angleVelocity;
+                if (!OverlapsArea(bowl.Area))
+                {
+                    angleVelocity = 0;
+                }
+                else
+                {
+                    angleVelocity = angleDelta / (float)delta;
+                }
 
                 angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = angleVelocity;
                 if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)

@@ -21,7 +21,7 @@ namespace Game
         [Export]
         private PackedScene actionInputPrefab;
         [Export]
-        private Node2D centerPoint;
+        private Bowl bowl;
         [Export]
         private Control playerUIContainer;
         [Export]
@@ -38,7 +38,7 @@ namespace Game
             foreach (var player in players)
             {
                 AddPlayer(player);
-                AddWhisk(centerPoint);
+                AddWhisk(bowl);
             }
         }
 
@@ -78,11 +78,23 @@ namespace Game
             Players.Add(player);
         }
 
-        public void AddWhisk(Node2D centerPoint)
+        public void AddWhisk(Bowl bowl)
         {
             Whisk whisk = whiskPrefab.Instantiate<Whisk>();
-            whisk.Construct(centerPoint);
+            whisk.Construct(bowl);
             AddChild(whisk);
+        }
+
+        public override void _Process(double delta)
+        {
+            float grandAvg = 0;
+            foreach (Player player in Players)
+            {
+                grandAvg += player.AverageAngularVelocity;
+            }
+            grandAvg /= Players.Count;
+
+            bowl.ChangeSpeed(grandAvg);
         }
     }
 }

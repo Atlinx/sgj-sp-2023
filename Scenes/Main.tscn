@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkgdiul5k6cby"]
+[gd_scene load_steps=16 format=3 uid="uid://dkgdiul5k6cby"]
 
 [ext_resource type="PackedScene" uid="uid://v6p2j33kf7pe" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="10_1e1ef"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="11_afk25"]
 [ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
+[ext_resource type="PackedScene" uid="uid://pfg12bqu827b" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
 
 [node name="Node" type="Node"]
 
@@ -55,7 +56,7 @@ StaticData = ExtResource("7_4yxhp")
 InputType = 3
 gameManager = NodePath("..")
 
-[node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("centerPoint", "playerUIContainer", "playersContainer")]
+[node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("bowl", "playerUIContainer", "playersContainer")]
 script = ExtResource("6_e57j2")
 playerPrefab = ExtResource("4_p20om")
 whiskPrefab = ExtResource("9_w6u3u")
@@ -63,7 +64,7 @@ gamepadInputPrefab = ExtResource("9_se1wm")
 mouseInputPrefab = ExtResource("6_p10wq")
 mouseDragInputPrefab = ExtResource("10_1e1ef")
 actionInputPrefab = ExtResource("11_nw1mm")
-centerPoint = NodePath("../CenterPoint")
+bowl = NodePath("../../Bowl")
 playerUIContainer = NodePath("../../UI/Control/PlayerUIContainer")
 playerUIPrefab = ExtResource("1_fi7af")
 playersContainer = NodePath("PlayerContainer")
@@ -87,3 +88,7 @@ obstacleSpawners = Array[PackedScene]([])
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
 zoom = Vector2(0.5, 0.5)
+
+[node name="Bowl" parent="." instance=ExtResource("15_njrld")]
+position = Vector2(1, -4)
+scale = Vector2(10, 10)
