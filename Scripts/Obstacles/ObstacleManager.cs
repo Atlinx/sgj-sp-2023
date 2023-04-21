@@ -35,16 +35,17 @@ namespace Game
         private double spawnTime = 0;
         private double difficultyRampTime = 0;
 
-        public ObstacleManager()
-        {
-            SetProcess(false);
-        }
-
         private RandomNumberGenerator rng;
 
         // TODO: Add specific location obstacle spawning
         public void StartGame()
         {
+            if (obstaclePrefabs.Length == 0)
+            {
+                SetProcess(false);
+                GD.PushWarning($"{nameof(ObstacleManager)}: No obstacle prefabs, so ObstacleManger has been stopped.");
+                return;
+            }
             foreach (var child in obstacleContainer.GetChildren())
                 child.QueueFree();
             SetProcess(true);

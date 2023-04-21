@@ -6,9 +6,9 @@ namespace Game
     public partial class Hand : Node2D
     {
         [Signal]
-        public delegate void BodyEnteredHandRange(Node2D body);
+        public delegate void BodyEnteredHandRangeEventHandler(Node2D body);
         [Signal]
-        public delegate void BodyExitedHandRange(Node2D body);
+        public delegate void BodyExitedHandRangeEventHandler(Node2D body);
 
         public enum SpriteStateEnum
         {

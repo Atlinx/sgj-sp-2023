@@ -4,6 +4,15 @@ namespace Game
 {
     public partial class PlayerGamepadInput : PlayerVectorInput
     {
+        [ExportCategory("Dependencies")]
+        [Export]
+        public PlayerStaticData PlayerStaticData { get; set; }
+
+        public void Construct(PlayerStaticData playerStaticData)
+        {
+            PlayerStaticData = playerStaticData;
+        }
+
         public override void _Process(double delta)
         {
             base._Process(delta);

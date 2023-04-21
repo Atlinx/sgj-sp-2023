@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://v6p2j33kf7pe"]
 
 [ext_resource type="Script" path="res://Scripts/Player/PlayerUI.cs" id="1_5r1hm"]
 [ext_resource type="PackedScene" uid="uid://ds0xylf8ncgh7" path="res://Prefabs/Speedometer.tscn" id="2_jb5xo"]

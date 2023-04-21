@@ -1,8 +1,8 @@
-﻿using Godot;
+using Godot;
 
 namespace Game
 {
-    public partial class Whisk : Node2D
+    public partial class Whisk : Area2D
     {
         [ExportCategory("Settings")]
         [Export]
@@ -14,8 +14,6 @@ namespace Game
         private Sprite2D colorSprite;
         [Export]
         private Sprite2D shadowSprite;
-        [Export]
-        public Area2D Collider { get; private set; }
 
         public void Construct(PlayerStaticData staticPlayerData)
         {

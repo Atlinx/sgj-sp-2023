@@ -1,14 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://bveimq6uc4e6v"]
+[gd_scene load_steps=6 format=3 uid="uid://bveimq6uc4e6v"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_vqmcc"]
 [ext_resource type="PackedScene" uid="uid://3ygbv27sqflf" path="res://Prefabs/Whisk.tscn" id="2_ln7vn"]
-[ext_resource type="PackedScene" uid="uid://bunt18u2eealn" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
+[ext_resource type="PackedScene" uid="uid://b0507cfhs7otu" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/GrabbableGrabHandler.cs" id="4_dkout"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/DefaultIdleHandler.cs" id="5_kps04"]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("whisk", "hand")]
 script = ExtResource("1_vqmcc")
+grabStartHandlerNodes = [NodePath("GrabbableGrabHandler")]
+grabbingHandlerNodes = [NodePath("GrabbableGrabHandler")]
+grabEndHandlerNodes = [NodePath("GrabbableGrabHandler")]
+idleHandlerNodes = [NodePath("GrabbableGrabHandler"), NodePath("DefaultIdleHandler")]
 whisk = NodePath("Whisk")
 hand = NodePath("Hand")
 
 [node name="Whisk" parent="." instance=ExtResource("2_ln7vn")]
 
 [node name="Hand" parent="." instance=ExtResource("3_2h0t6")]
+
+[node name="GrabbableGrabHandler" type="Node" parent="." node_paths=PackedStringArray("hand")]
+script = ExtResource("4_dkout")
+hand = NodePath("../Hand")
+
+[node name="DefaultIdleHandler" type="Node" parent="." node_paths=PackedStringArray("hand")]
+script = ExtResource("5_kps04")
+hand = NodePath("../Hand")

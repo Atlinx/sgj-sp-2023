@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System.Collections.Generic;
 
 namespace Game
@@ -14,6 +14,8 @@ namespace Game
         private PackedScene gamepadInputPrefab;
         [Export]
         private PackedScene mouseInputPrefab;
+        [Export]
+        private PackedScene mouseDragInputPrefab;
         [Export]
         private PackedScene actionInputPrefab;
         [Export]
@@ -41,20 +43,28 @@ namespace Game
             switch (playerData.InputType)
             {
                 case PlayerInputType.Gamepad:
-                    inputNode = gamepadInputPrefab.Instantiate<PlayerGamepadInput>();
+                    var gamepadInput = gamepadInputPrefab.Instantiate<PlayerGamepadInput>();
+                    gamepadInput.Construct(playerData.StaticData);
+                    inputNode = gamepadInput;
                     break;
                 case PlayerInputType.Action:
-                    inputNode = actionInputPrefab.Instantiate<PlayerActionInput>();
+                    var playerActionInput = actionInputPrefab.Instantiate<PlayerActionInput>();
+                    inputNode = playerActionInput;
                     break;
                 case PlayerInputType.Mouse:
                     inputNode = mouseInputPrefab.Instantiate<PlayerMouseInput>();
+                    break;
+                case PlayerInputType.MouseDrag:
+                    inputNode = mouseDragInputPrefab.Instantiate<PlayerMouseDragInput>();
                     break;
             }
 
             Player player = playerPrefab.Instantiate<Player>();
             player.AddChild(inputNode);
+
+            var playerInput = inputNode as IPlayerInput;
             playersContainer.AddChild(player);
-            player.Construct(playerData, centerPoint, inputNode as IPlayerInput);
+            player.Construct(playerData, centerPoint, playerInput);
 
             PlayerUI playerUI = playerUIPrefab.Instantiate<PlayerUI>();
             playerUIContainer.AddChild(playerUI);

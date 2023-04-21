@@ -19,7 +19,7 @@ namespace Game
 
         public override void _Ready()
         {
-            CallDeferred(nameof(DeferredReady));
+            CallDeferred("call_deferred", nameof(DeferredReady));
         }
 
         private void DeferredReady()

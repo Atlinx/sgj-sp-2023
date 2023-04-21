@@ -19,8 +19,6 @@ namespace Game
                 GetViewport().WarpMouse(value);
             }
         }
-        [ExportCategory("Dependencies")]
-        public PlayerStaticData PlayerStaticData { get; set; }
 
         public override void _UnhandledInput(InputEvent @event)
         {

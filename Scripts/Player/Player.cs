@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 
 namespace Game
 {
@@ -6,7 +7,8 @@ namespace Game
     {
         Gamepad,
         Mouse,
-        Action
+        Action,
+        MouseDrag
     }
 
     public class PlayerData
@@ -16,35 +18,41 @@ namespace Game
         public PlayerInputType InputType { get; set; }
     }
 
-    public interface IGrabEndHandler
+    public interface IPlayerInputHandler
     {
-        public bool CanHandle();
-        public void OnGrabEnd();
+        bool CanHandle();
     }
 
-    public interface IGrabStartHandler
+    public interface IPlayerGrabEndHandler : IPlayerInputHandler
     {
-        public bool CanHandle();
-        public void OnGrabStart();
+        void OnGrabEnded();
     }
 
-    public interface IGrabbingHandler
+    public interface IPlayerGrabStartHandler : IPlayerInputHandler
     {
-        public bool CanHandle();
-        public void OnGrabbing(double delta);
+        void OnGrabStarted();
     }
 
-    public abstract partial class ClickHandler : Node
+    public interface IPlayerGrabbingHandler : IPlayerInputHandler
     {
-        public abstract bool CanHandle();
-        public abstract void OnClick();
+        void OnGrabbing(double delta);
+    }
+
+    public interface IPlayerClickHandler : IPlayerInputHandler
+    {
+        void OnClicked();
+    }
+
+    public interface IPlayerIdleHandler : IPlayerInputHandler
+    {
+        void OnIdled(double delta);
     }
 
     public interface IGrabbable
     {
         public Node2D AsNode2D { get; }
-        public bool IsFixed { get; }
-        public void OnGrabStart();
+        public void OnGrabStart(Node2D grabber);
+        public void OnGrabbing(double delta);
         public void OnGrabEnd();
     }
 
@@ -69,22 +77,23 @@ namespace Game
         /// Emitted when the player clicks.
         /// </summary>
         [Signal]
-        public delegate void Clicked();
+        public delegate void ClickedEventHandler();
         /// <summary>
         /// Emitted when the player starts grabbing.
         /// </summary>
         [Signal]
-        public delegate void GrabStarted();
+        public delegate void GrabStartedEventHandler();
+        /// <summary>
+        /// Emitted every frame when the player is grabbing.
+        /// </summary>
+        [Signal]
+        public delegate void GrabbingEventHandler(double delta);
         /// <summary>
         /// Emitted when the player stops grabbing.
         /// </summary>
         [Signal]
-        public delegate void GrabEnded();
+        public delegate void GrabEndedEventHandler();
 
-        /// <summary>
-        /// True if the player is currently is grabbing.
-        /// </summary>
-        public bool Grabbing { get; set; }
         public PlayerData PlayerData { get; set; }
 
         [ExportCategory("Settings")]
@@ -97,17 +106,25 @@ namespace Game
         [Export]
         private int angularVelocitySamples = 30;
         [Export]
-        private float angularVelocitySampleInterval = 0;
+        private float angularVelocitySampleInterval = 0.1f;
 
         [ExportCategory("Dependencies")]
         [Export]
-        private ClickHandler[] clickHandlers;
+        private NodePath[] clickHandlerNodes = new NodePath[0];
+        public IPlayerClickHandler[] ClickHandlers { get; private set; }
         [Export]
-        private IGrabStartHandler[] grabStartHandlers;
+        private NodePath[] grabStartHandlerNodes = new NodePath[0];
+        public IPlayerGrabStartHandler[] GrabStartHandlers { get; private set; }
         [Export]
-        private IGrabbingHandler[] grabbingHandlers;
+        private NodePath[] grabbingHandlerNodes = new NodePath[0];
+        public IPlayerGrabbingHandler[] GrabbingHandlers { get; private set; }
         [Export]
-        private IGrabEndHandler[] grabEndHandlers;
+        private NodePath[] grabEndHandlerNodes = new NodePath[0];
+        public IPlayerGrabEndHandler[] GrabEndHandlers { get; private set; }
+        [Export]
+        private NodePath[] idleHandlerNodes = new NodePath[0];
+        public IPlayerIdleHandler[] IdleHandlers { get; private set; }
+
         [Export]
         private Whisk whisk;
         [Export]
@@ -132,6 +149,16 @@ namespace Game
             hand.Construct(playerData.StaticData, input);
         }
 
+        public override void _Ready()
+        {
+            angularVelocityDeltaBuffer = new float[angularVelocitySamples];
+            ClickHandlers = clickHandlerNodes.Select(x => GetNode<IPlayerClickHandler>(x)).ToArray();
+            GrabStartHandlers = grabStartHandlerNodes.Select(x => GetNode<IPlayerGrabStartHandler>(x)).ToArray();
+            GrabbingHandlers = grabbingHandlerNodes.Select(x => GetNode<IPlayerGrabbingHandler>(x)).ToArray();
+            GrabEndHandlers = grabEndHandlerNodes.Select(x => GetNode<IPlayerGrabEndHandler>(x)).ToArray();
+            IdleHandlers = idleHandlerNodes.Select(x => GetNode<IPlayerIdleHandler>(x)).ToArray();
+        }
+
         public override void _Process(double delta)
         {
             UpdateInput(delta);
@@ -148,6 +175,12 @@ namespace Game
                     // We held for more than the min held time so this is a drag.
                     grabStarted = true;
                     EmitSignal(nameof(GrabStarted));
+                    foreach (var handler in GrabStartHandlers)
+                        if (handler.CanHandle())
+                        {
+                            handler.OnGrabStarted();
+                            break;
+                        }
                 }
             }
 
@@ -167,12 +200,44 @@ namespace Game
                     {
                         // We held for less than the min held time so this was a click
                         EmitSignal(nameof(Clicked));
+                        foreach (var handler in ClickHandlers)
+                            if (handler.CanHandle())
+                            {
+                                handler.OnClicked();
+                                break;
+                            }
                     }
                     else
+                    {
                         // We held for more than the min held time so this was the end of a grab.
                         EmitSignal(nameof(GrabEnded));
+                        foreach (var handler in GrabEndHandlers)
+                            if (handler.CanHandle())
+                            {
+                                handler.OnGrabEnded();
+                                break;
+                            }
+                    }
                 }
             }
+
+            if (heldTime >= minHeldTime)
+            {
+                EmitSignal(nameof(Grabbing), delta);
+                foreach (var handler in GrabbingHandlers)
+                    if (handler.CanHandle())
+                    {
+                        handler.OnGrabbing(delta);
+                        break;
+                    }
+            }
+
+            foreach (var handler in IdleHandlers)
+                if (handler.CanHandle())
+                {
+                    handler.OnIdled(delta);
+                    break;
+                }
         }
 
         private void UpdateAverageAngularVelocity(double delta)

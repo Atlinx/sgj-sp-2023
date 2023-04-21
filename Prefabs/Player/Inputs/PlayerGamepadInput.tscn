@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://cxfptt2tswm52"]
 
-[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerGamepadInput.cs" id="1_uucol"]
+[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerGamepadInput.cs" id="1_amwah"]
 
 [node name="PlayerGamepadInput" type="Node"]
-script = ExtResource("1_uucol")
+script = ExtResource("1_amwah")
+movementSpeed = 1000.0
