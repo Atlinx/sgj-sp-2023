@@ -7,6 +7,8 @@ namespace Game
         [ExportCategory("Dependencies")]
         [Export]
         private AnimatedSprite2D baseSprite;
+        [Export]
+        private Area2D tip;
 
         [Export]
         public float AverageAngularVelocity { get; private set; }
@@ -37,7 +39,7 @@ namespace Game
 
         public override void _Process(double delta)
         {
-            if (OverlapsArea(bowl.Area))
+            if (tip.OverlapsArea(bowl.Area))
             {
                 baseSprite.Animation = SUBMERGED;
             }
@@ -72,7 +74,7 @@ namespace Game
                 prevAngle = newAngle;
 
                 float angleVelocity;
-                if (!OverlapsArea(bowl.Area))
+                if (!tip.OverlapsArea(bowl.Area))
                 {
                     angleVelocity = 0;
                 }

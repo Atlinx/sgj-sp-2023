@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://34um5ve0bqxg"]
+[gd_scene load_steps=12 format=3 uid="uid://34um5ve0bqxg"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
@@ -8,9 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://c22n203fh2nru" path="res://Art/Entities/whisk_2.png" id="7_ohtnk"]
 [ext_resource type="Texture2D" uid="uid://c5fex5jwf8f6t" path="res://Art/Entities/whisk_sub_1.png" id="8_2frv6"]
 [ext_resource type="Texture2D" uid="uid://doy5ke7kumqyj" path="res://Art/Entities/whisk_sub_2.png" id="9_i8xs5"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yi0ix"]
-size = Vector2(218, 211)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7uis8"]
 animations = [{
@@ -37,20 +34,27 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_h8oer"]
+radius = 69.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_twwwl"]
+radius = 57.0088
+
+[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip")]
 z_index = 1
 script = ExtResource("1_us5e8")
 baseSprite = NodePath("Base Sprite")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.999996, 1.5)
-shape = SubResource("RectangleShape2D_yi0ix")
+tip = NodePath("Tip")
 
 [node name="Base Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_7uis8")
 animation = &"whisk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(46, -45)
+shape = SubResource("CircleShape2D_h8oer")
 
 [node name="Grabbable" type="Node" parent="."]
 script = ExtResource("5_4y483")
@@ -64,3 +68,9 @@ target = NodePath("../..")
 script = ExtResource("7_dwn1w")
 grabbable = NodePath("..")
 whisk = NodePath("../..")
+
+[node name="Tip" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
+position = Vector2(-56, 50)
+shape = SubResource("CircleShape2D_twwwl")
