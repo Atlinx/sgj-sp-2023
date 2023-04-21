@@ -14,11 +14,19 @@ namespace Game
         [Export]
         public ulong Seed { get; set; }
 
+        [Export] public int WhiskTickScore { get; set; } = 100;
+        
+        [Export] public float PlayerMaxAngularVelocity { get; set; } = 30;
+
         [ExportCategory("Dependencies")]
         [Export]
         private PlayerManager playerManager;
         [Export]
         private ObstacleManager obstacleManager;
+        [Export] 
+        public Bowl bowl;
+        [Export] 
+        public Label scoreLabel;
 
         public void StartGame(PlayerData[] players)
         {
@@ -31,6 +39,16 @@ namespace Game
         public override void _Process(double delta)
         {
             Time += delta;
+            var scoreMultiplier = (int)bowl.TotalAverageAngularVelocity;
+            foreach(var player in playerManager.Players)
+            {
+                if (player.GetWhisk() is not null)
+                {
+                    Score += WhiskTickScore * scoreMultiplier;
+                }
+            }
+
+            scoreLabel.Text = "Score: " + Score;
             if (Time > GameDuration)
             {
                 EndGame();
