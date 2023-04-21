@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://btbx76suksaft"]
+
+[ext_resource type="Script" path="res://Scripts/General/PlayerMainMenuUI.cs" id="1_8c8lg"]
+[ext_resource type="Texture2D" uid="uid://b0xngeshpp08c" path="res://Art/UI/Hands/hand_open_1_outline.png" id="2_87ggd"]
+[ext_resource type="Texture2D" uid="uid://c7i3f1x8uftfi" path="res://Art/UI/Hands/hand_open_1.png" id="3_s7388"]
+
+[node name="PlayerMainMenuUI" type="MarginContainer" node_paths=PackedStringArray("removePlayerButton", "inputOptionButton", "handOutlineRect", "playerLabel")]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("1_8c8lg")
+removePlayerButton = NodePath("VBoxContainer2/Remove")
+inputOptionButton = NodePath("VBoxContainer2/OptionButton")
+handOutlineRect = NodePath("VBoxContainer2/Hand/Outline")
+playerLabel = NodePath("VBoxContainer2/Label")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Hand" type="Control" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Outline" type="TextureRect" parent="VBoxContainer2/Hand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_87ggd")
+stretch_mode = 4
+
+[node name="Hand" type="TextureRect" parent="VBoxContainer2/Hand"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_s7388")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+text = "PLAYER 1"
+horizontal_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="Remove" type="Button" parent="VBoxContainer2"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "REMOVE"

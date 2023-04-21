@@ -3,6 +3,7 @@ using GDC = Godot.Collections;
 
 namespace Game
 {
+
     public partial class ObstacleManager : Node
     {
         [Export]

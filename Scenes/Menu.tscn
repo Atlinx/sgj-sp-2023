@@ -1,0 +1,111 @@
+[gd_scene load_steps=11 format=3 uid="uid://dpjf84whe66ch"]
+
+[ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_7jbas"]
+[ext_resource type="Script" path="res://Scripts/General/PlayerDataManager.cs" id="1_g3402"]
+[ext_resource type="Script" path="res://Scripts/General/MainMenu.cs" id="1_sg50n"]
+[ext_resource type="PackedScene" uid="uid://b7hxqdsve38vj" path="res://Scenes/Main.tscn" id="2_k5dg5"]
+[ext_resource type="PackedScene" uid="uid://btbx76suksaft" path="res://Prefabs/PlayerMainMenuUI.tscn" id="2_ogtkp"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P2.tres" id="5_kokkc"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P3.tres" id="6_r4msp"]
+[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="7_ou4i3"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P4.tres" id="7_sxjm6"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P1.tres" id="9_fconp"]
+
+[node name="Menu" type="Node"]
+
+[node name="PlayerDataManager" type="Node" parent="."]
+script = ExtResource("1_g3402")
+gameplayScene = ExtResource("2_k5dg5")
+menuScene = null
+
+[node name="MainMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("playerMainMenuUIContainer", "playButton", "quitButton", "addPlayerButton")]
+script = ExtResource("1_sg50n")
+playerStaticDatas = Array[Resource]([ExtResource("9_fconp"), ExtResource("5_kokkc"), ExtResource("6_r4msp"), ExtResource("7_sxjm6")])
+playerMainMenuUIContainer = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/PlayerMainMenuUIContainer")
+playButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Play")
+quitButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Quit")
+addPlayerButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/AddPlayer/AddButton")
+playerMainMenuUIPrefab = ExtResource("2_ogtkp")
+
+[node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_7jbas")
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Whisk of Egg"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "PLAYERS"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+
+[node name="PlayerMainMenuUIContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PlayerMainMenuUI" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/PlayerMainMenuUIContainer" instance=ExtResource("2_ogtkp")]
+layout_mode = 2
+
+[node name="AddPlayer" type="MarginContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="AddButton" type="Button" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/AddPlayer"]
+custom_minimum_size = Vector2(100, 147)
+layout_mode = 2
+text = "ADD"
+
+[node name="Play" type="Button" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Play"
+
+[node name="Quit" type="Button" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "Quit"
+
+[node name="Label2" type="Label" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+layout_mode = 2
+text = "
+CREDITS:
+
+Alan Tong (Atlinx) - Art, Scripting
+Justuna - Art, Scripting, Music
+Luke - Scripting
+"
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Background" parent="Node2D" instance=ExtResource("7_ou4i3")]
+
+[node name="Camera2D" type="Camera2D" parent="Node2D"]

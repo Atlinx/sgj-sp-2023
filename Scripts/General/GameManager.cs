@@ -4,6 +4,9 @@ namespace Game
 {
     public partial class GameManager : Node
     {
+        [Signal]
+        public delegate void GameFinishedEventHandler();
+
         public int Score { get; set; }
         public double Time { get; private set; }
         public RandomNumberGenerator RNG { get; set; }
@@ -15,7 +18,7 @@ namespace Game
         public ulong Seed { get; set; }
 
         [Export] public int WhiskTickScore { get; set; } = 100;
-        
+
         [Export] public float PlayerMaxAngularVelocity { get; set; } = 30;
 
         [ExportCategory("Dependencies")]
@@ -23,9 +26,9 @@ namespace Game
         private PlayerManager playerManager;
         [Export]
         private ObstacleManager obstacleManager;
-        [Export] 
+        [Export]
         public Bowl bowl;
-        [Export] 
+        [Export]
         public Label scoreLabel;
 
         public void StartGame(PlayerData[] players)
@@ -40,7 +43,7 @@ namespace Game
         {
             Time += delta;
             var scoreMultiplier = (int)bowl.TotalAverageAngularVelocity;
-            foreach(var player in playerManager.Players)
+            foreach (var player in playerManager.Players)
             {
                 if (player.GetWhisk() is not null)
                 {
@@ -57,9 +60,8 @@ namespace Game
 
         public void EndGame()
         {
-            // TODO: Implement quitting
-            GD.Print("Game finished!");
             obstacleManager.EndGame();
+            EmitSignal(nameof(GameFinished));
         }
     }
 }
