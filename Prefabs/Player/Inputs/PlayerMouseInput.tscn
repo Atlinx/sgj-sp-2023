@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck48jr2nl2rx2"]
+
+[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerMouseInput.cs" id="1_y1j00"]
+
+[node name="PlayerMouseInput" type="Node2D"]
+script = ExtResource("1_y1j00")

@@ -3,12 +3,6 @@ using GDC = Godot.Collections;
 
 namespace Game
 {
-    public abstract partial class ObstacleSpawner : Node
-    {
-        public abstract bool CanHandle(Node obstacle);
-        public abstract void Spawn(Node obstacle);
-    }
-
     public partial class ObstacleManager : Node
     {
         [Export]
@@ -51,6 +45,8 @@ namespace Game
         // TODO: Add specific location obstacle spawning
         public void StartGame()
         {
+            foreach (var child in obstacleContainer.GetChildren())
+                child.QueueFree();
             SetProcess(true);
             spawnTime = 0;
         }

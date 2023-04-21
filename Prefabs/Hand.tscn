@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bunt18u2eealn"]
+[gd_scene load_steps=10 format=3 uid="uid://b0507cfhs7otu"]
 
 [ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/HandGrabBase.png" id="1_0irne"]
-[ext_resource type="Script" path="res://Scripts/Hand.cs" id="1_6ir43"]
+[ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]
 [ext_resource type="Texture2D" uid="uid://cxpd847eaiba4" path="res://Art/HandOpen.png" id="2_kohd7"]
 [ext_resource type="Texture2D" uid="uid://4hokf5txobm1" path="res://Art/HandGrab.png" id="2_x4r0j"]
 [ext_resource type="Texture2D" uid="uid://dwum1aedsgcta" path="res://Art/HandOpenBase.png" id="3_8ah0y"]
@@ -13,7 +13,7 @@
 radius = 65.3758
 
 [node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "shadowSprite", "Collider")]
-script = ExtResource("1_6ir43")
+script = ExtResource("1_usw0i")
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")

@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dml1ix7tajdq3"]
+[gd_scene load_steps=6 format=3 uid="uid://3ygbv27sqflf"]
 
 [ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/WhiskBase.png" id="1_biprv"]
-[ext_resource type="Script" path="res://Scripts/Whisk.cs" id="1_q8l7d"]
+[ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
 [ext_resource type="Texture2D" uid="uid://c41re6hyaimyw" path="res://Art/WhiskOutline.png" id="2_e7fti"]
 [ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Airbrush.png" id="2_muqjg"]
 
@@ -9,7 +9,7 @@
 size = Vector2(124.121, 126.769)
 
 [node name="Whisk" type="Node2D" node_paths=PackedStringArray("baseSprite", "colorSprite", "shadowSprite", "Collider")]
-script = ExtResource("1_q8l7d")
+script = ExtResource("1_us5e8")
 baseSprite = NodePath("BaseSprite")
 colorSprite = NodePath("ColorSprite")
 shadowSprite = NodePath("Shadow")

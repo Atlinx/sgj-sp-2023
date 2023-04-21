@@ -18,15 +18,14 @@ namespace Game
         [Export]
         private PlayerManager playerManager;
         [Export]
-        private ObstacleManager obstacleSpanwer;
+        private ObstacleManager obstacleManager;
 
         public void StartGame(PlayerData[] players)
         {
             RNG = new RandomNumberGenerator();
             RNG.Seed = Seed;
-            foreach (var player in players)
-                playerManager.AddPlayer(player);
-            obstacleSpanwer.StartGame();
+            playerManager.StartGame(players);
+            obstacleManager.StartGame();
         }
 
         public override void _Process(double delta)
@@ -42,7 +41,7 @@ namespace Game
         {
             // TODO: Implement quitting
             GD.Print("Game finished!");
-            obstacleSpanwer.EndGame();
+            obstacleManager.EndGame();
         }
     }
 }

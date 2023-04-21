@@ -2,40 +2,46 @@ using Godot;
 
 namespace Game
 {
+    // TODO: Remove hand and replace with player altogether
     public partial class Hand : Node2D
     {
-        public enum StateEnum
+        [Signal]
+        public delegate void BodyEnteredHandRange(Node2D body);
+        [Signal]
+        public delegate void BodyExitedHandRange(Node2D body);
+
+        public enum SpriteStateEnum
         {
             Open,
             Grab,
             Point,
         }
 
-        private StateEnum state;
-        public StateEnum State
+        private SpriteStateEnum spriteState;
+        public SpriteStateEnum SpriteState
         {
-            get => state;
+            get => spriteState;
             set
             {
-                if (state == value) return;
+                if (spriteState == value) return;
 
-                state = value;
+                spriteState = value;
                 var tween = GetTree().CreateTween();
-                switch (state)
+                switch (spriteState)
                 {
-                    case StateEnum.Open:
+                    case SpriteStateEnum.Open:
                         baseSprite.Texture = handOpenBaseTexture;
                         colorSprite.Texture = handOpenTexture;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1.1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
-                    case StateEnum.Grab:
+                    case SpriteStateEnum.Grab:
                         baseSprite.Texture = handGrabBaseTexture;
                         colorSprite.Texture = handGrabTexture;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 0.9f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", new Vector2(1, -1) * 32, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
-                    case StateEnum.Point:
+                    case SpriteStateEnum.Point:
                         baseSprite.Texture = handPointBaseTexture;
                         colorSprite.Texture = handPointTexture;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
@@ -45,8 +51,10 @@ namespace Game
             }
         }
 
-        [Export]
-        private PlayerStaticData _staticPlayerData;
+        public bool CanMove { get; set; } = true;
+
+        private PlayerStaticData staticPlayerData;
+        private IPlayerInput input;
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -58,7 +66,7 @@ namespace Game
         [Export]
         private Sprite2D shadowSprite;
         [Export]
-        public Area2D Collider { get; private set; }
+        private Area2D collider;
         [Export]
         private Texture2D handOpenTexture;
         [Export]
@@ -72,11 +80,26 @@ namespace Game
         [Export]
         private Texture2D handPointBaseTexture;
 
-        public void Construct(PlayerStaticData staticPlayerData)
+        public void Construct(PlayerStaticData staticPlayerData, IPlayerInput playerInput)
         {
-            this._staticPlayerData = staticPlayerData;
+            this.staticPlayerData = staticPlayerData;
+            this.input = playerInput;
             colorSprite.SelfModulate = staticPlayerData.Color;
             shadowSprite.SelfModulate = new Color(staticPlayerData.Color, 0.5f);
+        }
+
+        public override void _Ready()
+        {
+            collider.AreaEntered += (area) => EmitSignal(nameof(BodyEnteredHandRange), area);
+            collider.AreaExited += (area) => EmitSignal(nameof(BodyExitedHandRange), area);
+            collider.BodyEntered += (body) => EmitSignal(nameof(BodyEnteredHandRange), body);
+            collider.BodyExited += (body) => EmitSignal(nameof(BodyExitedHandRange), body);
+        }
+
+        public override void _Process(double delta)
+        {
+            if (CanMove)
+                Position = input.PlayerPosition;
         }
     }
 }
