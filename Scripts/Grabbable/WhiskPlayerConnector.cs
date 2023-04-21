@@ -1,6 +1,5 @@
 using Game;
 using Godot;
-using System;
 
 public partial class WhiskPlayerConnector : Node
 {
@@ -18,23 +17,17 @@ public partial class WhiskPlayerConnector : Node
 
     private void OnGrabStarted()
     {
-        if (grabbable.Grabber is Hand hand)
+        if (grabbable.Grabber is Player player)
         {
-            if (hand.GetParent() is Player player)
-            {
-                player.SetWhisk(whisk);
-            }
+            player.SetWhisk(whisk);
         }
     }
 
     private void OnGrabEnded()
     {
-        if (grabbable.Grabber is Hand hand)
+        if (grabbable.Grabber is Player player)
         {
-            if (hand.GetParent() is Player player)
-            {
-                player.RemoveWhisk();
-            }
+            player.RemoveWhisk();
         }
     }
 }

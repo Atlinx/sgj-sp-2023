@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://it7sbev2yg6e" path="res://Art/BG/dandelion_3.png" id="16_gaan1"]
 
 [node name="Background" type="Node2D"]
+modulate = Color(1, 0.619608, 0.980392, 1)
 z_index = -1
 texture_filter = 1
 position = Vector2(2, -6)

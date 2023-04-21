@@ -6,13 +6,13 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        private Hand hand;
+        private Player player;
 
         public bool CanHandle() => true;
 
         public void OnIdled(double delta)
         {
-            hand.SpriteState = Hand.SpriteStateEnum.Point;
+            player.SpriteState = Player.SpriteStateEnum.Point;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Game
         [Export]
         private Sprite2D tipShadow;
 
+        [ExportCategory("Settings")]
         [Export]
         public float AverageAngularVelocity { get; private set; }
         [Export]

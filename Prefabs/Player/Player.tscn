@@ -1,36 +1,158 @@
-[gd_scene load_steps=7 format=3 uid="uid://bveimq6uc4e6v"]
+[gd_scene load_steps=24 format=3 uid="uid://bveimq6uc4e6v"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_vqmcc"]
-[ext_resource type="PackedScene" uid="uid://bb40p58r81q01" path="res://Prefabs/Hand.tscn" id="3_2h0t6"]
+[ext_resource type="Texture2D" uid="uid://ciijl5eprajr6" path="res://Art/UI/Hands/hand_grab_1_outline.png" id="2_tay02"]
+[ext_resource type="Texture2D" uid="uid://bobmkmvbf60bc" path="res://Art/UI/Hands/hand_grab_2_outline.png" id="3_xisv6"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabbableGrabHandler.cs" id="4_dkout"]
+[ext_resource type="Texture2D" uid="uid://b0xngeshpp08c" path="res://Art/UI/Hands/hand_open_1_outline.png" id="4_ho1ww"]
+[ext_resource type="Texture2D" uid="uid://8gj52iyb4wh8" path="res://Art/UI/Hands/hand_open_2_outline.png" id="5_2ytl8"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/DefaultIdleHandler.cs" id="5_kps04"]
+[ext_resource type="Texture2D" uid="uid://682cdkywow5x" path="res://Art/UI/Hands/hand_point_1_outline.png" id="6_cromg"]
 [ext_resource type="Script" path="res://Scripts/Status/StatusHolder.cs" id="6_eavp1"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/Hitter.cs" id="6_ur5c1"]
+[ext_resource type="Texture2D" uid="uid://5c8ykq3453xx" path="res://Art/UI/Hands/hand_point_2_outline.png" id="7_4ea4e"]
 [ext_resource type="Script" path="res://Scripts/Status/StatusHandler/HandDisableMovementStatusHandler.cs" id="7_4odfo"]
+[ext_resource type="Script" path="res://Scripts/PlayerStunnedStatusHandler.cs" id="7_nghsc"]
+[ext_resource type="Texture2D" uid="uid://bj1jfxf4uhi6u" path="res://Art/UI/Hands/hand_grab_1.png" id="8_vasp8"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/ClickableClickHandler.cs" id="8_xnslv"]
+[ext_resource type="Texture2D" uid="uid://bt7cygtgyx5jb" path="res://Art/UI/Hands/hand_grab_2.png" id="9_nyufx"]
+[ext_resource type="Texture2D" uid="uid://c7i3f1x8uftfi" path="res://Art/UI/Hands/hand_open_1.png" id="10_an26s"]
+[ext_resource type="Texture2D" uid="uid://cyg1eijcbfnit" path="res://Art/UI/Hands/hand_open_2.png" id="11_0dbjn"]
+[ext_resource type="Texture2D" uid="uid://ce0tigr0pjv5y" path="res://Art/UI/Hands/hand_point_1.png" id="12_18kl6"]
+[ext_resource type="Texture2D" uid="uid://c2agojlrg47vh" path="res://Art/UI/Hands/hand_point_2.png" id="13_bqaxh"]
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("hand", "statusHolder")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
+radius = 65.3758
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4h5k8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tay02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_xisv6")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ho1ww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2ytl8")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_cromg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4ea4e")
+}],
+"loop": true,
+"name": &"pointer",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1vwh8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_vasp8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_nyufx")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_an26s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0dbjn")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_18kl6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_bqaxh")
+}],
+"loop": true,
+"name": &"pointer",
+"speed": 5.0
+}]
+
+[node name="Player" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider", "statusHolder")]
 z_index = 2
 script = ExtResource("1_vqmcc")
+clickHandlerNodes = [NodePath("ClickableClickHandler")]
 grabStartHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabbingHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabEndHandlerNodes = [NodePath("GrabbableGrabHandler")]
 idleHandlerNodes = [NodePath("GrabbableGrabHandler"), NodePath("DefaultIdleHandler")]
-hand = NodePath("Hand")
+spritesContainer = NodePath("Sprites")
+baseSprite = NodePath("Sprites/BaseSprite")
+colorSprite = NodePath("Sprites/ColorSprite")
+collider = NodePath("Area2D")
+handOpenAnimation = "open"
+handGrabAnimation = "grab"
+handPointerAnimation = "pointer"
 statusHolder = NodePath("StatusHolder")
 
-[node name="Hand" parent="." instance=ExtResource("3_2h0t6")]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="GrabbableGrabHandler" type="Node" parent="." node_paths=PackedStringArray("hand")]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ikcq1")
+
+[node name="Sprites" type="Node2D" parent="."]
+position = Vector2(-1, -5)
+
+[node name="ColorSprite" type="AnimatedSprite2D" parent="Sprites"]
+sprite_frames = SubResource("SpriteFrames_4h5k8")
+animation = &"open"
+
+[node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
+sprite_frames = SubResource("SpriteFrames_1vwh8")
+animation = &"open"
+
+[node name="Hitter" type="Node" parent="." node_paths=PackedStringArray("collider")]
+script = ExtResource("6_ur5c1")
+collider = NodePath("../Area2D")
+
+[node name="GrabbableGrabHandler" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("4_dkout")
-hand = NodePath("../Hand")
+player = NodePath("..")
 
-[node name="DefaultIdleHandler" type="Node" parent="." node_paths=PackedStringArray("hand")]
+[node name="DefaultIdleHandler" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("5_kps04")
-hand = NodePath("../Hand")
+player = NodePath("..")
+
+[node name="ClickableClickHandler" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_xnslv")
+player = NodePath("..")
 
 [node name="StatusHolder" type="Node" parent="."]
 script = ExtResource("6_eavp1")
-handlerNodes = [NodePath("HandDisableMovementHandler")]
+handlerNodes = [NodePath("HandDisableMovementHandler"), NodePath("PlayerStunnedStatusHandler")]
 
-[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("hand")]
+[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder"]
 script = ExtResource("7_4odfo")
-hand = NodePath("../../Hand")
+
+[node name="PlayerStunnedStatusHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("statusHolder", "player")]
+script = ExtResource("7_nghsc")
+statusHolder = NodePath("..")
+player = NodePath("")

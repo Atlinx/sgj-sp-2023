@@ -1,6 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://bb40p58r81q01"]
+[gd_scene load_steps=21 format=3 uid="uid://bb40p58r81q01"]
 
-[ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]
+[ext_resource type="Script" path="res://Scripts/Player/Player.cs" id="1_ffb8d"]
 [ext_resource type="Texture2D" uid="uid://ciijl5eprajr6" path="res://Art/UI/Hands/hand_grab_1_outline.png" id="2_tfshp"]
 [ext_resource type="Texture2D" uid="uid://bobmkmvbf60bc" path="res://Art/UI/Hands/hand_grab_2_outline.png" id="3_2ijtg"]
 [ext_resource type="Texture2D" uid="uid://b0xngeshpp08c" path="res://Art/UI/Hands/hand_open_1_outline.png" id="4_m3k3a"]
@@ -13,6 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://cyg1eijcbfnit" path="res://Art/UI/Hands/hand_open_2.png" id="11_1kwv0"]
 [ext_resource type="Texture2D" uid="uid://ce0tigr0pjv5y" path="res://Art/UI/Hands/hand_point_1.png" id="12_fx2rh"]
 [ext_resource type="Texture2D" uid="uid://c2agojlrg47vh" path="res://Art/UI/Hands/hand_point_2.png" id="13_7icax"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/Hitter.cs" id="14_6vkds"]
+[ext_resource type="Script" path="res://Scripts/Status/StatusHolder.cs" id="15_4jh7u"]
+[ext_resource type="Script" path="res://Scripts/Status/StatusHandler/HandDisableMovementStatusHandler.cs" id="16_vo46k"]
+[ext_resource type="Script" path="res://Scripts/PlayerStunnedStatusHandler.cs" id="17_tig2d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758
@@ -91,14 +95,16 @@ animations = [{
 
 [node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider")]
 z_index = 2
-script = ExtResource("1_usw0i")
+script = ExtResource("1_ffb8d")
+clickHandlerNodes = [null]
+grabStartHandlerNodes = [null]
+grabbingHandlerNodes = [null]
+grabEndHandlerNodes = [null]
+idleHandlerNodes = [null]
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")
 collider = NodePath("Area2D")
-handOpenAnimation = "open"
-handGrabAnimation = "grab"
-handPointerAnimation = "pointer"
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -115,3 +121,19 @@ animation = &"open"
 [node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
 sprite_frames = SubResource("SpriteFrames_1vwh8")
 animation = &"open"
+
+[node name="Hitter" type="Node" parent="." node_paths=PackedStringArray("collider")]
+script = ExtResource("14_6vkds")
+collider = NodePath("../Area2D")
+
+[node name="StatusHolder" type="Node" parent="."]
+script = ExtResource("15_4jh7u")
+handlerNodes = [NodePath("HandDisableMovementHandler"), NodePath("PlayerStunnedStatusHandler")]
+
+[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder"]
+script = ExtResource("16_vo46k")
+
+[node name="PlayerStunnedStatusHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("statusHolder", "player")]
+script = ExtResource("17_tig2d")
+statusHolder = NodePath("..")
+player = NodePath("../..")

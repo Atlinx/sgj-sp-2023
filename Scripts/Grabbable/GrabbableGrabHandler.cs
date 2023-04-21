@@ -11,7 +11,7 @@ namespace Game
 
         [ExportCategory("Dependencies")]
         [Export]
-        private Hand hand;
+        private Player player;
 
         /// <summary>
         /// Grabbables that are in the hand's range
@@ -24,8 +24,8 @@ namespace Game
 
         public override void _Ready()
         {
-            hand.BodyEnteredHandRange += OnBodyEntered;
-            hand.BodyExitedHandRange += OnBodyExited;
+            player.BodyEnteredHandRange += OnBodyEntered;
+            player.BodyExitedHandRange += OnBodyExited;
         }
 
         private void OnBodyEntered(Node2D body)
@@ -52,7 +52,7 @@ namespace Game
             IGrabbable shortestDistGrabbable = null;
             foreach (var grabbable in CanGrabGrabbables)
             {
-                float currDist = grabbable.AsNode2D.GlobalPosition.DistanceSquaredTo(hand.GlobalPosition);
+                float currDist = grabbable.AsNode2D.GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
                 if (shortestDistGrabbable == null)
                 {
                     // Initialize to first grabbable if we don't have a grabbable yet
@@ -62,9 +62,9 @@ namespace Game
             }
 
             Grabbed = shortestDistGrabbable;
-            Grabbed.OnGrabStart(hand);
-            hand.GrabOffset = Grabbed.GrabOffset;
-            hand.SpriteState = Hand.SpriteStateEnum.Grab;
+            Grabbed.OnGrabStart(player);
+            player.GrabOffset = Grabbed.GrabOffset;
+            player.SpriteState = Player.SpriteStateEnum.Grab;
         }
 
         public void OnGrabbing(double delta)
@@ -74,7 +74,7 @@ namespace Game
 
         public void OnGrabEnded()
         {
-            hand.SpriteState = Hand.SpriteStateEnum.Point;
+            player.SpriteState = Player.SpriteStateEnum.Point;
             Grabbed?.OnGrabEnd();
             Grabbed = null;
         }
@@ -82,12 +82,12 @@ namespace Game
         public void OnIdled(double delta)
         {
             if (!IsGrabbing)
-                hand.SpriteState = Hand.SpriteStateEnum.Open;
+                player.SpriteState = Player.SpriteStateEnum.Open;
         }
 
         public void OnClicked()
         {
-            hand.SpriteState = Hand.SpriteStateEnum.Open;
+            player.SpriteState = Player.SpriteStateEnum.Open;
         }
     }
 }

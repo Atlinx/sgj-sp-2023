@@ -49,15 +49,6 @@ namespace Game
         void OnIdled(double delta);
     }
 
-    public interface IGrabbable
-    {
-        public Node2D AsNode2D { get; }
-        public Vector2 GrabOffset { get; }
-        public void OnGrabStart(Node2D grabber);
-        public void OnGrabbing(double delta);
-        public void OnGrabEnd();
-    }
-
     public partial class Player : Node2D
     {
         // Possible Interactions Timeline:
@@ -95,15 +86,39 @@ namespace Game
         /// </summary>
         [Signal]
         public delegate void GrabEndedEventHandler();
+        [Signal]
+        public delegate void BodyEnteredHandRangeEventHandler(Node2D body);
+        [Signal]
+        public delegate void BodyExitedHandRangeEventHandler(Node2D body);
 
         public PlayerData PlayerData { get; set; }
         public float AverageAngularVelocity { get; private set; }
+        public Vector2 GrabOffset { get; set; }
+        public bool CanMove { get; set; } = true;
+
 
         [ExportCategory("Settings")]
         [Export]
         private float minHeldTime = 0.5f;
         [Export]
         private float maxDoubleClickTime = 0.2f;
+        private bool disabled = false;
+        [Export]
+        public bool Disabled
+        {
+            get => disabled;
+            set
+            {
+                disabled = value;
+                if (disabled)
+                {
+                    // Make sure to end grab if we already started it.
+                    if (grabStarted)
+                        EndGrab();
+                    ResetInput();
+                }
+            }
+        }
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -121,9 +136,20 @@ namespace Game
         [Export]
         private NodePath[] idleHandlerNodes = new NodePath[0];
         public IPlayerIdleHandler[] IdleHandlers { get; private set; }
-
         [Export]
-        private Hand hand;
+        private Node2D spritesContainer;
+        [Export]
+        private AnimatedSprite2D baseSprite;
+        [Export]
+        private AnimatedSprite2D colorSprite;
+        [Export]
+        private Area2D collider;
+        [Export]
+        private string handOpenAnimation;
+        [Export]
+        private string handGrabAnimation;
+        [Export]
+        private string handPointerAnimation;
         [Export]
         private StatusHolder statusHolder;
 
@@ -133,11 +159,54 @@ namespace Game
         private bool prevHeld = false;
         private float heldTime;
 
+        public enum SpriteStateEnum
+        {
+            Open,
+            Grab,
+            Point,
+        }
+
+        private SpriteStateEnum spriteState;
+        public SpriteStateEnum SpriteState
+        {
+            get => spriteState;
+            set
+            {
+                if (spriteState == value) return;
+
+                spriteState = value;
+                var tween = GetTree().CreateTween();
+                switch (spriteState)
+                {
+                    case SpriteStateEnum.Open:
+                        baseSprite.Animation = handOpenAnimation;
+                        colorSprite.Animation = handOpenAnimation;
+                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1.1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
+                        tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                        break;
+                    case SpriteStateEnum.Grab:
+                        baseSprite.Animation = handGrabAnimation;
+                        colorSprite.Animation = handGrabAnimation;
+                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
+                        tween.TweenProperty(spritesContainer, "position", GrabOffset, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                        break;
+                    case SpriteStateEnum.Point:
+                        baseSprite.Animation = handPointerAnimation;
+                        colorSprite.Animation = handPointerAnimation;
+                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
+                        tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                        break;
+                }
+            }
+        }
+
         public void Construct(PlayerData playerData, IPlayerInput input)
         {
             PlayerData = playerData;
             this.input = input;
-            hand.Construct(playerData.StaticData, input);
+            colorSprite.SelfModulate = playerData.StaticData.Color;
+            colorSprite.Play();
+            baseSprite.Play();
         }
 
         public override void _Ready()
@@ -147,6 +216,11 @@ namespace Game
             GrabbingHandlers = grabbingHandlerNodes.Select(x => GetNode<IPlayerGrabbingHandler>(x)).ToArray();
             GrabEndHandlers = grabEndHandlerNodes.Select(x => GetNode<IPlayerGrabEndHandler>(x)).ToArray();
             IdleHandlers = idleHandlerNodes.Select(x => GetNode<IPlayerIdleHandler>(x)).ToArray();
+
+            collider.AreaEntered += (area) => EmitSignal(nameof(BodyEnteredHandRange), area);
+            collider.AreaExited += (area) => EmitSignal(nameof(BodyExitedHandRange), area);
+            collider.BodyEntered += (body) => EmitSignal(nameof(BodyEnteredHandRange), body);
+            collider.BodyExited += (body) => EmitSignal(nameof(BodyExitedHandRange), body);
         }
 
         public override void _Process(double delta)
@@ -160,6 +234,8 @@ namespace Game
             {
                 AverageAngularVelocity = 0;
             }
+            if (CanMove)
+                Position = input.PlayerPosition;
         }
 
         public void SetWhisk(Whisk whisk)
@@ -172,8 +248,27 @@ namespace Game
             this.whisk = null;
         }
 
+        private void ResetInput()
+        {
+            heldTime = 0;
+            grabStarted = false;
+        }
+
+        private void EndGrab()
+        {
+            EmitSignal(nameof(GrabEnded));
+            foreach (var handler in GrabEndHandlers)
+                if (handler.CanHandle())
+                {
+                    handler.OnGrabEnded();
+                    break;
+                }
+        }
+
         private void UpdateInput(double delta)
         {
+            if (Disabled) return;
+
             // Block A
             if (input.Held)
             {
@@ -191,7 +286,7 @@ namespace Game
                         }
                 }
 
-                if (heldTime >= minHeldTime && grabStarted)
+                if (grabStarted)
                 {
                     EmitSignal(nameof(Grabbing), delta);
                     foreach (var handler in GrabbingHandlers)
@@ -213,8 +308,7 @@ namespace Game
                     if (heldTime < minHeldTime)
                     {
                         // We held for less than the min held time so this was a click
-                        heldTime = 0;
-                        grabStarted = false;
+                        ResetInput();
                         EmitSignal(nameof(Clicked));
                         foreach (var handler in ClickHandlers)
                             if (handler.CanHandle())
@@ -227,15 +321,8 @@ namespace Game
                     {
                         // We held for more than the min held time so this was the end of a grab.
                         // Have to reset this here instead of in the next update loop or else Block A will run first and cause bugs
-                        heldTime = 0;
-                        grabStarted = false;
-                        EmitSignal(nameof(GrabEnded));
-                        foreach (var handler in GrabEndHandlers)
-                            if (handler.CanHandle())
-                            {
-                                handler.OnGrabEnded();
-                                break;
-                            }
+                        ResetInput();
+                        EndGrab();
                     }
                 }
             }

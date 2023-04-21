@@ -2,8 +2,24 @@
 
 namespace Game
 {
+    public interface IGrabbable
+    {
+        event Grabbable.GrabCancelledEventHandler GrabCancelled;
+        public bool CanGrab { get; }
+        public Node2D AsNode2D { get; }
+        public Vector2 GrabOffset { get; }
+        public void OnGrabStart(Node2D grabber);
+        public void OnGrabbing(double delta);
+        public void OnGrabEnd();
+    }
+
     public partial class Grabbable : Node, IGrabbable
     {
+        /// <summary>
+        /// Emitted when the grabbable entity wants to cancel the grab.
+        /// </summary>
+        [Signal]
+        public delegate void GrabCancelledEventHandler();
         [Signal]
         public delegate void GrabStartedEventHandler();
         [Signal]
@@ -11,6 +27,7 @@ namespace Game
         [Signal]
         public delegate void GrabEndedEventHandler();
 
+        public bool CanGrab { get; set; }
         public Node2D Grabber { get; private set; }
         public Node2D AsNode2D => GetParent<Node2D>();
 
@@ -33,6 +50,11 @@ namespace Game
         {
             Grabber = grabber;
             EmitSignal(nameof(GrabStarted));
+        }
+
+        public void CancelGrab()
+        {
+            EmitSignal(nameof(GrabCancelled));
         }
     }
 }

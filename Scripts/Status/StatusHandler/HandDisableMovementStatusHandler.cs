@@ -6,7 +6,7 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        private Hand hand;
+        private Player player;
 
         public override bool CanHandle(IStatus status)
         {
@@ -16,14 +16,14 @@ namespace Game
         public override void AddStatus(IStatus status)
         {
             base.AddStatus(status);
-            hand.CanMove = false;
+            player.CanMove = false;
         }
 
         public override void RemoveStatus(IStatus status)
         {
             base.RemoveStatus(status);
             if (HandledStatuses.Count == 0)
-                hand.CanMove = true;
+                player.CanMove = true;
         }
     }
 }

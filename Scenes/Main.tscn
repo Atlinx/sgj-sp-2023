@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://b7hxqdsve38vj"]
 
 [ext_resource type="Theme" path="res://Art/Misc/theme.tres" id="1_3i7d5"]
-[ext_resource type="PackedScene" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
+[ext_resource type="PackedScene" uid="uid://cqhs7h8lbvmip" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_8i2ie"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
 [ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="3_ephuc"]
