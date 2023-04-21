@@ -30,20 +30,20 @@ namespace Game
                 switch (spriteState)
                 {
                     case SpriteStateEnum.Open:
-                        baseSprite.Texture = handOpenBaseTexture;
-                        colorSprite.Texture = handOpenTexture;
+                        baseSprite.Animation = handOpenAnimation;
+                        colorSprite.Animation = handOpenAnimation;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1.1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
                     case SpriteStateEnum.Grab:
-                        baseSprite.Texture = handGrabBaseTexture;
-                        colorSprite.Texture = handGrabTexture;
+                        baseSprite.Animation = handGrabAnimation;
+                        colorSprite.Animation = handGrabAnimation;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 0.9f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", new Vector2(1, -1) * 32, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
                     case SpriteStateEnum.Point:
-                        baseSprite.Texture = handPointBaseTexture;
-                        colorSprite.Texture = handPointTexture;
+                        baseSprite.Animation = handPointerAnimation;
+                        colorSprite.Animation = handPointerAnimation;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
@@ -60,32 +60,25 @@ namespace Game
         [Export]
         private Node2D spritesContainer;
         [Export]
-        private Sprite2D baseSprite;
+        private AnimatedSprite2D baseSprite;
         [Export]
-        private Sprite2D colorSprite;
-        [Export]
-        private Sprite2D shadowSprite;
+        private AnimatedSprite2D colorSprite;
         [Export]
         private Area2D collider;
         [Export]
-        private Texture2D handOpenTexture;
+        private string handOpenAnimation;
         [Export]
-        private Texture2D handOpenBaseTexture;
+        private string handGrabAnimation;
         [Export]
-        private Texture2D handGrabTexture;
-        [Export]
-        private Texture2D handGrabBaseTexture;
-        [Export]
-        private Texture2D handPointTexture;
-        [Export]
-        private Texture2D handPointBaseTexture;
+        private string handPointerAnimation;
 
         public void Construct(PlayerStaticData staticPlayerData, IPlayerInput playerInput)
         {
             this.staticPlayerData = staticPlayerData;
             this.input = playerInput;
             colorSprite.SelfModulate = staticPlayerData.Color;
-            shadowSprite.SelfModulate = new Color(staticPlayerData.Color, 0.5f);
+            colorSprite.Play();
+            baseSprite.Play();
         }
 
         public override void _Ready()

@@ -1,31 +1,104 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2t8hd3r6khk6"]
+[gd_scene load_steps=17 format=3 uid="uid://d2t8hd3r6khk6"]
 
-[ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/Old/HandGrabBase.png" id="1_0irne"]
 [ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]
-[ext_resource type="Texture2D" uid="uid://cxpd847eaiba4" path="res://Art/Old/HandOpen.png" id="2_kohd7"]
-[ext_resource type="Texture2D" uid="uid://4hokf5txobm1" path="res://Art/Old/HandGrab.png" id="2_x4r0j"]
-[ext_resource type="Texture2D" uid="uid://dwum1aedsgcta" path="res://Art/Old/HandOpenBase.png" id="3_8ah0y"]
-[ext_resource type="Texture2D" uid="uid://da3cq13kmoqxq" path="res://Art/Old/HandPoint.png" id="6_nfjyi"]
-[ext_resource type="Texture2D" uid="uid://dcu81153n1nbs" path="res://Art/Old/HandPointBase.png" id="7_dmkj1"]
-[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Old/Airbrush.png" id="8_28ry6"]
+[ext_resource type="Texture2D" uid="uid://biajq27thdka0" path="res://Art/UI/hand_grb_1.png" id="8_cbh77"]
+[ext_resource type="Texture2D" uid="uid://xvqsc57lui7a" path="res://Art/UI/hand_grb_glow_1.png" id="8_ungkv"]
+[ext_resource type="Texture2D" uid="uid://b6ujbaqb0a2nr" path="res://Art/UI/hand_grb_glow_2.png" id="9_ae7kn"]
+[ext_resource type="Texture2D" uid="uid://bjrtrt4hy64hh" path="res://Art/UI/hand_grb_2.png" id="9_u2mfi"]
+[ext_resource type="Texture2D" uid="uid://rm3q7krdrhxe" path="res://Art/UI/hand_opn_glow_1.png" id="10_s1nv6"]
+[ext_resource type="Texture2D" uid="uid://kqjemxltr5l4" path="res://Art/UI/hand_opn_1.png" id="10_wvgls"]
+[ext_resource type="Texture2D" uid="uid://b5q5qu53a3vr3" path="res://Art/UI/hand_opn_2.png" id="11_qlf8y"]
+[ext_resource type="Texture2D" uid="uid://dpgaenra55btc" path="res://Art/UI/hand_opn_glow_2.png" id="11_yowgk"]
+[ext_resource type="Texture2D" uid="uid://df4tmnanwtkg8" path="res://Art/UI/hand_ptr_glow_1.png" id="12_3crqc"]
+[ext_resource type="Texture2D" uid="uid://d4by4i6m8h1go" path="res://Art/UI/hand_ptr_1.png" id="12_jndwj"]
+[ext_resource type="Texture2D" uid="uid://b4gjnx16rhhy" path="res://Art/UI/hand_ptr_2.png" id="13_2bx47"]
+[ext_resource type="Texture2D" uid="uid://tv2trt3nbnmq" path="res://Art/UI/hand_ptr_glow_2.png" id="13_vfef8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758
 
-[node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "shadowSprite", "collider")]
+[sub_resource type="SpriteFrames" id="SpriteFrames_4h5k8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ungkv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ae7kn")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_s1nv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yowgk")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_3crqc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_vfef8")
+}],
+"loop": true,
+"name": &"pointer",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1vwh8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_cbh77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_u2mfi")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_wvgls")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_qlf8y")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_jndwj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_2bx47")
+}],
+"loop": true,
+"name": &"pointer",
+"speed": 5.0
+}]
+
+[node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider")]
 z_index = 2
 script = ExtResource("1_usw0i")
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")
-shadowSprite = NodePath("Sprites/Shadow")
 collider = NodePath("Area2D")
-handOpenTexture = ExtResource("2_kohd7")
-handOpenBaseTexture = ExtResource("3_8ah0y")
-handGrabTexture = ExtResource("2_x4r0j")
-handGrabBaseTexture = ExtResource("1_0irne")
-handPointTexture = ExtResource("6_nfjyi")
-handPointBaseTexture = ExtResource("7_dmkj1")
+handOpenAnimation = "open"
+handGrabAnimation = "grab"
+handPointerAnimation = "pointer"
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -34,12 +107,10 @@ shape = SubResource("CircleShape2D_ikcq1")
 
 [node name="Sprites" type="Node2D" parent="."]
 
-[node name="Shadow" type="Sprite2D" parent="Sprites"]
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("8_28ry6")
+[node name="ColorSprite" type="AnimatedSprite2D" parent="Sprites"]
+sprite_frames = SubResource("SpriteFrames_4h5k8")
+animation = &"pointer"
 
-[node name="BaseSprite" type="Sprite2D" parent="Sprites"]
-texture = ExtResource("1_0irne")
-
-[node name="ColorSprite" type="Sprite2D" parent="Sprites"]
-texture = ExtResource("2_x4r0j")
+[node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
+sprite_frames = SubResource("SpriteFrames_1vwh8")
+animation = &"pointer"
