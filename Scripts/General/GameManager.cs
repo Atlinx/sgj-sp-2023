@@ -55,6 +55,16 @@ namespace Game
             }
         }
 
+        public void AddPointsWithMultiplier(int points)
+        {
+            Score += points * Mathf.Clamp(scoreMultiplier, 1, 10);
+        }
+        
+        public void RemovePointsNoMultiplier(int points)
+        {
+            Score -= points;
+        }
+
         private void ScoreTick()
         {
             foreach(var player in playerManager.Players)
