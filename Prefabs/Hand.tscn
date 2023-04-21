@@ -1,13 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://b0507cfhs7otu"]
+[gd_scene load_steps=10 format=3]
 
-[ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/HandGrabBase.png" id="1_0irne"]
+[ext_resource type="Texture2D" uid="uid://djcv3lnyokvjm" path="res://Art/Old/HandGrabBase.png" id="1_0irne"]
 [ext_resource type="Script" path="res://Scripts/Player/Hand.cs" id="1_usw0i"]
-[ext_resource type="Texture2D" uid="uid://cxpd847eaiba4" path="res://Art/HandOpen.png" id="2_kohd7"]
-[ext_resource type="Texture2D" uid="uid://4hokf5txobm1" path="res://Art/HandGrab.png" id="2_x4r0j"]
-[ext_resource type="Texture2D" uid="uid://dwum1aedsgcta" path="res://Art/HandOpenBase.png" id="3_8ah0y"]
-[ext_resource type="Texture2D" uid="uid://da3cq13kmoqxq" path="res://Art/HandPoint.png" id="6_nfjyi"]
-[ext_resource type="Texture2D" uid="uid://dcu81153n1nbs" path="res://Art/HandPointBase.png" id="7_dmkj1"]
-[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Airbrush.png" id="8_28ry6"]
+[ext_resource type="Texture2D" uid="uid://cxpd847eaiba4" path="res://Art/Old/HandOpen.png" id="2_kohd7"]
+[ext_resource type="Texture2D" uid="uid://4hokf5txobm1" path="res://Art/Old/HandGrab.png" id="2_x4r0j"]
+[ext_resource type="Texture2D" uid="uid://dwum1aedsgcta" path="res://Art/Old/HandOpenBase.png" id="3_8ah0y"]
+[ext_resource type="Texture2D" uid="uid://da3cq13kmoqxq" path="res://Art/Old/HandPoint.png" id="6_nfjyi"]
+[ext_resource type="Texture2D" uid="uid://dcu81153n1nbs" path="res://Art/Old/HandPointBase.png" id="7_dmkj1"]
+[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Old/Airbrush.png" id="8_28ry6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758

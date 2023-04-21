@@ -1,8 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://t8u4f1m6rs5t"]
+[gd_scene load_steps=13 format=3 uid="uid://dkgdiul5k6cby"]
 
 [ext_resource type="PackedScene" uid="uid://v6p2j33kf7pe" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
-[ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://Art/icon.svg" id="3_7bi4x"]
+[ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://Art/Old/icon.svg" id="3_x6muu"]
 [ext_resource type="Script" path="res://Scripts/General/ManualStart.cs" id="4_55uik"]
 [ext_resource type="PackedScene" uid="uid://bveimq6uc4e6v" path="res://Prefabs/Player/Player.tscn" id="4_p20om"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerManager.cs" id="6_e57j2"]
@@ -27,6 +27,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="PlayerUIContainer" type="VBoxContainer" parent="UI/Control"]
+layout_mode = 0
 offset_right = 500.0
 offset_bottom = 91.0
 
@@ -40,7 +41,7 @@ playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
 
 [node name="CenterPoint" type="Sprite2D" parent="GameManager"]
-texture = ExtResource("3_7bi4x")
+texture = ExtResource("3_x6muu")
 
 [node name="ManualGameStart" type="Node" parent="GameManager" node_paths=PackedStringArray("gameManager")]
 script = ExtResource("4_55uik")

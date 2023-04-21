@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://3ygbv27sqflf"]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/WhiskBase.png" id="1_biprv"]
+[ext_resource type="Texture2D" uid="uid://dgpvlyne7d07i" path="res://Art/Old/WhiskBase.png" id="1_biprv"]
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
-[ext_resource type="Texture2D" uid="uid://c41re6hyaimyw" path="res://Art/WhiskOutline.png" id="2_e7fti"]
-[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Airbrush.png" id="2_muqjg"]
+[ext_resource type="Texture2D" uid="uid://c41re6hyaimyw" path="res://Art/Old/WhiskOutline.png" id="2_e7fti"]
+[ext_resource type="Texture2D" uid="uid://cupfx4cfw7sun" path="res://Art/Old/Airbrush.png" id="2_muqjg"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="6_sntna"]
 

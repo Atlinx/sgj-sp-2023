@@ -1,5 +1,7 @@
 ﻿using Godot;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
@@ -33,7 +35,16 @@ namespace Game
     public partial class StatusHolder : Node
     {
         public HashSet<IStatus> Statuses { get; private set; } = new HashSet<IStatus>();
-        public HashSet<IStatusHandler> Handlers { get; private set; } = new HashSet<IStatusHandler>();
+        public IStatusHandler[] Handlers { get; private set; }
+
+        [ExportCategory("Dependencies")]
+        [Export]
+        private NodePath[] handlerNodes = new NodePath[0];
+
+        public override void _Ready()
+        {
+            Handlers = handlerNodes.Select(x => GetNode<IStatusHandler>(x)).ToArray();
+        }
 
         public void AddStatus(IStatus status)
         {
