@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3 uid="uid://t8u4f1m6rs5t"]
 
-[ext_resource type="PackedScene" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
+[ext_resource type="PackedScene" uid="uid://v6p2j33kf7pe" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
 [ext_resource type="Texture2D" uid="uid://3ykdmnpowie8" path="res://Art/icon.svg" id="3_7bi4x"]
 [ext_resource type="Script" path="res://Scripts/General/ManualStart.cs" id="4_55uik"]
@@ -9,8 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://ck48jr2nl2rx2" path="res://Prefabs/Player/Inputs/PlayerMouseInput.tscn" id="6_p10wq"]
 [ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P1.tres" id="7_4yxhp"]
 [ext_resource type="PackedScene" uid="uid://cxfptt2tswm52" path="res://Prefabs/Player/Inputs/PlayerGamepadInput.tscn" id="9_se1wm"]
+[ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="10_1e1ef"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="11_afk25"]
-[ext_resource type="PackedScene" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
+[ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
 
 [node name="Node" type="Node"]
 
@@ -41,19 +42,27 @@ obstacleManager = NodePath("ObstacleManager")
 position = Vector2(960, 540)
 texture = ExtResource("3_7bi4x")
 
-[node name="ManualGameStart" type="Node" parent="GameManager"]
+[node name="ManualGameStart" type="Node" parent="GameManager" node_paths=PackedStringArray("gameManager")]
 script = ExtResource("4_55uik")
 StaticData = ExtResource("7_4yxhp")
+InputType = 3
+gameManager = NodePath("..")
 
-[node name="PlayerManager" type="Node2D" parent="GameManager"]
+[node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("centerPoint", "playerUIContainer", "playersContainer")]
 script = ExtResource("6_e57j2")
 playerPrefab = ExtResource("4_p20om")
 gamepadInputPrefab = ExtResource("9_se1wm")
 mouseInputPrefab = ExtResource("6_p10wq")
+mouseDragInputPrefab = ExtResource("10_1e1ef")
 actionInputPrefab = ExtResource("11_nw1mm")
+centerPoint = NodePath("../CenterPoint")
+playerUIContainer = NodePath("../../UI/PlayerUIContainer")
 playerUIPrefab = ExtResource("1_fi7af")
+playersContainer = NodePath("PlayerContainer")
 
-[node name="ObstacleManager" type="Node2D" parent="GameManager"]
+[node name="PlayerContainer" type="Node2D" parent="GameManager/PlayerManager"]
+
+[node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
 script = ExtResource("11_afk25")
 obstaclePrefabs = Array[PackedScene]([])
 DifficultyRampInterval = 10.0
@@ -62,4 +71,8 @@ SpawnAmount = 1
 MaxSpawnAmount = 10
 MinSpawnInterval = 1
 MaxObstacles = 30
+gameManager = NodePath("..")
+obstacleContainer = NodePath("ObstacleContainer")
 obstacleSpawners = Array[PackedScene]([])
+
+[node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]

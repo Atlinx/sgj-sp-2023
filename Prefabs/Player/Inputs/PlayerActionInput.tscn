@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cdgha5y0xwt2x"]
 
-[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerActionInput.cs" id="1_43ucq"]
+[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerActionInput.cs" id="1_27qc8"]
 
 [node name="PlayerActionInput" type="Node"]
-script = ExtResource("1_43ucq")
+script = ExtResource("1_27qc8")
+movementSpeed = 1000.0

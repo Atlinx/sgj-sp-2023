@@ -12,13 +12,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ikcq1"]
 radius = 65.3758
 
-[node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "shadowSprite", "Collider")]
+[node name="Hand" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "shadowSprite", "collider")]
 script = ExtResource("1_usw0i")
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")
 shadowSprite = NodePath("Sprites/Shadow")
-Collider = NodePath("Area2D")
+collider = NodePath("Area2D")
 handOpenTexture = ExtResource("2_kohd7")
 handOpenBaseTexture = ExtResource("3_8ah0y")
 handGrabTexture = ExtResource("2_x4r0j")

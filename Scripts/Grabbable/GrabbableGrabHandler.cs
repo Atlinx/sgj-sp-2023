@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-    public class GrabbableGrabHandler : Node, IGrabStartHandler, IGrabbingHandler, IGrabEndHandler
+    public partial class GrabbableGrabHandler : Node, IPlayerGrabStartHandler, IPlayerGrabbingHandler, IPlayerGrabEndHandler, IPlayerIdleHandler
     {
         [ExportCategory("Settings")]
         [Export]
@@ -12,31 +12,32 @@ namespace Game
         [ExportCategory("Dependencies")]
         [Export]
         private Hand hand;
-        [Export]
-        private Player player;
 
         /// <summary>
         /// Grabbables that are in the hand's range
         /// </summary>
         public HashSet<IGrabbable> CanGrabGrabbables { get; private set; } = new HashSet<IGrabbable>();
         public IGrabbable Grabbed { get; private set; }
+        public bool IsGrabbing => Grabbed != null;
 
         private float grabbableLerpTime = 0;
 
-        private void OnAnythingEntered(Node2D body)
+        public override void _Ready()
         {
-            if (body.TryGetComponent(out IGrabbable grabbable) && !CanGrabGrabbables.Contains(grabbable))
-            {
-                CanGrabGrabbables.Add(grabbable);
-            }
+            hand.BodyEnteredHandRange += OnBodyEntered;
+            hand.BodyExitedHandRange += OnBodyExited;
         }
 
-        private void OnAnythingExited(Node2D body)
+        private void OnBodyEntered(Node2D body)
         {
             if (body.TryGetComponent(out IGrabbable grabbable) && !CanGrabGrabbables.Contains(grabbable))
-            {
                 CanGrabGrabbables.Add(grabbable);
-            }
+        }
+
+        private void OnBodyExited(Node2D body)
+        {
+            if (body.TryGetComponent(out IGrabbable grabbable) && CanGrabGrabbables.Contains(grabbable))
+                CanGrabGrabbables.Remove(grabbable);
         }
 
         public bool CanHandle()
@@ -44,14 +45,14 @@ namespace Game
             return CanGrabGrabbables.Count > 0;
         }
 
-        public void OnGrabStart()
+        public void OnGrabStarted()
         {
             // Should only be called when CanGrabGrabbables.Count > 0
             float shortestDist = 0;
             IGrabbable shortestDistGrabbable = null;
             foreach (var grabbable in CanGrabGrabbables)
             {
-                float currDist = grabbable.AsNode2D.GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
+                float currDist = grabbable.AsNode2D.GlobalPosition.DistanceSquaredTo(hand.GlobalPosition);
                 if (shortestDistGrabbable == null)
                 {
                     // Initialize to first grabbable if we don't have a grabbable yet
@@ -61,30 +62,24 @@ namespace Game
             }
 
             Grabbed = shortestDistGrabbable;
+            Grabbed.OnGrabStart(hand);
             hand.SpriteState = Hand.SpriteStateEnum.Grab;
         }
 
         public void OnGrabbing(double delta)
         {
-            // Hover state
-            if (hand.SpriteState != Hand.SpriteStateEnum.Grab)
-            {
-                if (CanGrabGrabbables.Count > 0)
-                    hand.SpriteState = Hand.SpriteStateEnum.Open;
-                else
-                    hand.SpriteState = Hand.SpriteStateEnum.Point;
-            }
-
-            if (grabbableLerpTime < grabbableLerpDuration)
-                grabbableLerpTime += (float)delta;
-            else if (grabbableLerpTime > grabbableLerpDuration)
-                grabbableLerpTime = grabbableLerpDuration;
-            Grabbed.AsNode2D.Position = Grabbed.AsNode2D.Position.Lerp(hand.Position, grabbableLerpTime / grabbableLerpDuration);
+            Grabbed?.OnGrabbing(delta);
         }
 
-        public void OnGrabEnd()
+        public void OnGrabEnded()
         {
             hand.SpriteState = Hand.SpriteStateEnum.Point;
+            Grabbed?.OnGrabEnd();
+        }
+
+        public void OnIdled(double delta)
+        {
+            hand.SpriteState = Hand.SpriteStateEnum.Open;
         }
     }
 }

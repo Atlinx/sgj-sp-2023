@@ -6,11 +6,11 @@ namespace Game
     /// Keeps track of the node's current average velocity and at any point, can set
     /// its rigidbody to that velocity, effectively chucking the rigidbody.
     /// </summary>
-    public class Chuckable : Node2D
+    public partial class Chuckable : Node2D
     {
         [ExportCategory("Settings")]
         [Export]
-        private float speedSsampleInterval = 0.1f;
+        private float speedSampleInterval = 0.1f;
         [Export]
         private int speedSamples = 10;
 
@@ -38,6 +38,7 @@ namespace Game
         public void Chuck()
         {
             // TODO: Is it possible to disable a rigidbody?
+            //       The rigid body must be enabled when we se it's linear velocity
             rigidbody2D.LinearVelocity = positionDelta * CalculateAverageSpeed();
         }
 
@@ -50,10 +51,10 @@ namespace Game
         {
             positionDelta = rigidbody2D.Position - prevPosition;
             speedBufferSampleTime += (float)delta;
-            while (speedBufferSampleTime >= speedSsampleInterval)
+            while (speedBufferSampleTime >= speedSampleInterval)
             {
-                speedBufferSampleTime = speedBufferSampleTime - speedSsampleInterval;
-                speedDeltaBuffer[speedDeltaBufferIndex] = positionDelta.Length;
+                speedBufferSampleTime = speedBufferSampleTime - speedSampleInterval;
+                speedDeltaBuffer[speedDeltaBufferIndex] = positionDelta.Length();
                 speedDeltaBufferIndex++;
                 if (speedDeltaBufferIndex >= speedDeltaBuffer.Length)
                     speedDeltaBufferIndex = 0;
