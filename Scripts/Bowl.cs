@@ -1,70 +1,69 @@
-using Game;
 using Godot;
-using System;
 using System.Collections.Generic;
 
-public partial class Bowl : Node2D
+namespace Game
 {
-    [ExportCategory("Settings")]
-    [Export]
-    private float resistance;
-    [Export]
-    private int angularVelocitySamples = 30;
-
-    [ExportCategory("Dependencies")]
-    [Export]
-    public Node2D CenterPoint { get; private set; }
-
-    [Export]
-    public Area2D Area { get; private set; }
-
-    [Export]
-    private AnimatedSprite2D Fill;
-    [Export]
-    private AnimatedSprite2D X;
-
-    private float[] angularVelocityDeltaBuffer;
-    private int angularVelocityCurrIndex = 0;
-    private List<Whisk> whisks = new List<Whisk>();
-
-    public float TotalAverageAngularVelocity { get; private set; }
-
-    public override void _Ready()
+    public partial class Bowl : Node2D
     {
-        Fill.Play();
-        X.Play();
-        angularVelocityDeltaBuffer = new float[angularVelocitySamples];
-    }
+        public const float MaxBowlVelocity = 30f;
 
-    public void RegisterWhisk(Whisk whisk)
-    {
-        whisks.Add(whisk);
-    }
+        [ExportCategory("Settings")]
+        [Export]
+        private float resistance;
+        [Export]
+        private int angularVelocitySamples = 30;
 
-    public void LogAvgAngularVelocity()
-    {
-        float sum = 0;
-        foreach (Whisk whisk in whisks)
+        [ExportCategory("Dependencies")]
+        [Export]
+        public Node2D CenterPoint { get; private set; }
+
+        [Export]
+        public Area2D Area { get; private set; }
+
+        [Export]
+        private AnimatedSprite2D fillSprite;
+        [Export]
+        private AnimatedSprite2D centerPointSprite;
+
+        private float[] angularVelocityDeltaBuffer;
+        private int angularVelocityCurrIndex = 0;
+        private List<Whisk> whisks = new List<Whisk>();
+
+        public float TotalAverageAngularVelocity { get; private set; }
+
+        public override void _Ready()
         {
-            sum += whisk.AverageAngularVelocity;
+            fillSprite.Play();
+            centerPointSprite.Play();
+            angularVelocityDeltaBuffer = new float[angularVelocitySamples];
         }
 
-        GD.Print(sum);
+        public void RegisterWhisk(Whisk whisk)
+        {
+            whisks.Add(whisk);
+        }
 
-        angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = sum /= whisks.Count;
-        if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)
-            angularVelocityCurrIndex = 0;
+        public void UpdateAverageAngularVelocity()
+        {
+            float sum = 0;
+            foreach (Whisk whisk in whisks)
+                sum += whisk.AverageAngularVelocity;
 
-        float grandSum = 0;
-        foreach (float i in angularVelocityDeltaBuffer)
-            grandSum += i;
+            angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = sum /= whisks.Count;
+            if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)
+                angularVelocityCurrIndex = 0;
 
-        TotalAverageAngularVelocity = grandSum / angularVelocityDeltaBuffer.Length;
-    }
+            float grandSum = 0;
+            foreach (float i in angularVelocityDeltaBuffer)
+                grandSum += i;
 
-    public override void _Process(double delta)
-    {
-        LogAvgAngularVelocity();
-        Fill.SpeedScale = TotalAverageAngularVelocity / resistance;
+            TotalAverageAngularVelocity = grandSum / angularVelocityDeltaBuffer.Length;
+        }
+
+        public override void _Process(double delta)
+        {
+            UpdateAverageAngularVelocity();
+            fillSprite.SpeedScale = TotalAverageAngularVelocity / resistance;
+        }
     }
 }

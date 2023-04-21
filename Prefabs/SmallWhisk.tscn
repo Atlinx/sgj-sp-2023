@@ -65,13 +65,14 @@ texture = ExtResource("9_4mfp1")
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_7uis8")
 animation = &"whisk"
-frame_progress = 0.82322
+frame_progress = 0.211606
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_h8oer")
 
 [node name="Grabbable" type="Node" parent="."]
 script = ExtResource("6_su3wd")
+GrabOffset = Vector2(32, -32)
 
 [node name="GrabFollowGrabber" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "target")]
 script = ExtResource("7_n54wm")

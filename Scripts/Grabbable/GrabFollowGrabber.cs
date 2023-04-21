@@ -34,8 +34,6 @@ namespace Game
             if (grabbableLerpTime > grabbableLerpDuration)
                 grabbableLerpTime = grabbableLerpDuration;
             target.Position = target.Position.Lerp(grabbable.Grabber.Position, grabbableLerpTime / grabbableLerpDuration);
-            if (grabbableLerpTime / grabbableLerpDuration < 1)
-                GD.Print($"Lerping: target pos: {target.Position} lerp time: {grabbableLerpTime} lerp duration: {grabbableLerpDuration} with {grabbableLerpTime / grabbableLerpDuration}");
         }
     }
 }

@@ -63,6 +63,7 @@ namespace Game
 
             Grabbed = shortestDistGrabbable;
             Grabbed.OnGrabStart(hand);
+            hand.GrabOffset = Grabbed.GrabOffset;
             hand.SpriteState = Hand.SpriteStateEnum.Grab;
         }
 

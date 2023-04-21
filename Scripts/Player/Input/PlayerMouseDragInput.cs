@@ -7,8 +7,9 @@ namespace Game
         [ExportCategory("Settings")]
         [Export]
         public bool Held { get; protected set; }
+        private Vector2 playerPosition;
         [Export]
-        public Vector2 PlayerPosition { get; set; }
+        public Vector2 PlayerPosition { get => playerPosition; set => playerPosition = value; }
         [Export]
         private float movementSpeed;
 

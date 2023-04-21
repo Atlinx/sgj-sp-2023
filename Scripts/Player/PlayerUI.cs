@@ -21,7 +21,7 @@ namespace Game
 
         public override void _Process(double delta)
         {
-            speedometer.SetFill(Mathf.Clamp(player.AverageAngularVelocity / 30f, 0, 1));
+            speedometer.SetFill(Mathf.Clamp(player.AverageAngularVelocity / Bowl.MaxBowlVelocity, 0, 1));
         }
     }
 }

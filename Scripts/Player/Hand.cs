@@ -39,7 +39,7 @@ namespace Game
                         baseSprite.Animation = handGrabAnimation;
                         colorSprite.Animation = handGrabAnimation;
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
-                        tween.TweenProperty(spritesContainer, "position", new Vector2(1, -1) * 32, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                        tween.TweenProperty(spritesContainer, "position", GrabOffset, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
                     case SpriteStateEnum.Point:
                         baseSprite.Animation = handPointerAnimation;
@@ -51,6 +51,7 @@ namespace Game
             }
         }
 
+        public Vector2 GrabOffset { get; set; }
         public bool CanMove { get; set; } = true;
 
         private PlayerStaticData staticPlayerData;

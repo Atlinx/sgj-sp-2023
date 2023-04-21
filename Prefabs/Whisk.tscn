@@ -73,6 +73,7 @@ shape = SubResource("CircleShape2D_h8oer")
 
 [node name="Grabbable" type="Node" parent="."]
 script = ExtResource("5_4y483")
+GrabOffset = Vector2(32, -32)
 
 [node name="GrabFollowGrabber" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "target")]
 script = ExtResource("6_sntna")

@@ -14,6 +14,10 @@ namespace Game
         public Node2D Grabber { get; private set; }
         public Node2D AsNode2D => GetParent<Node2D>();
 
+        [ExportCategory("Settings")]
+        [Export]
+        public Vector2 GrabOffset { get; private set; }
+
         public void OnGrabEnd()
         {
             EmitSignal(nameof(GrabEnded));

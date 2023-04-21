@@ -1,9 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://bhca7h1eypey"]
+[gd_scene load_steps=22 format=3 uid="uid://b7hxqdsve38vj"]
 
-[ext_resource type="PackedScene" uid="uid://v6p2j33kf7pe" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
+[ext_resource type="Theme" path="res://Art/Misc/theme.tres" id="1_3i7d5"]
+[ext_resource type="PackedScene" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
+[ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_8i2ie"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
 [ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="3_ephuc"]
+[ext_resource type="Script" path="res://Scripts/Player/Speedometer.cs" id="3_mqi5p"]
 [ext_resource type="Script" path="res://Scripts/General/ManualStart.cs" id="4_55uik"]
+[ext_resource type="Shader" path="res://Art/Shaders/rainbow.gdshader" id="4_geau4"]
 [ext_resource type="PackedScene" uid="uid://bveimq6uc4e6v" path="res://Prefabs/Player/Player.tscn" id="4_p20om"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerManager.cs" id="6_e57j2"]
 [ext_resource type="PackedScene" uid="uid://ck48jr2nl2rx2" path="res://Prefabs/Player/Inputs/PlayerMouseInput.tscn" id="6_p10wq"]
@@ -15,6 +19,13 @@
 [ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
 [ext_resource type="Texture2D" uid="uid://vs05p8ptcm3w" path="res://Art/BG/Giant_Egg.png" id="15_e0ogn"]
 [ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_77iy3"]
+shader = ExtResource("4_geau4")
+shader_parameter/strength = 0.339
+shader_parameter/speed = 0.25
+shader_parameter/angle = 45.0
+shader_parameter/factor = 0.002
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v7qc7"]
 load_path = "res://.godot/imported/icon.svg-97940bc3a0a6f3cbadb8017a29702146.ctex"
@@ -32,13 +43,70 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerUIContainer" type="VBoxContainer" parent="UI/Control"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/Control"]
 layout_mode = 0
-offset_right = 500.0
-offset_bottom = 91.0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="PlayerUI" parent="UI/Control/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="VSplitContainer" type="VBoxContainer" parent="UI/Control/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="BowlUI" type="VBoxContainer" parent="UI/Control/MarginContainer/VSplitContainer" node_paths=PackedStringArray("bowl", "speedometer")]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("1_3i7d5")
+script = ExtResource("2_8i2ie")
+bowl = NodePath("../../../../../Bowl")
+speedometer = NodePath("Speedometer")
+
+[node name="Name" type="Label" parent="UI/Control/MarginContainer/VSplitContainer/BowlUI"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "SPEED"
+
+[node name="Speedometer" type="ColorRect" parent="UI/Control/MarginContainer/VSplitContainer/BowlUI" node_paths=PackedStringArray("_fill")]
+custom_minimum_size = Vector2(500, 48)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.392157)
+script = ExtResource("3_mqi5p")
+_fill = NodePath("Fill")
+
+[node name="Fill" type="ColorRect" parent="UI/Control/MarginContainer/VSplitContainer/BowlUI/Speedometer"]
+material = SubResource("ShaderMaterial_77iy3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerUIContainer" type="VBoxContainer" parent="UI/Control/MarginContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PlayerUI4" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PlayerUI2" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PlayerUI3" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="PlayerUI5" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager")]
 script = ExtResource("2_ibw5h")
@@ -66,7 +134,7 @@ mouseInputPrefab = ExtResource("6_p10wq")
 mouseDragInputPrefab = ExtResource("10_1e1ef")
 actionInputPrefab = ExtResource("11_nw1mm")
 bowl = NodePath("../../Bowl")
-playerUIContainer = NodePath("../../UI/Control/PlayerUIContainer")
+playerUIContainer = NodePath("../../UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer")
 playerUIPrefab = ExtResource("1_fi7af")
 playersContainer = NodePath("PlayerContainer")
 
@@ -96,11 +164,6 @@ angularVelocitySamples = 60
 [node name="GiantEgg" type="Sprite2D" parent="."]
 self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
 position = Vector2(767, -647.5)
-texture = ExtResource("15_e0ogn")
-
-[node name="GiantEgg2" type="Sprite2D" parent="."]
-self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
-position = Vector2(1030, -460.5)
 texture = ExtResource("15_e0ogn")
 
 [node name="GiantEgg3" type="Sprite2D" parent="."]

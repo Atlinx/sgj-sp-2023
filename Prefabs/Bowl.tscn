@@ -51,31 +51,31 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rrjra"]
 radius = 478.707
 
-[node name="Bowl" type="Node2D" node_paths=PackedStringArray("CenterPoint", "Area", "Fill", "X")]
+[node name="Bowl" type="Node2D" node_paths=PackedStringArray("CenterPoint", "Area", "fillSprite", "centerPointSprite")]
 texture_filter = 1
 script = ExtResource("1_stter")
 resistance = 20.0
-CenterPoint = NodePath("Center Point")
+CenterPoint = NodePath("CenterPoint")
 Area = NodePath("Area2D")
-Fill = NodePath("Egg")
-X = NodePath("Center Point/X")
+fillSprite = NodePath("FillSprite")
+centerPointSprite = NodePath("CenterPoint/CenterPointSprite")
 
 [node name="BowlShadow" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.156863)
 scale = Vector2(1.1, 1.1)
 texture = ExtResource("2_gshv6")
 
-[node name="Egg" type="AnimatedSprite2D" parent="."]
+[node name="FillSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_g2rhm")
 animation = &"egg_swirl"
 frame_progress = 0.770299
 
-[node name="Rim" type="Sprite2D" parent="."]
+[node name="RimSprite" type="Sprite2D" parent="."]
 texture = ExtResource("4_kb4lb")
 
-[node name="Center Point" type="Node2D" parent="."]
+[node name="CenterPoint" type="Node2D" parent="."]
 
-[node name="X" type="AnimatedSprite2D" parent="Center Point"]
+[node name="CenterPointSprite" type="AnimatedSprite2D" parent="CenterPoint"]
 sprite_frames = SubResource("SpriteFrames_kbru4")
 animation = &"centerpoint"
 

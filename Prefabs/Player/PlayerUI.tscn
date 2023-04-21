@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://v6p2j33kf7pe"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Player/PlayerUI.cs" id="1_5r1hm"]
+[ext_resource type="Theme" path="res://Art/Misc/theme.tres" id="1_pyj15"]
 [ext_resource type="PackedScene" uid="uid://ds0xylf8ncgh7" path="res://Prefabs/Speedometer.tscn" id="2_jb5xo"]
 
 [node name="PlayerUI" type="VBoxContainer" node_paths=PackedStringArray("speedometer", "playerNameLabel")]
+offset_left = 2.0
+offset_right = 502.0
+offset_bottom = 91.0
+size_flags_horizontal = 0
 mouse_filter = 2
+theme = ExtResource("1_pyj15")
 script = ExtResource("1_5r1hm")
 speedometer = NodePath("Speedometer")
 playerNameLabel = NodePath("Name")
@@ -12,8 +18,8 @@ playerNameLabel = NodePath("Name")
 [node name="Name" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Player 1"
+text = "PLAYER 1"
 
 [node name="Speedometer" parent="." instance=ExtResource("2_jb5xo")]
-custom_minimum_size = Vector2(500, 50)
+custom_minimum_size = Vector2(500, 24)
 layout_mode = 2

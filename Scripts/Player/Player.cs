@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Linq;
 
 namespace Game
@@ -51,6 +52,7 @@ namespace Game
     public interface IGrabbable
     {
         public Node2D AsNode2D { get; }
+        public Vector2 GrabOffset { get; }
         public void OnGrabStart(Node2D grabber);
         public void OnGrabbing(double delta);
         public void OnGrabEnd();
@@ -124,7 +126,7 @@ namespace Game
         private Hand hand;
         [Export]
         private StatusHolder statusHolder;
-        
+
         private Whisk whisk = null;
         private IPlayerInput input;
         private bool grabStarted = false;
@@ -162,7 +164,7 @@ namespace Game
 
         public void SetWhisk(Whisk whisk)
         {
-            this.whisk = whisk; 
+            this.whisk = whisk;
         }
 
         public void RemoveWhisk()
@@ -179,7 +181,6 @@ namespace Game
                 if (heldTime >= minHeldTime && !grabStarted)
                 {
                     // We held for more than the min held time so this is a drag.
-                    // GD.Print("Entered Grab");
                     grabStarted = true;
                     EmitSignal(nameof(GrabStarted));
                     foreach (var handler in GrabStartHandlers)
@@ -211,7 +212,6 @@ namespace Game
                     // Released
                     if (heldTime < minHeldTime)
                     {
-                        // GD.Print("Clicked");
                         // We held for less than the min held time so this was a click
                         heldTime = 0;
                         grabStarted = false;
@@ -225,7 +225,6 @@ namespace Game
                     }
                     else
                     {
-                        // GD.Print("Let Go");
                         // We held for more than the min held time so this was the end of a grab.
                         // Have to reset this here instead of in the next update loop or else Block A will run first and cause bugs
                         heldTime = 0;
@@ -247,6 +246,12 @@ namespace Game
                     handler.OnIdled(delta);
                     break;
                 }
+
+            var rect = GetCanvasTransform().AffineInverse() * GetViewport().GetVisibleRect();
+            input.PlayerPosition = new Vector2(
+                Math.Clamp(input.PlayerPosition.X, rect.Position.X, rect.End.X),
+                Math.Clamp(input.PlayerPosition.Y, rect.Position.Y, rect.End.Y)
+            );
         }
     }
 }

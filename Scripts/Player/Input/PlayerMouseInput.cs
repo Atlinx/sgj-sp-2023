@@ -7,17 +7,21 @@ namespace Game
         [ExportCategory("Settings")]
         [Export]
         public bool Held { get; private set; }
+        private Vector2 playerPosition;
         [Export]
         public Vector2 PlayerPosition
         {
-            get
-            {
-                return GetViewport().GetMousePosition();
-            }
+            get => playerPosition;
             set
             {
-                GetViewport().WarpMouse(value);
+                if (playerPosition != value)
+                    GetViewport().WarpMouse(value);
             }
+        }
+
+        public override void _Process(double delta)
+        {
+            playerPosition = GetViewport().GetMousePosition();
         }
 
         public override void _UnhandledInput(InputEvent @event)
