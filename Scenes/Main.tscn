@@ -28,7 +28,6 @@ shader_parameter/angle = 45.0
 shader_parameter/factor = 0.002
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v7qc7"]
-load_path = "res://.godot/imported/icon.svg-97940bc3a0a6f3cbadb8017a29702146.ctex"
 
 [node name="Node" type="Node"]
 
@@ -162,16 +161,17 @@ position = Vector2(1, -4)
 angularVelocitySamples = 60
 
 [node name="GiantEgg" type="Sprite2D" parent="."]
-self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
 position = Vector2(767, -647.5)
+scale = Vector2(-1, 1)
 texture = ExtResource("15_e0ogn")
 
 [node name="GiantEgg3" type="Sprite2D" parent="."]
-self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
 position = Vector2(-987, -15)
 texture = ExtResource("15_e0ogn")
 
 [node name="GiantEgg4" type="Sprite2D" parent="."]
-self_modulate = Color(0.690196, 0.690196, 0.690196, 1)
+self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
 position = Vector2(876, 491)
 texture = ExtResource("15_e0ogn")

@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cgre66qi3c8sh" path="res://Art/BG/bowl_fill_3.png" id="4_7yrw1"]
 [ext_resource type="Texture2D" uid="uid://bhpo1f8uyj3yn" path="res://Art/BG/bowl.png" id="4_kb4lb"]
 [ext_resource type="Texture2D" uid="uid://c0mgobjiwiqgs" path="res://Art/BG/bowl_fill_4.png" id="5_rbyd0"]
+[ext_resource type="Texture2D" uid="uid://cf0ac0ij2c6w8" path="res://Art/BG/center_1.png" id="8_utpni"]
+[ext_resource type="Texture2D" uid="uid://do5fq2j3lpkcu" path="res://Art/BG/center_2.png" id="9_i0hxi"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2rhm"]
 animations = [{
@@ -28,20 +30,14 @@ animations = [{
 "speed": 2.0
 }]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_d56pl"]
-load_path = "res://.godot/imported/center_1.png-fc6a5a1b83fd6108ef4045adde67bc52.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qk7nv"]
-load_path = "res://.godot/imported/center_2.png-321cd9ecc1c36930c9bc9d50d01bb47d.ctex"
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_kbru4"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_d56pl")
+"texture": ExtResource("8_utpni")
 }, {
 "duration": 1.0,
-"texture": SubResource("CompressedTexture2D_qk7nv")
+"texture": ExtResource("9_i0hxi")
 }],
 "loop": true,
 "name": &"centerpoint",
