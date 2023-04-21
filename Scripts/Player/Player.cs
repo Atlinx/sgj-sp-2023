@@ -243,6 +243,11 @@ namespace Game
             this.whisk = whisk;
         }
 
+        public Whisk GetWhisk()
+        {
+            return this.whisk;
+        }
+
         public void RemoveWhisk()
         {
             this.whisk = null;

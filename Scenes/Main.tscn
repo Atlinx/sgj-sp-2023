@@ -41,6 +41,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_3i7d5")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Control"]
 layout_mode = 0
@@ -107,11 +108,24 @@ size_flags_vertical = 0
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager")]
+[node name="ScoreLabel" type="Label" parent="UI/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_bottom = 26.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager", "bowl", "scoreLabel")]
 script = ExtResource("2_ibw5h")
 GameDuration = 100.0
 playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
+bowl = NodePath("../Bowl")
+scoreLabel = NodePath("../UI/Control/ScoreLabel")
 
 [node name="Background" parent="GameManager" instance=ExtResource("3_ephuc")]
 
