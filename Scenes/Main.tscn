@@ -92,3 +92,4 @@ zoom = Vector2(0.5, 0.5)
 [node name="Bowl" parent="." instance=ExtResource("15_njrld")]
 position = Vector2(1, -4)
 scale = Vector2(10, 10)
+angularVelocitySamples = 60

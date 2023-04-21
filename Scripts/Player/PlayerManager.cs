@@ -84,17 +84,5 @@ namespace Game
             whisk.Construct(bowl);
             AddChild(whisk);
         }
-
-        public override void _Process(double delta)
-        {
-            float grandAvg = 0;
-            foreach (Player player in Players)
-            {
-                grandAvg += player.AverageAngularVelocity;
-            }
-            grandAvg /= Players.Count;
-
-            bowl.ChangeSpeed(grandAvg);
-        }
     }
 }

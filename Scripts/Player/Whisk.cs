@@ -29,6 +29,7 @@ namespace Game
         public void Construct(Bowl bowl)
         {
             this.bowl = bowl;
+            bowl.RegisterWhisk(this);
             angularVelocityDeltaBuffer = new float[angularVelocitySamples];
         }
 
