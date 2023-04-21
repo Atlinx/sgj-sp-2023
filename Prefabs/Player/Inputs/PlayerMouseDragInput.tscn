@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://gmx8hc6ba3bn"]
+
+[ext_resource type="Script" path="res://Scripts/Player/Input/PlayerMouseDragInput.cs" id="1_nsdnv"]
+
+[node name="PlayerMouseDragInput" type="Node2D"]
+script = ExtResource("1_nsdnv")

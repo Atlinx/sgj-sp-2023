@@ -25,6 +25,16 @@ namespace Game
         [Export]
         private Node2D playersContainer;
 
+        public void StartGame(PlayerData[] players)
+        {
+            foreach (var child in playerUIContainer.GetChildren())
+                child.QueueFree();
+            foreach (var child in playersContainer.GetChildren())
+                child.QueueFree();
+            foreach (var player in players)
+                AddPlayer(player);
+        }
+
         public void AddPlayer(PlayerData playerData)
         {
             Node inputNode = null;
