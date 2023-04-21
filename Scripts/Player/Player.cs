@@ -93,6 +93,7 @@ namespace Game
 
         public PlayerData PlayerData { get; set; }
         public float AverageAngularVelocity { get; private set; }
+        public float AverageLinearVelocity { get; private set; }
         public Vector2 GrabOffset { get; set; }
         public bool CanMove { get; set; } = true;
 
@@ -229,10 +230,12 @@ namespace Game
             if (whisk != null)
             {
                 AverageAngularVelocity = whisk.AverageAngularVelocity;
+                AverageLinearVelocity = whisk.AverageLinearVelocity;
             }
             else
             {
                 AverageAngularVelocity = 0;
+                AverageLinearVelocity = 0;
             }
             if (CanMove)
                 Position = input.PlayerPosition;

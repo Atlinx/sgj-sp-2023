@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 namespace Game
@@ -17,14 +18,17 @@ namespace Game
         [ExportCategory("Settings")]
         [Export]
         public float AverageAngularVelocity { get; private set; }
+        [Export] 
+        public float AverageLinearVelocity { get; private set; }
         [Export]
-        private int angularVelocitySamples = 30;
+        private int velocitySamples = 30;
         [Export]
-        private float angularVelocitySampleInterval = 0.1f;
+        private float velocitySampleInterval = 0.1f;
 
+        private float[] linearVelocityDeltaBuffer;
         private float[] angularVelocityDeltaBuffer;
-        private int angularVelocityCurrIndex = 0;
-        private float angularVelocitySampleTime = 0;
+        private int velocityCurrIndex = 0;
+        private float velocitySampleTime = 0;
         private float prevAngle;
         private Bowl bowl;
 
@@ -35,7 +39,8 @@ namespace Game
         {
             this.bowl = bowl;
             bowl.RegisterWhisk(this);
-            angularVelocityDeltaBuffer = new float[angularVelocitySamples];
+            angularVelocityDeltaBuffer = new float[velocitySamples];
+            linearVelocityDeltaBuffer = new float[velocitySamples];
         }
 
         public override void _Ready()
@@ -62,12 +67,13 @@ namespace Game
 
         private void UpdateAverageAngularVelocity(double delta)
         {
-            angularVelocitySampleTime += (float)delta;
-            while (angularVelocitySampleTime > angularVelocitySampleInterval)
+            velocitySampleTime += (float)delta;
+            while (velocitySampleTime > velocitySampleInterval)
             {
-                angularVelocitySampleTime -= angularVelocitySampleInterval;
+                velocitySampleTime -= velocitySampleInterval;
 
                 Vector2 direction = Position - bowl.CenterPoint.Position;
+                float radius = direction.Length();
                 float newAngle = Mathf.Atan2(direction.Y, direction.X);
 
 
@@ -93,15 +99,19 @@ namespace Game
                     angleVelocity = angleDelta / (float)delta;
                 }
 
-                angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = angleVelocity;
-                if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)
-                    angularVelocityCurrIndex = 0;
+                angularVelocityDeltaBuffer[velocityCurrIndex] = angleVelocity;
+                linearVelocityDeltaBuffer[velocityCurrIndex] = (angleVelocity * radius);
+                velocityCurrIndex++;
+                
+                if (velocityCurrIndex >= angularVelocityDeltaBuffer.Length)
+                    velocityCurrIndex = 0;
 
-                float sum = 0;
+                float angularSum = 0;
                 foreach (float i in angularVelocityDeltaBuffer)
-                    sum += i;
+                    angularSum += i;
 
-                AverageAngularVelocity = sum / angularVelocityDeltaBuffer.Length;
+                AverageAngularVelocity = angularSum / angularVelocityDeltaBuffer.Length;
+                AverageLinearVelocity = linearVelocityDeltaBuffer.Sum() / linearVelocityDeltaBuffer.Length;
             }
         }
     }

@@ -14,9 +14,7 @@ namespace Game
         [Export]
         public ulong Seed { get; set; }
 
-        [Export] public int WhiskTickScore { get; set; } = 100;
-        
-        [Export] public float PlayerMaxAngularVelocity { get; set; } = 30;
+        [Export] public int WhiskTickScore { get; set; } = 10;
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -27,6 +25,9 @@ namespace Game
         public Bowl bowl;
         [Export] 
         public Label scoreLabel;
+
+        private int lastTick = 0;
+        private int scoreMultiplier = 0;
 
         public void StartGame(PlayerData[] players)
         {
@@ -39,7 +40,33 @@ namespace Game
         public override void _Process(double delta)
         {
             Time += delta;
-            var scoreMultiplier = (int)bowl.TotalAverageAngularVelocity;
+            
+            // if game started
+            scoreMultiplier = Mathf.Clamp((int)bowl.TotalAverageLinearVelocity / 540, 1, 10);
+            if ((int)Time > lastTick)
+            {
+                ScoreTick();
+                lastTick = (int)Time;
+            }
+           
+            if (Time > GameDuration)
+            {
+                EndGame();
+            }
+        }
+
+        public void AddPointsWithMultiplier(int points)
+        {
+            Score += points * scoreMultiplier;
+        }
+        
+        public void RemovePointsNoMultiplier(int points)
+        {
+            Score -= points;
+        }
+
+        private void ScoreTick()
+        {
             foreach(var player in playerManager.Players)
             {
                 if (player.GetWhisk() is not null)
@@ -49,10 +76,6 @@ namespace Game
             }
 
             scoreLabel.Text = "Score: " + Score;
-            if (Time > GameDuration)
-            {
-                EndGame();
-            }
         }
 
         public void EndGame()

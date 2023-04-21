@@ -1,73 +1,81 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game
 {
-    public partial class Bowl : Node2D
-    {
-        public const float MaxBowlVelocity = 30f;
+	public partial class Bowl : Node2D
+	{
+		public const float MaxBowlVelocity = 5400f;
 
-        [ExportCategory("Settings")]
-        [Export]
-        private float resistance;
-        [Export]
-        private int angularVelocitySamples = 30;
+		[ExportCategory("Settings")]
+		[Export]
+		private float resistance;
+		[Export]
+		private int velocitySamples = 30;
 
-        [ExportCategory("Dependencies")]
-        [Export]
-        public Node2D CenterPoint { get; private set; }
+		[ExportCategory("Dependencies")]
+		[Export]
+		public Node2D CenterPoint { get; private set; }
 
         [Export]
         public Area2D Area { get; private set; }
         [Export]
         private CollisionShape2D Collider;
 
-        [Export]
-        private AnimatedSprite2D fillSprite;
-        [Export]
-        private AnimatedSprite2D centerPointSprite;
+		[Export]
+		private AnimatedSprite2D fillSprite;
+		[Export]
+		private AnimatedSprite2D centerPointSprite;
 
-        private float[] angularVelocityDeltaBuffer;
-        private int angularVelocityCurrIndex = 0;
-        private List<Whisk> whisks = new List<Whisk>();
+		private float[] linearVelocityDeltaBuffer;
+		private float[] angularVelocityDeltaBuffer;
+		private int velocityCurrIndex = 0;
+		private List<Whisk> whisks = new List<Whisk>();
 
-        public float TotalAverageAngularVelocity { get; private set; }
+		public float TotalAverageAngularVelocity { get; private set; }
+		public float TotalAverageLinearVelocity { get; private set; }
 
         public float Radius { get { if (Collider.Shape is CircleShape2D circle) return circle.Radius; else return 0f; } }
+		public override void _Ready()
+		{
+			fillSprite.Play();
+			centerPointSprite.Play();
+			angularVelocityDeltaBuffer = new float[velocitySamples];
+			linearVelocityDeltaBuffer = new float[velocitySamples];
+		}
 
-        public override void _Ready()
-        {
-            fillSprite.Play();
-            centerPointSprite.Play();
-            angularVelocityDeltaBuffer = new float[angularVelocitySamples];
-        }
+		public void RegisterWhisk(Whisk whisk)
+		{
+			whisks.Add(whisk);
+		}
 
-        public void RegisterWhisk(Whisk whisk)
-        {
-            whisks.Add(whisk);
-        }
+		private void UpdateAverageVelocity()
+		{
+			float angularSum = 0;
+			foreach (Whisk whisk in whisks)
+				angularSum += whisk.AverageAngularVelocity;
 
-        public void UpdateAverageAngularVelocity()
-        {
-            float sum = 0;
-            foreach (Whisk whisk in whisks)
-                sum += whisk.AverageAngularVelocity;
+			linearVelocityDeltaBuffer[velocityCurrIndex] = whisks
+				.Select(x => x.AverageLinearVelocity)
+				.Average();
+			angularVelocityDeltaBuffer[velocityCurrIndex++] = angularSum /= whisks.Count;
+			if (velocityCurrIndex >= angularVelocityDeltaBuffer.Length)
+				velocityCurrIndex = 0;
 
-            angularVelocityDeltaBuffer[angularVelocityCurrIndex++] = sum /= whisks.Count;
-            if (angularVelocityCurrIndex >= angularVelocityDeltaBuffer.Length)
-                angularVelocityCurrIndex = 0;
+			float grandSum = 0;
+			foreach (float i in angularVelocityDeltaBuffer)
+				grandSum += i;
 
-            float grandSum = 0;
-            foreach (float i in angularVelocityDeltaBuffer)
-                grandSum += i;
+			TotalAverageAngularVelocity = grandSum / angularVelocityDeltaBuffer.Length;
+			TotalAverageLinearVelocity = linearVelocityDeltaBuffer.Average();
+		}
 
-            TotalAverageAngularVelocity = grandSum / angularVelocityDeltaBuffer.Length;
-        }
-
-        public override void _Process(double delta)
-        {
-            UpdateAverageAngularVelocity();
-            fillSprite.SpeedScale = TotalAverageAngularVelocity / resistance;
-        }
-    }
+		public override void _Process(double delta)
+		{
+			UpdateAverageVelocity();
+			//fillSprite.SpeedScale = TotalAverageAngularVelocity / resistance;
+			fillSprite.SpeedScale = TotalAverageLinearVelocity / resistance;
+		}
+	}
 }
