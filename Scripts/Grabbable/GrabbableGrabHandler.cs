@@ -75,11 +75,13 @@ namespace Game
         {
             hand.SpriteState = Hand.SpriteStateEnum.Point;
             Grabbed?.OnGrabEnd();
+            Grabbed = null;
         }
 
         public void OnIdled(double delta)
         {
-            hand.SpriteState = Hand.SpriteStateEnum.Open;
+            if (!IsGrabbing)
+                hand.SpriteState = Hand.SpriteStateEnum.Open;
         }
     }
 }

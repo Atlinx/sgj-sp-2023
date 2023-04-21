@@ -27,7 +27,7 @@ namespace Game
 
         public void OnGrabStart(Node2D grabber)
         {
-            EmitSignal(nameof(GrabStarted), grabber);
+            EmitSignal(nameof(GrabStarted));
             Grabber = grabber;
         }
     }

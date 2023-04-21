@@ -182,6 +182,17 @@ namespace Game
                             break;
                         }
                 }
+
+                if (heldTime >= minHeldTime && grabStarted)
+                {
+                    EmitSignal(nameof(Grabbing), delta);
+                    foreach (var handler in GrabbingHandlers)
+                        if (handler.CanHandle())
+                        {
+                            handler.OnGrabbing(delta);
+                            break;
+                        }
+                }
             }
 
             if (input.Held != prevHeld)
@@ -210,6 +221,7 @@ namespace Game
                     else
                     {
                         // We held for more than the min held time so this was the end of a grab.
+                        grabStarted = false;
                         EmitSignal(nameof(GrabEnded));
                         foreach (var handler in GrabEndHandlers)
                             if (handler.CanHandle())
@@ -219,17 +231,6 @@ namespace Game
                             }
                     }
                 }
-            }
-
-            if (heldTime >= minHeldTime)
-            {
-                EmitSignal(nameof(Grabbing), delta);
-                foreach (var handler in GrabbingHandlers)
-                    if (handler.CanHandle())
-                    {
-                        handler.OnGrabbing(delta);
-                        break;
-                    }
             }
 
             foreach (var handler in IdleHandlers)

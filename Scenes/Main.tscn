@@ -15,7 +15,9 @@
 
 [node name="Node" type="Node"]
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,12 +26,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerUIContainer" type="VBoxContainer" parent="UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="PlayerUIContainer" type="VBoxContainer" parent="UI/Control"]
+offset_right = 500.0
+offset_bottom = 91.0
 
-[node name="PlayerUI" parent="UI/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="PlayerUI" parent="UI/Control/PlayerUIContainer" instance=ExtResource("1_fi7af")]
 layout_mode = 2
 
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager")]
@@ -39,7 +40,6 @@ playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
 
 [node name="CenterPoint" type="Sprite2D" parent="GameManager"]
-position = Vector2(960, 540)
 texture = ExtResource("3_7bi4x")
 
 [node name="ManualGameStart" type="Node" parent="GameManager" node_paths=PackedStringArray("gameManager")]
@@ -56,7 +56,7 @@ mouseInputPrefab = ExtResource("6_p10wq")
 mouseDragInputPrefab = ExtResource("10_1e1ef")
 actionInputPrefab = ExtResource("11_nw1mm")
 centerPoint = NodePath("../CenterPoint")
-playerUIContainer = NodePath("../../UI/PlayerUIContainer")
+playerUIContainer = NodePath("../../UI/Control/PlayerUIContainer")
 playerUIPrefab = ExtResource("1_fi7af")
 playersContainer = NodePath("PlayerContainer")
 
@@ -76,3 +76,6 @@ obstacleContainer = NodePath("ObstacleContainer")
 obstacleSpawners = Array[PackedScene]([])
 
 [node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]
+
+[node name="Camera2D" type="Camera2D" parent="GameManager"]
+zoom = Vector2(0.5, 0.5)
