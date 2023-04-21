@@ -47,12 +47,13 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rrjra"]
 radius = 478.707
 
-[node name="Bowl" type="Node2D" node_paths=PackedStringArray("CenterPoint", "Area", "fillSprite", "centerPointSprite")]
+[node name="Bowl" type="Node2D" node_paths=PackedStringArray("CenterPoint", "Area", "Collider", "fillSprite", "centerPointSprite")]
 texture_filter = 1
 script = ExtResource("1_stter")
 resistance = 20.0
 CenterPoint = NodePath("CenterPoint")
 Area = NodePath("Area2D")
+Collider = NodePath("Area2D/CollisionShape2D")
 fillSprite = NodePath("FillSprite")
 centerPointSprite = NodePath("CenterPoint/CenterPointSprite")
 

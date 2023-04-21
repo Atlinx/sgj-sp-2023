@@ -1,16 +1,18 @@
 ﻿using Godot;
+using System.Linq;
 using GDC = Godot.Collections;
 
 namespace Game
 {
     public partial class ObstacleManager : Node
     {
-        [Export]
-        public PackedScene[] obstaclePrefabs;
+        [ExportCategory("Debug")]
         [Export]
         public GDC.Array<Node2D> Obstacles { get; private set; } = new GDC.Array<Node2D>();
 
         [ExportCategory("Settings")]
+        [Export]
+        public PackedScene[] obstaclePrefabs;
         [Export]
         public float DifficultyRampInterval { get; set; }
         [Export]
@@ -30,7 +32,9 @@ namespace Game
         [Export]
         private Node2D obstacleContainer;
         [Export]
-        private ObstacleSpawner[] obstacleSpawners;
+        private NodePath[] obstacleSpawners = new NodePath[0];
+
+        public ObstacleSpawner[] ObstacleSpawners { get; private set; }
 
         private double spawnTime = 0;
         private double difficultyRampTime = 0;
@@ -40,6 +44,8 @@ namespace Game
         // TODO: Add specific location obstacle spawning
         public void StartGame()
         {
+            ObstacleSpawners = obstacleSpawners.Select(x => GetNode<ObstacleSpawner>(x)).ToArray();
+
             if (obstaclePrefabs.Length == 0)
             {
                 SetProcess(false);
@@ -83,7 +89,7 @@ namespace Game
                 obstacleContainer.AddChild(obstacle);
 
                 bool foundSpawner = false;
-                foreach (var spawner in obstacleSpawners)
+                foreach (var spawner in ObstacleSpawners)
                     if (spawner.CanHandle(obstacle))
                     {
                         spawner.Spawn(obstacle);

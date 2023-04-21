@@ -19,6 +19,8 @@ namespace Game
 
         [Export]
         public Area2D Area { get; private set; }
+        [Export]
+        private CollisionShape2D Collider;
 
         [Export]
         private AnimatedSprite2D fillSprite;
@@ -30,6 +32,8 @@ namespace Game
         private List<Whisk> whisks = new List<Whisk>();
 
         public float TotalAverageAngularVelocity { get; private set; }
+
+        public float Radius { get { if (Collider.Shape is CircleShape2D circle) return circle.Radius; else return 0f; } }
 
         public override void _Ready()
         {
