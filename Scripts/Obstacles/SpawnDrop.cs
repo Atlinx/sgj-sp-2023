@@ -1,40 +1,51 @@
 using Godot;
-using System;
 
-public partial class SpawnDrop : Node
+namespace Game
 {
-	[Signal]
-	public delegate void SpawnDropLandingEventHandler();
-
-	[Export]
-	private float dropSpeed;
-	[Export]
-	private PathFollow2D dropFollow;
-
-	private bool falling;
-
-	public void BeginDrop()
+    public partial class SpawnDrop : Node
     {
-		falling = true;
-		dropFollow.Loop = false;
-		dropFollow.ProgressRatio = 0;
-    }
+        [Signal]
+        public delegate void SpawnDropLandingEventHandler();
 
-    public override void _Process(double delta)
-    {
-		if (!falling) return;
+        [ExportCategory("Settings")]
+        [Export]
+        private float dropSpeed;
 
-		dropFollow.ProgressRatio += (float)delta * dropSpeed;
-		if (dropFollow.ProgressRatio >= 1)
+        [ExportCategory("Dependencies")]
+        [Export]
+        private PathFollow2D dropFollow;
+        [Export]
+        private NodePath opt_enabler;
+        public IEnable Enabler => GetNode<IEnable>(opt_enabler);
+
+        private bool falling;
+
+        public void BeginDrop()
         {
-			Land();
+            falling = true;
+            dropFollow.Loop = false;
+            dropFollow.ProgressRatio = 0;
         }
-    }
 
-	public void Land()
-    {
-		falling = false;
-		GD.Print("Called land");
-		EmitSignal(SignalName.SpawnDropLanding);
+        public override void _Process(double delta)
+        {
+            if (!falling) return;
+
+            dropFollow.ProgressRatio += (float)delta * dropSpeed;
+            if (dropFollow.ProgressRatio >= 1)
+            {
+                if (Enabler != null)
+                    Enabler.Enabled = true;
+                Land();
+            }
+        }
+
+        public void Land()
+        {
+            if (Enabler != null)
+                Enabler.Enabled = true;
+            falling = false;
+            EmitSignal(SignalName.SpawnDropLanding);
+        }
     }
 }

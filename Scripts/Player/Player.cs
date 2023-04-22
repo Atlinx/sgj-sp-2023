@@ -6,8 +6,8 @@ namespace Game
 {
     public enum PlayerInputType
     {
-        Gamepad,
         Mouse,
+        Gamepad,
         Action
     }
 
