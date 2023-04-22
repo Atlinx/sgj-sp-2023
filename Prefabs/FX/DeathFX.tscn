@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://coelro0jvt8bq"]
+
+[ext_resource type="Script" path="res://Scripts/FX/DeathFX.cs" id="1_wexqn"]
+[ext_resource type="Texture2D" uid="uid://hd3ndp4jya28" path="res://Art/UI/poof_small_anim.png" id="2_0lw85"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vl76j"]
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id="Gradient_p1xr8"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.559809, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x1pmx"]
+gradient = SubResource("Gradient_p1xr8")
+
+[sub_resource type="Curve" id="Curve_0ft2d"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 22.45, 0, 0, Vector2(0.109131, 1.83636), 0.0, 0.0, 0, 0, Vector2(1, 1), -0.938818, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_iagap"]
+curve = SubResource("Curve_0ft2d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_26epr"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_iagap")
+color_ramp = SubResource("GradientTexture1D_x1pmx")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="DeathFX" type="Node2D"]
+z_index = 5
+script = ExtResource("1_wexqn")
+Lifetime = 5.0
+fxNodes = [NodePath("GPUParticles2D2")]
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_vl76j")
+emitting = false
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_26epr")
+texture = ExtResource("2_0lw85")
+one_shot = true
+explosiveness = 1.0

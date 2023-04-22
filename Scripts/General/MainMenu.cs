@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Game
 {
-    public partial class MainMenu : Node
+    public partial class MainMenu : Node, IService
     {
         [ExportCategory("Dependencies")]
         [Export]
@@ -20,6 +20,7 @@ namespace Game
         private PackedScene playerMainMenuUIPrefab;
 
         private int playerCount = 0;
+        private PlayerDataManager playerDataManager;
 
         public override void _Ready()
         {
@@ -30,11 +31,19 @@ namespace Game
 
             foreach (Node child in playerMainMenuUIContainer.GetChildren())
                 child.QueueFree();
+
+            playerDataManager = ServiceLocator.Global.GetService<PlayerDataManager>();
+            ServiceLocator.Global.AddService(this);
+        }
+
+        public override void _Notification(int what)
+        {
+            if (what == NotificationPredelete)
+                ServiceLocator.Global?.RemoveService<MainMenu>();
         }
 
         private void OnPlayButtonPressed()
         {
-            var playerDataManager = this.GetAutoload<PlayerDataManager>();
             playerDataManager.StartGame(GetPlayerDataArray());
         }
 

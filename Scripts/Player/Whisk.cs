@@ -1,9 +1,9 @@
-using System.Linq;
 using Godot;
+using System.Linq;
 
 namespace Game
 {
-    public partial class Whisk : Area2D
+    public partial class Whisk : Node2D
     {
         [ExportCategory("Dependencies")]
         [Export]
@@ -20,7 +20,7 @@ namespace Game
         [ExportCategory("Settings")]
         [Export]
         public float AverageAngularVelocity { get; private set; }
-        [Export] 
+        [Export]
         public float AverageLinearVelocity { get; private set; }
         [Export]
         private int velocitySamples = 30;
@@ -41,8 +41,10 @@ namespace Game
         private Bowl bowl;
         private GameManager manager;
 
-        private const string SUBMERGED = "whisk_sub";
-        private const string DEFAULT = "whisk";
+        private const string SubmergedAnimStr = "whisk_sub";
+        private const string DefaultAnimStr = "whisk";
+
+        private StunnedStatus stunnedStatus;
 
         public void Construct(GameManager manager, Bowl bowl)
         {
@@ -56,20 +58,21 @@ namespace Game
         public override void _Ready()
         {
             baseSprite.Play();
-            hittable.Hit += ReduceScore;
+            hittable.Hit += OnHit;
+            stunnedStatus = new StunnedStatus(stunTime);
         }
 
         public override void _Process(double delta)
         {
             if (tip.OverlapsArea(bowl.Area))
             {
-                baseSprite.Animation = SUBMERGED;
+                baseSprite.Animation = SubmergedAnimStr;
                 whiskShadow.Visible = false;
                 tipShadow.Visible = true;
             }
             else
             {
-                baseSprite.Animation = DEFAULT;
+                baseSprite.Animation = DefaultAnimStr;
                 whiskShadow.Visible = true;
                 tipShadow.Visible = false;
             }
@@ -113,7 +116,7 @@ namespace Game
                 angularVelocityDeltaBuffer[velocityCurrIndex] = angleVelocity;
                 linearVelocityDeltaBuffer[velocityCurrIndex] = (angleVelocity * radius);
                 velocityCurrIndex++;
-                
+
                 if (velocityCurrIndex >= angularVelocityDeltaBuffer.Length)
                     velocityCurrIndex = 0;
 
@@ -126,11 +129,11 @@ namespace Game
             }
         }
 
-        private void ReduceScore()
+        private void OnHit()
         {
             if (currentPlayer != null)
             {
-                currentPlayer.StatusHolder.AddStatus(new StunnedStatus() { Duration = stunTime }); ;
+                currentPlayer.StatusHolder.AddStatus(stunnedStatus);
                 manager.Score -= crashPenalty;
             }
         }

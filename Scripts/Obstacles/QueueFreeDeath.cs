@@ -6,9 +6,9 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        public Health health;
+        private Health health;
         [Export]
-        public DeathFX opt_deathFX;
+        private Node target;
 
         public override void _Ready()
         {
@@ -17,8 +17,7 @@ namespace Game
 
         public void OnDeath()
         {
-            opt_deathFX?.Play();
-            QueueFree();
+            target.QueueFree();
         }
     }
 }

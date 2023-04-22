@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3153p0ecdfgt"]
+
+[ext_resource type="Script" path="res://Scripts/General/ServiceLocator.cs" id="1_d3h3a"]
+[ext_resource type="Script" path="res://Scripts/General/SceneManager.cs" id="2_svcxb"]
+[ext_resource type="PackedScene" uid="uid://cu5umgeeid8c2" path="res://Scenes/MainMenu.tscn" id="3_7j3nr"]
+[ext_resource type="PackedScene" uid="uid://c1s64ehd3c7n6" path="res://Scenes/Gameplay.tscn" id="4_jep8a"]
+[ext_resource type="Script" path="res://Scripts/General/PlayerDataManager.cs" id="5_7obs1"]
+[ext_resource type="Texture2D" uid="uid://wiyg1b5284iy" path="res://Art/BG/egg_machine.png" id="6_44lfx"]
+
+[node name="Init" type="Node"]
+
+[node name="ServiceLocator" type="Node" parent="."]
+script = ExtResource("1_d3h3a")
+IsGlobal = true
+
+[node name="SceneManager" type="CanvasLayer" parent="ServiceLocator" node_paths=PackedStringArray("fadeRect")]
+layer = 10
+script = ExtResource("2_svcxb")
+scenes = Array[PackedScene]([ExtResource("3_7j3nr"), ExtResource("4_jep8a")])
+titleDuration = 2.0
+fadeRect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="ServiceLocator/SceneManager"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="PlayerDataManager" type="Node" parent="ServiceLocator" node_paths=PackedStringArray("sceneManager")]
+script = ExtResource("5_7obs1")
+sceneManager = NodePath("../SceneManager")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.141176, 0.141176, 0.141176, 1)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_44lfx")
+stretch_mode = 5

@@ -107,15 +107,15 @@ idleHandlerNodes = [NodePath("ClickableClickHandler"), NodePath("GrabbableGrabHa
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")
-collider = NodePath("Area2D")
+collider = NodePath("Hitbox")
 handOpenAnimation = "open"
 handGrabAnimation = "grab"
 handPointerAnimation = "pointer"
 StatusHolder = NodePath("StatusHolder")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_ikcq1")
 
 [node name="Sprites" type="Node2D" parent="."]
@@ -133,7 +133,7 @@ animation = &"open"
 
 [node name="Hitter" type="Node" parent="." node_paths=PackedStringArray("collider")]
 script = ExtResource("6_ur5c1")
-collider = NodePath("../Area2D")
+collider = NodePath("../Hitbox")
 
 [node name="GrabbableGrabHandler" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("4_dkout")

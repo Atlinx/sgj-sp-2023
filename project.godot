@@ -17,8 +17,10 @@ ResourceScriptDirectories=["res://"]
 [application]
 
 config/name="SGJSP2023"
-run/main_scene="res://Scenes/Menu.tscn"
+run/main_scene="res://Scenes/Init.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
+boot_splash/bg_color=Color(0.141176, 0.141176, 0.141176, 1)
+boot_splash/image="res://Art/BG/egg_machine.png"
 
 [display]
 

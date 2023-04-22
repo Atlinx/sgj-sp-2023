@@ -25,6 +25,9 @@ namespace Game
             falling = true;
             dropFollow.Loop = false;
             dropFollow.ProgressRatio = 0;
+
+            if (Enabler != null)
+                Enabler.Enabled = false;
         }
 
         public override void _Process(double delta)

@@ -11,7 +11,7 @@ namespace Game
     {
         [ExportCategory("Dependencies")]
         [Export]
-        private NodePath[] fxNodes;
+        private NodePath[] fxNodes = new NodePath[0];
 
         public virtual void Play()
         {

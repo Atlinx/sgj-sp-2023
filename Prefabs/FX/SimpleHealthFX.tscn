@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://5s1xwctvmkay"]
+
+[ext_resource type="Script" path="res://Scripts/Obstacles/HealthFX.cs" id="1_8qe0d"]
+[ext_resource type="PackedScene" uid="uid://coelro0jvt8bq" path="res://Prefabs/FX/DeathFX.tscn" id="2_2w22k"]
+[ext_resource type="PackedScene" uid="uid://dywlvgmfouolq" path="res://Prefabs/FX/DamagedFX.tscn" id="3_pg2sb"]
+
+[node name="HealthFX" type="Node2D" node_paths=PackedStringArray("opt_damagedFx", "opt_deathFx")]
+script = ExtResource("1_8qe0d")
+opt_damagedFx = NodePath("DamagedFX")
+opt_deathFx = NodePath("DeathFX")
+
+[node name="DeathFX" parent="." instance=ExtResource("2_2w22k")]
+
+[node name="DamagedFX" parent="." instance=ExtResource("3_pg2sb")]

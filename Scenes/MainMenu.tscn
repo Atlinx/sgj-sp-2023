@@ -1,30 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://dpjf84whe66ch"]
+[gd_scene load_steps=9 format=3 uid="uid://cu5umgeeid8c2"]
 
-[ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_7jbas"]
-[ext_resource type="Script" path="res://Scripts/General/PlayerDataManager.cs" id="1_g3402"]
-[ext_resource type="Script" path="res://Scripts/General/MainMenu.cs" id="1_sg50n"]
-[ext_resource type="PackedScene" uid="uid://b7hxqdsve38vj" path="res://Scenes/Main.tscn" id="2_k5dg5"]
-[ext_resource type="PackedScene" uid="uid://btbx76suksaft" path="res://Prefabs/PlayerMainMenuUI.tscn" id="2_ogtkp"]
-[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P2.tres" id="5_kokkc"]
-[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P3.tres" id="6_r4msp"]
-[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="7_ou4i3"]
-[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P4.tres" id="7_sxjm6"]
-[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P1.tres" id="9_fconp"]
+[ext_resource type="Script" path="res://Scripts/General/MainMenu.cs" id="3_x6cp0"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P1.tres" id="4_0o8y1"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P2.tres" id="5_aiots"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P3.tres" id="6_yv63g"]
+[ext_resource type="Resource" path="res://Prefabs/Player/StaticPlayerData/P4.tres" id="7_ytgyr"]
+[ext_resource type="PackedScene" uid="uid://btbx76suksaft" path="res://Prefabs/PlayerMainMenuUI.tscn" id="8_1yyx5"]
+[ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="9_6aol4"]
+[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="10_5mgqo"]
 
 [node name="Menu" type="Node"]
 
-[node name="PlayerDataManager" type="Node" parent="."]
-script = ExtResource("1_g3402")
-gameplayScene = ExtResource("2_k5dg5")
-
 [node name="MainMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("playerMainMenuUIContainer", "playButton", "quitButton", "addPlayerButton")]
-script = ExtResource("1_sg50n")
-playerStaticDatas = Array[Resource]([ExtResource("9_fconp"), ExtResource("5_kokkc"), ExtResource("6_r4msp"), ExtResource("7_sxjm6")])
+script = ExtResource("3_x6cp0")
+playerStaticDatas = Array[Resource]([ExtResource("4_0o8y1"), ExtResource("5_aiots"), ExtResource("6_yv63g"), ExtResource("7_ytgyr")])
 playerMainMenuUIContainer = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/PlayerMainMenuUIContainer")
 playButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Play")
 quitButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/Quit")
 addPlayerButton = NodePath("MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/AddPlayer/AddButton")
-playerMainMenuUIPrefab = ExtResource("2_ogtkp")
+playerMainMenuUIPrefab = ExtResource("8_1yyx5")
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenu"]
 anchors_preset = 15
@@ -32,7 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_7jbas")
+theme = ExtResource("9_6aol4")
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
@@ -46,8 +40,10 @@ theme_override_constants/separation = 32
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 32
 theme_override_font_sizes/font_size = 64
 text = "Whisk of Egg"
 
@@ -64,12 +60,15 @@ text = "PLAYERS"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
 layout_mode = 2
+collapsed = true
+dragger_visibility = 2
 
 [node name="PlayerMainMenuUIContainer" type="HBoxContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="PlayerMainMenuUI" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/PlayerMainMenuUIContainer" instance=ExtResource("2_ogtkp")]
+[node name="PlayerMainMenuUI" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer/PlayerMainMenuUIContainer" instance=ExtResource("8_1yyx5")]
+visible = false
 layout_mode = 2
 
 [node name="AddPlayer" type="MarginContainer" parent="MainMenu/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/HSplitContainer"]
@@ -105,6 +104,6 @@ Luke - Scripting
 
 [node name="Node2D" type="Node2D" parent="."]
 
-[node name="Background" parent="Node2D" instance=ExtResource("7_ou4i3")]
+[node name="Background" parent="Node2D" instance=ExtResource("10_5mgqo")]
 
 [node name="Camera2D" type="Camera2D" parent="Node2D"]

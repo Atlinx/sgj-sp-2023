@@ -16,6 +16,7 @@ namespace Game
         private NodePath[] visibilityEnablers = new NodePath[0];
 
         private bool enabled;
+        [Export]
         public bool Enabled
         {
             get => enabled;

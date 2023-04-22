@@ -32,13 +32,13 @@ namespace Game
                     return;
                 }
                 Global = this;
-                Reparent(GetTree().Root);
+                CallDeferred("reparent", GetTree().Root);
             }
 
             foreach (Node child in GetChildren())
             {
                 if (child is IService service)
-                    AddService(service);
+                    AddService(child.GetType(), service);
             }
         }
 
@@ -87,6 +87,17 @@ namespace Game
         }
 
         /// <summary>
+        /// Adds a service. This is the manual version, so you should prefer to use the generic version over this.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="service"></param>
+        public void AddService(Type type, object service)
+        {
+            if (service is IService serviceInterface)
+                services[type] = serviceInterface;
+        }
+
+        /// <summary>
         /// Adds a service. If a service was already registered to this type, the old service is replaced by the new service.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -95,7 +106,6 @@ namespace Game
         {
             services[typeof(T)] = service;
         }
-
 
         /// <summary>
         /// Returns a service if it exists in the service locator.

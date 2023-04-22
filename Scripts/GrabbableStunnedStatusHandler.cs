@@ -6,6 +6,11 @@ namespace Game
     public class StunnedStatus : IStatus
     {
         public float Duration { get; set; }
+
+        public StunnedStatus(float duration)
+        {
+            Duration = duration;
+        }
     }
 
     public partial class GrabbableStunnedStatusHandler : HashSetStatusHandler, IStatusHandler

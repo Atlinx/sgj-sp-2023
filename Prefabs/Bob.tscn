@@ -1,6 +1,5 @@
-[gd_scene load_steps=15 format=3 uid="uid://dci26krurj6iv"]
+[gd_scene load_steps=17 format=3 uid="uid://dci26krurj6iv"]
 
-[ext_resource type="Script" path="res://Scripts/Obstacles/Bob.cs" id="1_2ayfa"]
 [ext_resource type="Texture2D" uid="uid://bod0bi4jkpxiu" path="res://Art/Entities/bob_1.png" id="2_1q6wg"]
 [ext_resource type="Texture2D" uid="uid://cb3yacampibs3" path="res://Art/Entities/bob_2.png" id="3_qw675"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="3_ris6g"]
@@ -11,6 +10,9 @@
 [ext_resource type="Script" path="res://Scripts/Clickable.cs" id="8_056ox"]
 [ext_resource type="Script" path="res://Scripts/General/Health.cs" id="10_emnqa"]
 [ext_resource type="Script" path="res://Scripts/General/GeneralEnabler.cs" id="10_feq07"]
+[ext_resource type="PackedScene" uid="uid://5s1xwctvmkay" path="res://Prefabs/FX/SimpleHealthFX.tscn" id="12_8dvas"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/QueueFreeDeath.cs" id="12_eera1"]
+[ext_resource type="Script" path="res://Scripts/General/ClickDamage.cs" id="16_rcee8"]
 
 [sub_resource type="Curve2D" id="Curve2D_aguop"]
 _data = {
@@ -44,23 +46,15 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cjwty"]
-size = Vector2(60, 39)
+size = Vector2(59, 44)
 
-[node name="Bob" type="Node2D" node_paths=PackedStringArray("spawnDrop", "baseSprite", "fallingShadow", "clickable", "collider")]
+[node name="Bob" type="Node2D"]
 z_index = 3
-script = ExtResource("1_2ayfa")
-spawnDrop = NodePath("SpawnDrop")
-baseSprite = NodePath("SpawnDrop/Path2D/DropFollow/AnimatedSprite2D")
-defaultAnimation = "default"
-submergedAnimation = "submerged"
-fallingShadow = NodePath("SpawnDrop/Path2D/Shadow")
-clickable = NodePath("SpawnDrop/Path2D/DropFollow/Hitbox/Clickable")
-collider = NodePath("SpawnDrop/Path2D/DropFollow/Hitbox")
 
 [node name="SpawnDrop" type="Node2D" parent="." node_paths=PackedStringArray("dropFollow")]
 script = ExtResource("6_cpks1")
 dropSpeed = 1.0
-dropFollow = NodePath("Path2D/DropFollow")
+dropFollow = NodePath("Path2D/BobEntity")
 opt_enabler = NodePath("SpawnDropEnabler")
 
 [node name="Path2D" type="Path2D" parent="SpawnDrop"]
@@ -72,35 +66,48 @@ z_index = 3
 position = Vector2(0, 18)
 texture = ExtResource("3_ris6g")
 
-[node name="DropFollow" type="PathFollow2D" parent="SpawnDrop/Path2D"]
+[node name="BobEntity" type="PathFollow2D" parent="SpawnDrop/Path2D"]
 z_index = 3
 position = Vector2(-4, -1079)
 rotates = false
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnDrop/Path2D/DropFollow"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnDrop/Path2D/BobEntity"]
 z_index = 3
 sprite_frames = SubResource("SpriteFrames_unfdr")
 animation = &"submerged"
 
-[node name="Hitbox" type="Area2D" parent="SpawnDrop/Path2D/DropFollow"]
-position = Vector2(-5, -1077)
+[node name="Hitbox" type="Area2D" parent="SpawnDrop/Path2D/BobEntity"]
 metadata/_edit_group_ = true
 
-[node name="Clickable" type="Node" parent="SpawnDrop/Path2D/DropFollow/Hitbox"]
-script = ExtResource("8_056ox")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/DropFollow/Hitbox"]
-position = Vector2(5, 1069.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/BobEntity/Hitbox"]
+position = Vector2(-0.5, -9)
 shape = SubResource("RectangleShape2D_cjwty")
 
-[node name="Hitter" type="Node2D" parent="SpawnDrop/Path2D/DropFollow/Hitbox" node_paths=PackedStringArray("collider")]
-position = Vector2(9, 2156)
-script = ExtResource("8_0tdsc")
-collider = NodePath("..")
+[node name="Clickable" type="Node" parent="SpawnDrop/Path2D/BobEntity/Hitbox"]
+script = ExtResource("8_056ox")
 
-[node name="Health" type="Node" parent="SpawnDrop/Path2D/DropFollow/Hitbox"]
+[node name="ClickDamage" type="Node" parent="SpawnDrop/Path2D/BobEntity/Hitbox/Clickable" node_paths=PackedStringArray("clickable", "health")]
+script = ExtResource("16_rcee8")
+clickable = NodePath("..")
+health = NodePath("../../../Health")
+
+[node name="Hitter" type="Node2D" parent="SpawnDrop/Path2D/BobEntity" node_paths=PackedStringArray("collider")]
+script = ExtResource("8_0tdsc")
+collider = NodePath("../Hitbox")
+
+[node name="Health" type="Node2D" parent="SpawnDrop/Path2D/BobEntity"]
 script = ExtResource("10_emnqa")
+Amount = 2
+Max = 2
+
+[node name="HealthFX" parent="SpawnDrop/Path2D/BobEntity/Health" node_paths=PackedStringArray("health") instance=ExtResource("12_8dvas")]
+health = NodePath("..")
+
+[node name="QueueFreeDeath" type="Node" parent="SpawnDrop/Path2D/BobEntity/Health" node_paths=PackedStringArray("health", "target")]
+script = ExtResource("12_eera1")
+health = NodePath("..")
+target = NodePath("../../../../..")
 
 [node name="SpawnDropEnabler" type="Node" parent="SpawnDrop"]
 script = ExtResource("10_feq07")
-enablers = [NodePath("../Path2D/DropFollow/Hitbox")]
+enablers = [NodePath("../Path2D/BobEntity/Hitbox")]

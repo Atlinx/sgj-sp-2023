@@ -1,33 +1,31 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7hxqdsve38vj"]
+[gd_scene load_steps=21 format=3 uid="uid://c1s64ehd3c7n6"]
 
-[ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_3i7d5"]
-[ext_resource type="PackedScene" uid="uid://cqhs7h8lbvmip" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
-[ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_8i2ie"]
-[ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
-[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="3_ephuc"]
-[ext_resource type="Script" path="res://Scripts/Player/Speedometer.cs" id="3_mqi5p"]
-[ext_resource type="Shader" path="res://Art/Shaders/rainbow.gdshader" id="4_geau4"]
-[ext_resource type="PackedScene" uid="uid://bveimq6uc4e6v" path="res://Prefabs/Player/Player.tscn" id="4_p20om"]
-[ext_resource type="Script" path="res://Scripts/Player/PlayerManager.cs" id="6_e57j2"]
-[ext_resource type="PackedScene" uid="uid://ck48jr2nl2rx2" path="res://Prefabs/Player/Inputs/PlayerMouseInput.tscn" id="6_p10wq"]
-[ext_resource type="PackedScene" uid="uid://uhqe7woq762y" path="res://Prefabs/SmallWhisk.tscn" id="9_d01yy"]
-[ext_resource type="PackedScene" uid="uid://cxfptt2tswm52" path="res://Prefabs/Player/Inputs/PlayerGamepadInput.tscn" id="9_se1wm"]
-[ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="10_1e1ef"]
-[ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="11_afk25"]
-[ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
-[ext_resource type="Texture2D" uid="uid://vs05p8ptcm3w" path="res://Art/BG/Giant_Egg.png" id="15_e0ogn"]
-[ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
-[ext_resource type="Script" path="res://Scenes/ObstacleDropper.cs" id="16_6yxvy"]
-[ext_resource type="PackedScene" uid="uid://dci26krurj6iv" path="res://Prefabs/Bob.tscn" id="16_dcqtb"]
+[ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_xjl48"]
+[ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_r2fbe"]
+[ext_resource type="Script" path="res://Scripts/Player/Speedometer.cs" id="3_44rnn"]
+[ext_resource type="Shader" path="res://Art/Shaders/rainbow.gdshader" id="4_emjdf"]
+[ext_resource type="PackedScene" uid="uid://cqhs7h8lbvmip" path="res://Prefabs/Player/PlayerUI.tscn" id="5_oulvh"]
+[ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="6_3x2w3"]
+[ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="7_ig2lr"]
+[ext_resource type="Script" path="res://Scripts/Player/PlayerManager.cs" id="8_5kwrv"]
+[ext_resource type="PackedScene" uid="uid://bveimq6uc4e6v" path="res://Prefabs/Player/Player.tscn" id="9_xvu1d"]
+[ext_resource type="PackedScene" uid="uid://uhqe7woq762y" path="res://Prefabs/SmallWhisk.tscn" id="10_esao5"]
+[ext_resource type="PackedScene" uid="uid://cxfptt2tswm52" path="res://Prefabs/Player/Inputs/PlayerGamepadInput.tscn" id="11_i83kh"]
+[ext_resource type="PackedScene" uid="uid://ck48jr2nl2rx2" path="res://Prefabs/Player/Inputs/PlayerMouseInput.tscn" id="12_r0t1p"]
+[ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="13_lgeca"]
+[ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="14_bmjt7"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="15_q5bg3"]
+[ext_resource type="PackedScene" uid="uid://dci26krurj6iv" path="res://Prefabs/Bob.tscn" id="16_og6h3"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleDropper.cs" id="17_71qxc"]
+[ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="18_hcua7"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/World.cs" id="19_nmpuv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_77iy3"]
-shader = ExtResource("4_geau4")
+shader = ExtResource("4_emjdf")
 shader_parameter/strength = 0.339
 shader_parameter/speed = 0.25
 shader_parameter/angle = 45.0
 shader_parameter/factor = 0.002
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v7qc7"]
 
 [node name="Node" type="Node"]
 
@@ -41,7 +39,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("1_3i7d5")
+theme = ExtResource("1_xjl48")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Control"]
 layout_mode = 0
@@ -60,9 +58,9 @@ theme_override_constants/separation = 30
 custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 mouse_filter = 2
-theme = ExtResource("1_3i7d5")
-script = ExtResource("2_8i2ie")
-bowl = NodePath("../../../../../Bowl")
+theme = ExtResource("1_xjl48")
+script = ExtResource("2_r2fbe")
+bowl = NodePath("../../../../../GameManager/Bowl")
 speedometer = NodePath("Speedometer")
 
 [node name="Name" type="Label" parent="UI/Control/MarginContainer/VSplitContainer/BowlUI"]
@@ -77,7 +75,7 @@ custom_minimum_size = Vector2(500, 48)
 layout_mode = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.392157)
-script = ExtResource("3_mqi5p")
+script = ExtResource("3_44rnn")
 _fill = NodePath("Fill")
 
 [node name="Fill" type="ColorRect" parent="UI/Control/MarginContainer/VSplitContainer/BowlUI/Speedometer"]
@@ -94,19 +92,19 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PlayerUI4" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="PlayerUI4" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("5_oulvh")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="PlayerUI2" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="PlayerUI2" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("5_oulvh")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="PlayerUI3" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="PlayerUI3" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("5_oulvh")]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="PlayerUI5" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("1_fi7af")]
+[node name="PlayerUI5" parent="UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer" instance=ExtResource("5_oulvh")]
 layout_mode = 2
 size_flags_vertical = 0
 
@@ -133,37 +131,34 @@ text = "Score: 0"
 horizontal_alignment = 2
 
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager", "bowl", "scoreLabel")]
-script = ExtResource("2_ibw5h")
+script = ExtResource("6_3x2w3")
 GameDuration = 100.0
 playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
-bowl = NodePath("../Bowl")
+bowl = NodePath("Bowl")
 scoreLabel = NodePath("../UI/Control/MarginContainer2/ScoreLabel")
 
-[node name="Background" parent="GameManager" instance=ExtResource("3_ephuc")]
-
-[node name="CenterPoint" type="Sprite2D" parent="GameManager"]
-texture = SubResource("CompressedTexture2D_v7qc7")
+[node name="Background" parent="GameManager" instance=ExtResource("7_ig2lr")]
 
 [node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("bowl", "playerUIContainer", "playersContainer", "manager")]
-script = ExtResource("6_e57j2")
-playerPrefab = ExtResource("4_p20om")
-whiskPrefab = ExtResource("9_d01yy")
-gamepadInputPrefab = ExtResource("9_se1wm")
-mouseInputPrefab = ExtResource("6_p10wq")
-mouseDragInputPrefab = ExtResource("10_1e1ef")
-actionInputPrefab = ExtResource("11_nw1mm")
-bowl = NodePath("../../Bowl")
+script = ExtResource("8_5kwrv")
+playerPrefab = ExtResource("9_xvu1d")
+whiskPrefab = ExtResource("10_esao5")
+gamepadInputPrefab = ExtResource("11_i83kh")
+mouseInputPrefab = ExtResource("12_r0t1p")
+mouseDragInputPrefab = ExtResource("13_lgeca")
+actionInputPrefab = ExtResource("14_bmjt7")
+bowl = NodePath("../Bowl")
 playerUIContainer = NodePath("../../UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer")
-playerUIPrefab = ExtResource("1_fi7af")
+playerUIPrefab = ExtResource("5_oulvh")
 playersContainer = NodePath("PlayerContainer")
 manager = NodePath("..")
 
 [node name="PlayerContainer" type="Node2D" parent="GameManager/PlayerManager"]
 
 [node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
-script = ExtResource("11_afk25")
-obstaclePrefabs = Array[PackedScene]([ExtResource("16_dcqtb")])
+script = ExtResource("15_q5bg3")
+obstaclePrefabs = Array[PackedScene]([ExtResource("16_og6h3")])
 DifficultyRampInterval = 10.0
 SpawnInterval = 5.0
 SpawnAmount = 1
@@ -177,28 +172,14 @@ obstacleSpawners = [NodePath("ObstacleDropper")]
 [node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]
 
 [node name="ObstacleDropper" type="Node" parent="GameManager/ObstacleManager" node_paths=PackedStringArray("bowl", "gameManager")]
-script = ExtResource("16_6yxvy")
-bowl = NodePath("../../../Bowl")
+script = ExtResource("17_71qxc")
+bowl = NodePath("../../Bowl")
 gameManager = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
 
-[node name="Bowl" parent="." instance=ExtResource("15_njrld")]
+[node name="Bowl" parent="GameManager" instance=ExtResource("18_hcua7")]
 position = Vector2(1, -4)
 
-[node name="GiantEgg" type="Sprite2D" parent="."]
-self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
-position = Vector2(767, -647.5)
-rotation = -3.14159
-scale = Vector2(1, -1)
-texture = ExtResource("15_e0ogn")
-
-[node name="GiantEgg3" type="Sprite2D" parent="."]
-self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
-position = Vector2(-987, -15)
-texture = ExtResource("15_e0ogn")
-
-[node name="GiantEgg4" type="Sprite2D" parent="."]
-self_modulate = Color(0.968627, 0.968627, 0.968627, 1)
-position = Vector2(876, 491)
-texture = ExtResource("15_e0ogn")
+[node name="World" type="Node2D" parent="."]
+script = ExtResource("19_nmpuv")

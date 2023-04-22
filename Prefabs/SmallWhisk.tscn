@@ -42,7 +42,7 @@ radius = 37.6431
 [sub_resource type="CircleShape2D" id="CircleShape2D_twwwl"]
 radius = 19.105
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow", "hittable")]
+[node name="Whisk" type="Node2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow", "hittable")]
 z_index = 1
 script = ExtResource("1_6bvwm")
 baseSprite = NodePath("BaseSprite")
@@ -50,7 +50,7 @@ tip = NodePath("Tip")
 whiskShadow = NodePath("WhiskShadow")
 tipShadow = NodePath("TipShadow")
 hittable = NodePath("Tip/Hittable")
-crashPenalty = 1000
+crashPenalty = 100
 stunTime = 2
 
 [node name="WhiskShadow" type="Sprite2D" parent="."]
@@ -71,22 +71,24 @@ sprite_frames = SubResource("SpriteFrames_7uis8")
 animation = &"whisk"
 frame_progress = 0.211606
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_h8oer")
 
-[node name="Grabbable" type="Node" parent="."]
+[node name="Grabbable" type="Node" parent="Hitbox"]
 script = ExtResource("6_su3wd")
 GrabOffset = Vector2(32, -32)
 
-[node name="GrabFollowGrabber" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "target")]
+[node name="GrabFollowGrabber" type="Node" parent="Hitbox/Grabbable" node_paths=PackedStringArray("grabbable", "target")]
 script = ExtResource("7_n54wm")
 grabbable = NodePath("..")
-target = NodePath("../..")
+target = NodePath("../../..")
 
-[node name="WhiskPlayerConnector" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "whisk")]
+[node name="WhiskPlayerConnector" type="Node" parent="Hitbox/Grabbable" node_paths=PackedStringArray("grabbable", "whisk")]
 script = ExtResource("8_baraw")
 grabbable = NodePath("..")
-whisk = NodePath("../..")
+whisk = NodePath("../../..")
 
 [node name="Tip" type="Area2D" parent="."]
 

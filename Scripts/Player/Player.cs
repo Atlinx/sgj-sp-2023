@@ -100,8 +100,6 @@ namespace Game
         [ExportCategory("Settings")]
         [Export]
         private float minHeldTime = 0.5f;
-        [Export]
-        private float maxDoubleClickTime = 0.2f;
         private bool disabled = false;
         [Export]
         public bool Disabled

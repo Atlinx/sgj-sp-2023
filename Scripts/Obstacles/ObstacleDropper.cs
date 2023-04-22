@@ -23,9 +23,6 @@ public partial class ObstacleDropper : ObstacleSpawner
         displacement = displacement.Rotated(angle);
 
         obstacle2D.Position = bowl.CenterPoint.Position + displacement;
-        GD.Print("Displacement:" + displacement);
-        GD.Print("Calculated position relative to bowl:" + (bowl.CenterPoint.Position + displacement));
-        GD.Print("Actual position:" + obstacle2D.Position);
         obstacle2D.GetComponent<SpawnDrop>().BeginDrop();
     }
 }
