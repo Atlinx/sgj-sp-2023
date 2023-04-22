@@ -4,6 +4,9 @@ namespace Game
 {
     public partial class GameManager : Node
     {
+        [Signal]
+        public delegate void GameFinishedEventHandler();
+
         public int Score { get; set; }
         public double Time { get; private set; }
         public RandomNumberGenerator RNG { get; set; }
@@ -21,9 +24,9 @@ namespace Game
         private PlayerManager playerManager;
         [Export]
         private ObstacleManager obstacleManager;
-        [Export] 
+        [Export]
         public Bowl bowl;
-        [Export] 
+        [Export]
         public Label scoreLabel;
 
         private int lastTick = 0;
@@ -97,6 +100,7 @@ namespace Game
             }
             gameStarted = false;
             obstacleManager.EndGame();
+            EmitSignal(nameof(GameFinished));
         }
     }
 }
