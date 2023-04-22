@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dy0otxdf6f5i5"]
+[gd_scene load_steps=14 format=3 uid="uid://dy0otxdf6f5i5"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_us5e8"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="2_jynll"]
 [ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="5_4y483"]
 [ext_resource type="Texture2D" uid="uid://cvxb5hdkgoro8" path="res://Art/Entities/whisk_1.png" id="6_lgyhc"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="6_sntna"]
+[ext_resource type="Script" path="res://Scripts/Hittable.cs" id="7_603pi"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/WhiskPlayerConnector.cs" id="7_dwn1w"]
 [ext_resource type="Texture2D" uid="uid://bhbqqjqu7waf5" path="res://Art/Entities/whisk_2.png" id="7_ohtnk"]
 [ext_resource type="Texture2D" uid="uid://dha7n8cqjfra6" path="res://Art/Entities/whisk_sub_1.png" id="8_2frv6"]
@@ -41,13 +42,14 @@ radius = 35.6931
 [sub_resource type="CircleShape2D" id="CircleShape2D_twwwl"]
 radius = 28.1603
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow")]
+[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow", "hittable")]
 z_index = 1
 script = ExtResource("1_us5e8")
 baseSprite = NodePath("BaseSprite")
 tip = NodePath("Tip")
 whiskShadow = NodePath("WhiskShadow")
 tipShadow = NodePath("TipShadow")
+hittable = NodePath("Tip/Hittable")
 
 [node name="WhiskShadow" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.392157)
@@ -90,3 +92,6 @@ whisk = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
 position = Vector2(-19, 16)
 shape = SubResource("CircleShape2D_twwwl")
+
+[node name="Hittable" type="Node" parent="Tip"]
+script = ExtResource("7_603pi")

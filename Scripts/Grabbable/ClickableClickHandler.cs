@@ -49,7 +49,9 @@ namespace Game
                     shortestDist = currDist;
                     shortestDistClickable = clickable;
                 }
+
             }
+            shortestDistClickable.OnClicked(GetParent<Node2D>());
         }
     }
 }

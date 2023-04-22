@@ -20,6 +20,7 @@ public partial class WhiskPlayerConnector : Node
         if (grabbable.Grabber is Player player)
         {
             player.SetWhisk(whisk);
+            whisk.currentPlayer = player;
         }
     }
 
@@ -28,6 +29,7 @@ public partial class WhiskPlayerConnector : Node
         if (grabbable.Grabber is Player player)
         {
             player.RemoveWhisk();
+            whisk.currentPlayer = null;
         }
     }
 }

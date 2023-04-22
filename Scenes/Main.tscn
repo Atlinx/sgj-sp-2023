@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://b7hxqdsve38vj"]
 
 [ext_resource type="Theme" path="res://Art/Misc/theme.tres" id="1_3i7d5"]
-[ext_resource type="PackedScene" uid="uid://vsivdq0i674j" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
+[ext_resource type="PackedScene" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
 [ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_8i2ie"]
 [ext_resource type="Script" path="res://Scripts/General/GameManager.cs" id="2_ibw5h"]
 [ext_resource type="PackedScene" uid="uid://b0q7rj41i2map" path="res://Scenes/Background.tscn" id="3_ephuc"]
@@ -140,7 +140,7 @@ StaticData = ExtResource("7_4yxhp")
 InputType = 3
 gameManager = NodePath("..")
 
-[node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("bowl", "playerUIContainer", "playersContainer")]
+[node name="PlayerManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("bowl", "playerUIContainer", "playersContainer", "manager")]
 script = ExtResource("6_e57j2")
 playerPrefab = ExtResource("4_p20om")
 whiskPrefab = ExtResource("9_d01yy")
@@ -152,6 +152,7 @@ bowl = NodePath("../../Bowl")
 playerUIContainer = NodePath("../../UI/Control/MarginContainer/VSplitContainer/PlayerUIContainer")
 playerUIPrefab = ExtResource("1_fi7af")
 playersContainer = NodePath("PlayerContainer")
+manager = NodePath("..")
 
 [node name="PlayerContainer" type="Node2D" parent="GameManager/PlayerManager"]
 

@@ -96,7 +96,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider", "statusHolder")]
+[node name="Player" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider", "StatusHolder")]
 z_index = 2
 script = ExtResource("1_vqmcc")
 clickHandlerNodes = [NodePath("ClickableClickHandler")]
@@ -111,7 +111,7 @@ collider = NodePath("Area2D")
 handOpenAnimation = "open"
 handGrabAnimation = "grab"
 handPointerAnimation = "pointer"
-statusHolder = NodePath("StatusHolder")
+StatusHolder = NodePath("StatusHolder")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -122,10 +122,12 @@ shape = SubResource("CircleShape2D_ikcq1")
 position = Vector2(-1, -5)
 
 [node name="ColorSprite" type="AnimatedSprite2D" parent="Sprites"]
+z_index = 4
 sprite_frames = SubResource("SpriteFrames_4h5k8")
 animation = &"open"
 
 [node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
+z_index = 4
 sprite_frames = SubResource("SpriteFrames_1vwh8")
 animation = &"open"
 
@@ -149,10 +151,11 @@ player = NodePath("..")
 script = ExtResource("6_eavp1")
 handlerNodes = [NodePath("HandDisableMovementHandler"), NodePath("PlayerStunnedStatusHandler")]
 
-[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder"]
+[node name="HandDisableMovementHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("player")]
 script = ExtResource("7_4odfo")
+player = NodePath("../..")
 
 [node name="PlayerStunnedStatusHandler" type="Node" parent="StatusHolder" node_paths=PackedStringArray("statusHolder", "player")]
 script = ExtResource("7_nghsc")
 statusHolder = NodePath("..")
-player = NodePath("")
+player = NodePath("../..")

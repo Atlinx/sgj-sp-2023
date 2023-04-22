@@ -152,7 +152,7 @@ namespace Game
         [Export]
         private string handPointerAnimation;
         [Export]
-        private StatusHolder statusHolder;
+        public StatusHolder StatusHolder { get; private set; }
 
         private Whisk whisk = null;
         private IPlayerInput input;
