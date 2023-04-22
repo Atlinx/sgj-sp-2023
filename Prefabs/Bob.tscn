@@ -90,7 +90,7 @@ rotates = false
 [node name="Bob" type="RigidBody2D" parent="SpawnDrop/Path2D/PathFollow"]
 physics_material_override = SubResource("PhysicsMaterial_5c0u3")
 gravity_scale = 0.0
-max_contacts_reported = 1
+max_contacts_reported = 5
 contact_monitor = true
 lock_rotation = true
 freeze = true
