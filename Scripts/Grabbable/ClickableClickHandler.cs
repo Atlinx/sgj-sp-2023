@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Game
 {
-    public partial class ClickableClickHandler : Node, IPlayerClickHandler
+    public partial class ClickableClickHandler : Node, IPlayerClickHandler, IPlayerIdleHandler
     {
         [ExportCategory("Dependencies")]
         [Export]
@@ -43,7 +43,7 @@ namespace Game
             foreach (var clickable in CanClickClickables)
             {
                 float currDist = clickable.AsNode2D.GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
-                if (shortestDistClickable == null)
+                if (shortestDistClickable == null || currDist < shortestDist)
                 {
                     // Initialize to first grabbable if we don't have a grabbable yet
                     shortestDist = currDist;
@@ -52,6 +52,14 @@ namespace Game
 
             }
             shortestDistClickable.OnClicked(GetParent<Node2D>());
+
+            player.SpriteState = Player.SpriteStateEnum.Click;
+        }
+
+        public void OnIdled(double delta)
+        {
+            if (player.SpriteState != Player.SpriteStateEnum.Click)
+                player.SpriteState = Player.SpriteStateEnum.Open;
         }
     }
 }

@@ -97,13 +97,13 @@ animations = [{
 }]
 
 [node name="Player" type="Node2D" node_paths=PackedStringArray("spritesContainer", "baseSprite", "colorSprite", "collider", "StatusHolder")]
-z_index = 2
+z_index = 10
 script = ExtResource("1_vqmcc")
 clickHandlerNodes = [NodePath("ClickableClickHandler")]
 grabStartHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabbingHandlerNodes = [NodePath("GrabbableGrabHandler")]
 grabEndHandlerNodes = [NodePath("GrabbableGrabHandler")]
-idleHandlerNodes = [NodePath("GrabbableGrabHandler"), NodePath("DefaultIdleHandler")]
+idleHandlerNodes = [NodePath("ClickableClickHandler"), NodePath("GrabbableGrabHandler"), NodePath("DefaultIdleHandler")]
 spritesContainer = NodePath("Sprites")
 baseSprite = NodePath("Sprites/BaseSprite")
 colorSprite = NodePath("Sprites/ColorSprite")

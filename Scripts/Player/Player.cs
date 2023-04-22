@@ -8,8 +8,7 @@ namespace Game
     {
         Gamepad,
         Mouse,
-        Action,
-        MouseDrag
+        Action
     }
 
     public class PlayerData
@@ -165,6 +164,7 @@ namespace Game
             Open,
             Grab,
             Point,
+            Click,
         }
 
         private SpriteStateEnum spriteState;
@@ -176,6 +176,7 @@ namespace Game
                 if (spriteState == value) return;
 
                 spriteState = value;
+                spriteStateTime = -1;   // -1 means no state. This also cancels any running spriteStateTime.
                 var tween = GetTree().CreateTween();
                 switch (spriteState)
                 {
@@ -191,6 +192,14 @@ namespace Game
                         tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
                         tween.TweenProperty(spritesContainer, "position", GrabOffset, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
                         break;
+                    case SpriteStateEnum.Click:
+                        spriteStateTime = 0;
+                        spriteStateDuration = 0.1f;
+                        baseSprite.Animation = handPointerAnimation;
+                        colorSprite.Animation = handPointerAnimation;
+                        tween.TweenProperty(spritesContainer, "scale", Vector2.One * 1f, 0.1f).SetTrans(Tween.TransitionType.Bounce);
+                        tween.TweenProperty(spritesContainer, "position", Vector2.Zero, 0.1f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+                        break;
                     case SpriteStateEnum.Point:
                         baseSprite.Animation = handPointerAnimation;
                         colorSprite.Animation = handPointerAnimation;
@@ -200,6 +209,9 @@ namespace Game
                 }
             }
         }
+
+        private float spriteStateDuration = 0;
+        private float spriteStateTime = -1;
 
         public void Construct(PlayerData playerData, IPlayerInput input)
         {
@@ -239,6 +251,20 @@ namespace Game
             }
             if (CanMove)
                 Position = input.PlayerPosition;
+            if (spriteStateTime > -1)
+            {
+                spriteStateTime += (float)delta;
+                if (spriteStateTime >= spriteStateDuration)
+                {
+                    switch (SpriteState)
+                    {
+                        case SpriteStateEnum.Click:
+                            SpriteState = SpriteStateEnum.Open;
+                            break;
+                    }
+                }
+            }
+
         }
 
         public void SetWhisk(Whisk whisk)

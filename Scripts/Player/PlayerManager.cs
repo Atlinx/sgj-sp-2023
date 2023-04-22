@@ -59,9 +59,7 @@ namespace Game
                     inputNode = playerActionInput;
                     break;
                 case PlayerInputType.Mouse:
-                    inputNode = mouseInputPrefab.Instantiate<PlayerMouseInput>();
-                    break;
-                case PlayerInputType.MouseDrag:
+                    //inputNode = mouseInputPrefab.Instantiate<PlayerMouseInput>();
                     inputNode = mouseDragInputPrefab.Instantiate<PlayerMouseDragInput>();
                     break;
             }

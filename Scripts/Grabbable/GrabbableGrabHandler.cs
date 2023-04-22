@@ -53,7 +53,7 @@ namespace Game
             foreach (var grabbable in CanGrabGrabbables)
             {
                 float currDist = grabbable.AsNode2D.GlobalPosition.DistanceSquaredTo(player.GlobalPosition);
-                if (shortestDistGrabbable == null)
+                if (shortestDistGrabbable == null || currDist < shortestDist)
                 {
                     // Initialize to first grabbable if we don't have a grabbable yet
                     shortestDist = currDist;
