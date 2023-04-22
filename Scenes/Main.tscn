@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b7hxqdsve38vj"]
+[gd_scene load_steps=22 format=3 uid="uid://b7hxqdsve38vj"]
 
 [ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_3i7d5"]
 [ext_resource type="PackedScene" uid="uid://cqhs7h8lbvmip" path="res://Prefabs/Player/PlayerUI.tscn" id="1_fi7af"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="11_nw1mm"]
 [ext_resource type="Texture2D" uid="uid://vs05p8ptcm3w" path="res://Art/BG/Giant_Egg.png" id="15_e0ogn"]
 [ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="15_njrld"]
+[ext_resource type="Script" path="res://Scenes/ObstacleDropper.cs" id="16_6yxvy"]
+[ext_resource type="PackedScene" path="res://Prefabs/Bob.tscn" id="16_dcqtb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_77iy3"]
 shader = ExtResource("4_geau4")
@@ -161,7 +163,7 @@ manager = NodePath("..")
 
 [node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
 script = ExtResource("11_afk25")
-obstaclePrefabs = Array[PackedScene]([])
+obstaclePrefabs = Array[PackedScene]([ExtResource("16_dcqtb")])
 DifficultyRampInterval = 10.0
 SpawnInterval = 5.0
 SpawnAmount = 1
@@ -170,8 +172,14 @@ MinSpawnInterval = 1
 MaxObstacles = 30
 gameManager = NodePath("..")
 obstacleContainer = NodePath("ObstacleContainer")
+obstacleSpawners = [NodePath("ObstacleDropper")]
 
 [node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]
+
+[node name="ObstacleDropper" type="Node" parent="GameManager/ObstacleManager" node_paths=PackedStringArray("bowl", "gameManager")]
+script = ExtResource("16_6yxvy")
+bowl = NodePath("../../../Bowl")
+gameManager = NodePath("../..")
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
 
