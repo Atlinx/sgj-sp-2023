@@ -17,6 +17,7 @@ namespace Game
 
         public override void _Ready()
         {
+            menuScene = GD.Load<PackedScene>("res://Scenes/Menu.tscn");
             // Make this an autoload by making it a child of the root
             CallDeferred("reparent", GetTree().Root);
         }

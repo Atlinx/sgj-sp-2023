@@ -19,6 +19,8 @@ namespace Game
             int playerIndex = PlayerStaticData.Number - 1;
             Held = Input.IsJoyButtonPressed(playerIndex, JoyButton.X);
             movementDirection = new Vector2(Input.GetJoyAxis(playerIndex, JoyAxis.LeftX), Input.GetJoyAxis(playerIndex, JoyAxis.LeftY));
+            if (movementDirection.Length() < 0.2f)
+                movementDirection = Vector2.Zero;
         }
     }
 }

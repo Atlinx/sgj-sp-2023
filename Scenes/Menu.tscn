@@ -16,7 +16,6 @@
 [node name="PlayerDataManager" type="Node" parent="."]
 script = ExtResource("1_g3402")
 gameplayScene = ExtResource("2_k5dg5")
-menuScene = null
 
 [node name="MainMenu" type="CanvasLayer" parent="." node_paths=PackedStringArray("playerMainMenuUIContainer", "playButton", "quitButton", "addPlayerButton")]
 script = ExtResource("1_sg50n")
