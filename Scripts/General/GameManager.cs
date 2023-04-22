@@ -28,6 +28,7 @@ namespace Game
 
         private int lastTick = 0;
         private int scoreMultiplier = 0;
+        private bool gameStarted = false;
 
         public void StartGame(PlayerData[] players)
         {
@@ -35,23 +36,31 @@ namespace Game
             RNG.Seed = Seed;
             playerManager.StartGame(players);
             obstacleManager.StartGame();
+            gameStarted = true;
+            Time = 0;
+            lastTick = 0;
+            foreach (var player in playerManager.Players)
+            {
+                player.CanMove = true;
+            }
         }
 
         public override void _Process(double delta)
         {
-            Time += delta;
-            
-            // if game started
-            scoreMultiplier = Mathf.Clamp((int)bowl.TotalAverageLinearVelocity / 540, 1, 10);
-            if ((int)Time > lastTick)
+            if (gameStarted)
             {
-                ScoreTick();
-                lastTick = (int)Time;
-            }
-           
-            if (Time > GameDuration)
-            {
-                EndGame();
+                Time += delta;
+                scoreMultiplier = Mathf.Clamp((int)bowl.TotalAverageLinearVelocity / 540, 1, 10);
+                if ((int)Time > lastTick)
+                {
+                    ScoreTick();
+                    lastTick = (int)Time;
+                }
+                
+                if (Time > GameDuration)
+                {
+                    EndGame();
+                }
             }
         }
 
@@ -82,6 +91,11 @@ namespace Game
         {
             // TODO: Implement quitting
             GD.Print("Game finished!");
+            foreach (var player in playerManager.Players)
+            {
+                player.CanMove = false;
+            }
+            gameStarted = false;
             obstacleManager.EndGame();
         }
     }
