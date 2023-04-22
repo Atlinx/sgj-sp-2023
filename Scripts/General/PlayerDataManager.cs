@@ -21,7 +21,7 @@ namespace Game
             CallDeferred("reparent", GetTree().Root);
         }
 
-        public void StartGame(PlayerData[] playerDatas = null)
+        public async void StartGame(PlayerData[] playerDatas = null)
         {
             if (playerDatas != null)
                 PlayerDatas = playerDatas;
@@ -31,14 +31,16 @@ namespace Game
                 GD.PushError($"{nameof(PlayerDataManager)}: Change scene to gameplay failed.");
                 return;
             }
+            await ToSignal(GetTree(), "process_frame");
             var gameManager = GetTree().CurrentScene.GetComponent<GameManager>();
             gameManager.GameFinished += OnGameFinished;
             gameManager.StartGame(PlayerDatas);
         }
 
-        private void OnGameFinished()
+        private async void OnGameFinished()
         {
             var result = GetTree().ChangeSceneToPacked(menuScene);
+            await ToSignal(GetTree(), "process_frame");
             if (result != Error.Ok)
             {
                 GD.PushError($"{nameof(PlayerDataManager)}: Change scene to menu failed.");
