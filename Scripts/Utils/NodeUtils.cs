@@ -8,6 +8,46 @@ using System.Collections.Generic;
 public static class NodeUtils
 {
     /// <summary>
+    /// Fetches an autoload
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public static T GetAutoload<T>(this Node node) where T : class
+    {
+        return node.GetTree().Root.GetImmediateChild<T>(false);
+    }
+
+    /// <summary>
+    /// Tries to add autoload as an autoload of type T. If the auto load exists this returns false.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="node"></param>
+    /// <param name="autoload"></param>
+    /// <returns></returns>
+    public static bool TryAddAutoload<T>(this Node node, Node autoload)
+    {
+        if (node.GetTree().Root.HasImmediateChild<T>(false))
+            return false;
+        autoload.Reparent(node.GetTree().Root);
+        return true;
+    }
+
+    /// <summary>
+    /// Tries to add the node as an autoload of type T. If the auto load exists, the node is queue freed.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public static bool TryAddSelfAutoloadOrFree<T>(this Node node)
+    {
+        if (node.TryAddAutoload<T>(node))
+            return true;
+        node.QueueFree();
+        return false;
+    }
+
+    /// <summary>
     /// Change all the children of node to be owned by the node.
     /// </summary>
     /// <param name="node"></param>
