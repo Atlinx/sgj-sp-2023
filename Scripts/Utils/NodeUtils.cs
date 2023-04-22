@@ -337,39 +337,6 @@ namespace Game
             return results.ToArray();
         }
 
-        public const int ComponentRouteLimit = 1000;
-        private static T GetComponent<T>(this Node node, int recurse) where T : Node
-        {
-            if (recurse > ComponentRouteLimit)
-            {
-                GD.PushWarning($"{nameof(NodeUtils)}: {nameof(GetComponent)} hit the component forward limit. Is there a circular component forwarding chain?");
-                return null;
-            }
-            var component = node.GetImmediateChild<T>(false);
-            if (component != null)
-                return component;
-
-            var routers = node.GetImmediateChildren<ComponentRouter>(false);
-            foreach (var router in routers)
-                router.Source.GetComponent<T>(recurse + 1);
-            return null;
-        }
-
-        private static void GetComponents<T>(this Node node, int recurse, List<T> components) where T : Node
-        {
-            if (recurse > ComponentRouteLimit)
-            {
-                GD.PushWarning($"{nameof(NodeUtils)}: {nameof(GetComponents)} hit the component forward limit. Is there a circular component forwarding chain?");
-                return;
-            }
-            var immediateComponents = node.GetImmediateChildren<T>(false);
-            components.AddRange(immediateComponents);
-
-            var routers = node.GetImmediateChildren<ComponentRouter>(false);
-            foreach (var router in routers)
-                router.Source.GetComponents<T>(recurse + 1, components);
-        }
-
         /// <summary>
         /// Wrapper for GetImmediateChild. Components of a node are the immediate children of that node.
         /// </summary>
@@ -378,7 +345,7 @@ namespace Game
         /// <returns></returns>
         public static T GetComponent<T>(this Node node) where T : Node
         {
-            return node.GetComponent<T>(0);
+            return node.GetImmediateChild<T>();
         }
 
         /// <summary>
@@ -389,9 +356,7 @@ namespace Game
         /// <returns></returns>
         public static T[] GetComponents<T>(this Node node) where T : Node
         {
-            List<T> components = new List<T>();
-            node.GetComponents(0, components);
-            return components.ToArray();
+            return node.GetImmediateChildren<T>();
         }
 
         /// <summary>
