@@ -29,7 +29,7 @@ namespace Game
         public override void RemoveStatus(IStatus status)
         {
             base.RemoveStatus(status);
-            if (HandledStatuses.Count > 0)
+            if (HandledStatuses.Count == 0)
             {
                 player.Disabled = false;
                 player.Modulate = Colors.White;

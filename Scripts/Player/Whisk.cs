@@ -14,6 +14,8 @@ namespace Game
         private Sprite2D whiskShadow;
         [Export]
         private Sprite2D tipShadow;
+        [Export]
+        private Hittable hittable;
 
         [ExportCategory("Settings")]
         [Export]
@@ -24,6 +26,12 @@ namespace Game
         private int velocitySamples = 30;
         [Export]
         private float velocitySampleInterval = 0.1f;
+        [Export]
+        private int crashPenalty;
+        [Export]
+        private int stunTime;
+
+        public Player currentPlayer { get; set; }
 
         private float[] linearVelocityDeltaBuffer;
         private float[] angularVelocityDeltaBuffer;
@@ -31,13 +39,15 @@ namespace Game
         private float velocitySampleTime = 0;
         private float prevAngle;
         private Bowl bowl;
+        private GameManager manager;
 
         private const string SUBMERGED = "whisk_sub";
         private const string DEFAULT = "whisk";
 
-        public void Construct(Bowl bowl)
+        public void Construct(GameManager manager, Bowl bowl)
         {
             this.bowl = bowl;
+            this.manager = manager;
             bowl.RegisterWhisk(this);
             angularVelocityDeltaBuffer = new float[velocitySamples];
             linearVelocityDeltaBuffer = new float[velocitySamples];
@@ -46,6 +56,7 @@ namespace Game
         public override void _Ready()
         {
             baseSprite.Play();
+            hittable.Hit += ReduceScore;
         }
 
         public override void _Process(double delta)
@@ -112,6 +123,15 @@ namespace Game
 
                 AverageAngularVelocity = angularSum / angularVelocityDeltaBuffer.Length;
                 AverageLinearVelocity = linearVelocityDeltaBuffer.Sum() / linearVelocityDeltaBuffer.Length;
+            }
+        }
+
+        private void ReduceScore()
+        {
+            if (currentPlayer != null)
+            {
+                currentPlayer.StatusHolder.AddStatus(new StunnedStatus() { Duration = stunTime }); ;
+                manager.Score -= crashPenalty;
             }
         }
     }

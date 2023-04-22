@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dci26krurj6iv"]
+[gd_scene load_steps=13 format=3 uid="uid://dci26krurj6iv"]
 
 [ext_resource type="Script" path="res://Scripts/Obstacles/Bob.cs" id="1_2ayfa"]
 [ext_resource type="Texture2D" uid="uid://bod0bi4jkpxiu" path="res://Art/Entities/bob_1.png" id="2_1q6wg"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://td5x25eq8rd" path="res://Art/Entities/bob_sub_1.png" id="4_pmvri"]
 [ext_resource type="Texture2D" uid="uid://dgpv8sjafbxvb" path="res://Art/Entities/bob_sub_2.png" id="5_ogxga"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/SpawnDrop.cs" id="6_cpks1"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/Hitter.cs" id="8_0tdsc"]
+[ext_resource type="Script" path="res://Scripts/Clickable.cs" id="8_056ox"]
 
 [sub_resource type="Curve2D" id="Curve2D_aguop"]
 _data = {
@@ -39,7 +41,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Bob" type="Node2D" node_paths=PackedStringArray("spawnDrop", "baseSprite", "fallingShadow")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjwty"]
+size = Vector2(60, 39)
+
+[node name="Bob" type="Node2D" node_paths=PackedStringArray("spawnDrop", "baseSprite", "fallingShadow", "clickable")]
 z_index = 3
 script = ExtResource("1_2ayfa")
 spawnDrop = NodePath("SpawnDrop")
@@ -47,6 +52,7 @@ baseSprite = NodePath("SpawnDrop/Path2D/DropFollow/AnimatedSprite2D")
 defaultAnimation = "default"
 submergedAnimation = "submerged"
 fallingShadow = NodePath("SpawnDrop/Path2D/64PxShadow")
+clickable = NodePath("SpawnDrop/Path2D/DropFollow/Hitbox/Clickable")
 
 [node name="SpawnDrop" type="Node2D" parent="." node_paths=PackedStringArray("dropFollow")]
 script = ExtResource("6_cpks1")
@@ -69,3 +75,19 @@ rotates = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnDrop/Path2D/DropFollow"]
 z_index = 3
 sprite_frames = SubResource("SpriteFrames_unfdr")
+animation = &"submerged"
+
+[node name="Hitbox" type="Area2D" parent="SpawnDrop/Path2D/DropFollow"]
+position = Vector2(-5, -1077)
+metadata/_edit_group_ = true
+
+[node name="Clickable" type="Node" parent="SpawnDrop/Path2D/DropFollow/Hitbox"]
+script = ExtResource("8_056ox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/DropFollow/Hitbox"]
+position = Vector2(5, 1069.5)
+shape = SubResource("RectangleShape2D_cjwty")
+
+[node name="Hitter" type="Node2D" parent="." node_paths=PackedStringArray("collider")]
+script = ExtResource("8_0tdsc")
+collider = NodePath("../SpawnDrop/Path2D/DropFollow/Hitbox")

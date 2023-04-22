@@ -28,6 +28,8 @@ namespace Game
         private PackedScene playerUIPrefab;
         [Export]
         private Node2D playersContainer;
+        [Export]
+        private GameManager manager;
 
         public void StartGame(PlayerData[] players)
         {
@@ -81,7 +83,7 @@ namespace Game
         public void AddWhisk(Bowl bowl)
         {
             Whisk whisk = whiskPrefab.Instantiate<Whisk>();
-            whisk.Construct(bowl);
+            whisk.Construct(manager, bowl);
             AddChild(whisk);
         }
     }

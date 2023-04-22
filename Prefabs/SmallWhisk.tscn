@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://uhqe7woq762y"]
+[gd_scene load_steps=14 format=3 uid="uid://uhqe7woq762y"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Whisk.cs" id="1_6bvwm"]
 [ext_resource type="Texture2D" uid="uid://dthibqkisonye" path="res://Art/Entities/small_whisk_1.png" id="2_23fav"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="7_n54wm"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/WhiskPlayerConnector.cs" id="8_baraw"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="9_4mfp1"]
+[ext_resource type="Script" path="res://Scripts/Hittable.cs" id="10_aawn2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7uis8"]
 animations = [{
@@ -41,13 +42,16 @@ radius = 37.6431
 [sub_resource type="CircleShape2D" id="CircleShape2D_twwwl"]
 radius = 19.105
 
-[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow")]
+[node name="Whisk" type="Area2D" node_paths=PackedStringArray("baseSprite", "tip", "whiskShadow", "tipShadow", "hittable")]
 z_index = 1
 script = ExtResource("1_6bvwm")
 baseSprite = NodePath("BaseSprite")
 tip = NodePath("Tip")
 whiskShadow = NodePath("WhiskShadow")
 tipShadow = NodePath("TipShadow")
+hittable = NodePath("Tip/Hittable")
+crashPenalty = 1000
+stunTime = 2
 
 [node name="WhiskShadow" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.392157)
@@ -89,3 +93,6 @@ whisk = NodePath("../..")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tip"]
 position = Vector2(-9, 11)
 shape = SubResource("CircleShape2D_twwwl")
+
+[node name="Hittable" type="Node" parent="Tip"]
+script = ExtResource("10_aawn2")

@@ -16,8 +16,8 @@ namespace Game
 
         private void OnBodyEntered(Node2D body)
         {
-            if (body.TryGetComponent(out IClickable clickable))
-                clickable.OnClicked(GetParent<Node2D>());
+            if (body.TryGetComponent(out IHittable hittable))
+                hittable.OnHit(GetParent<Node2D>());
         }
     }
 }
