@@ -2,17 +2,19 @@
 
 namespace Game
 {
-    /// <summary>
-    /// Keeps track of the node's current average velocity and at any point, can set
-    /// its rigidbody to that velocity, effectively chucking the rigidbody.
-    /// </summary>
-    public partial class Chuckable : Node2D
+	/// <summary>
+	/// Keeps track of the node's current average velocity and at any point, can set
+	/// its rigidbody to that velocity, effectively chucking the rigidbody.
+	/// </summary>
+	public partial class Chuckable : Node
     {
         [ExportCategory("Settings")]
         [Export]
         private float speedSampleInterval = 0.1f;
         [Export]
         private int speedSamples = 10;
+        [Export]
+        private float speedMultiplier = 5f;
 
         [ExportCategory("Dependencies")]
         [Export]
@@ -39,7 +41,8 @@ namespace Game
         {
             // TODO: Is it possible to disable a rigidbody?
             //       The rigid body must be enabled when we se it's linear velocity
-            rigidbody2D.LinearVelocity = positionDelta * CalculateAverageSpeed();
+            rigidbody2D.Freeze = false;
+            rigidbody2D.LinearVelocity = positionDelta * CalculateAverageSpeed() * speedMultiplier;
         }
 
         public override void _Ready()

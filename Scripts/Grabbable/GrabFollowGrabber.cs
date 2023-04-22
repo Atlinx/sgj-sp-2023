@@ -33,7 +33,7 @@ namespace Game
                 grabbableLerpTime += (float)delta;
             if (grabbableLerpTime > grabbableLerpDuration)
                 grabbableLerpTime = grabbableLerpDuration;
-            target.Position = target.Position.Lerp(grabbable.Grabber.Position, grabbableLerpTime / grabbableLerpDuration);
+            target.GlobalPosition = target.GlobalPosition.Lerp(grabbable.Grabber.GlobalPosition, grabbableLerpTime / grabbableLerpDuration);
         }
     }
 }

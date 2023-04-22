@@ -32,6 +32,8 @@ namespace Game
                         var node = GetNode(path);
                         if (node is IEnable enabler)
                             enabler.Enabled = value;
+                        else if (node is CollisionShape2D collisionShape)
+                            collisionShape.Disabled = !value;
                         else
                             node.ProcessMode = value ? ProcessModeEnum.Inherit : ProcessModeEnum.Disabled;
                     }

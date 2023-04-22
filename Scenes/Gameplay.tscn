@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c1s64ehd3c7n6"]
+[gd_scene load_steps=25 format=3 uid="uid://c1s64ehd3c7n6"]
 
 [ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_xjl48"]
 [ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_r2fbe"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleDropper.cs" id="17_71qxc"]
 [ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="18_hcua7"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/World.cs" id="19_nmpuv"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHit.cs" id="20_lw2f3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_77iy3"]
 shader = ExtResource("4_emjdf")
@@ -26,6 +27,16 @@ shader_parameter/strength = 0.339
 shader_parameter/speed = 0.25
 shader_parameter/angle = 45.0
 shader_parameter/factor = 0.002
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ic3p7"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0bflb"]
+size = Vector2(2368, 303)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a6bpc"]
+size = Vector2(420, 1916)
 
 [node name="Node" type="Node"]
 
@@ -183,3 +194,28 @@ position = Vector2(1, -4)
 
 [node name="World" type="Node2D" parent="."]
 script = ExtResource("19_nmpuv")
+
+[node name="Collision" type="Node2D" parent="."]
+
+[node name="Walls" type="StaticBody2D" parent="Collision"]
+physics_material_override = SubResource("PhysicsMaterial_ic3p7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision/Walls"]
+position = Vector2(5, 802)
+shape = SubResource("RectangleShape2D_0bflb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Collision/Walls"]
+position = Vector2(5, -807)
+shape = SubResource("RectangleShape2D_0bflb")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Collision/Walls"]
+position = Vector2(-1364, 0)
+shape = SubResource("RectangleShape2D_a6bpc")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Collision/Walls"]
+position = Vector2(1367, 0)
+shape = SubResource("RectangleShape2D_a6bpc")
+
+[node name="DamageHealthOnHit" type="Node" parent="Collision/Walls"]
+script = ExtResource("20_lw2f3")
+Damage = 1

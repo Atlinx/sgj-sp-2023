@@ -69,13 +69,15 @@ namespace Game
 
         public void OnGrabbing(double delta)
         {
-            Grabbed?.OnGrabbing(delta);
+            if (IsInstanceValid(Grabbed as Node))
+                Grabbed?.OnGrabbing(delta);
         }
 
         public void OnGrabEnded()
         {
             player.SpriteState = Player.SpriteStateEnum.Point;
-            Grabbed?.OnGrabEnd();
+            if (IsInstanceValid(Grabbed as Node))
+                Grabbed?.OnGrabEnd();
             Grabbed = null;
         }
 

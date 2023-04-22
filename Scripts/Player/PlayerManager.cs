@@ -56,6 +56,7 @@ namespace Game
                     break;
                 case PlayerInputType.Action:
                     var playerActionInput = actionInputPrefab.Instantiate<PlayerActionInput>();
+                    playerActionInput.Construct(playerData.StaticData);
                     inputNode = playerActionInput;
                     break;
                 case PlayerInputType.Mouse:

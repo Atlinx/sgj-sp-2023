@@ -12,10 +12,15 @@ namespace Game
         [Export]
         protected float movementSpeed;
         protected Vector2 movementDirection;
+        [Export]
+        public bool HalfSpeed { get; protected set; }
 
         public override void _Process(double delta)
         {
-            PlayerPosition += movementDirection * movementSpeed * (float)delta;
+            var moveDelta = movementDirection * movementSpeed * (float)delta;
+            if (HalfSpeed)
+                moveDelta *= 0.5f;
+            PlayerPosition += moveDelta;
         }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dci26krurj6iv"]
+[gd_scene load_steps=29 format=3 uid="uid://dci26krurj6iv"]
 
 [ext_resource type="Texture2D" uid="uid://bod0bi4jkpxiu" path="res://Art/Entities/bob_1.png" id="2_1q6wg"]
 [ext_resource type="Texture2D" uid="uid://cb3yacampibs3" path="res://Art/Entities/bob_2.png" id="3_qw675"]
@@ -8,17 +8,33 @@
 [ext_resource type="Script" path="res://Scripts/Obstacles/SpawnDrop.cs" id="6_cpks1"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/Hitter.cs" id="8_0tdsc"]
 [ext_resource type="Script" path="res://Scripts/Clickable.cs" id="8_056ox"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHitDetector.cs" id="9_etsv0"]
 [ext_resource type="Script" path="res://Scripts/General/Health.cs" id="10_emnqa"]
 [ext_resource type="Script" path="res://Scripts/General/GeneralEnabler.cs" id="10_feq07"]
 [ext_resource type="PackedScene" uid="uid://5s1xwctvmkay" path="res://Prefabs/FX/SimpleHealthFX.tscn" id="12_8dvas"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/QueueFreeDeath.cs" id="12_eera1"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/Chuckable.cs" id="13_1ifro"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/GrabChuck.cs" id="14_gje70"]
+[ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="15_cfirm"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/GrabbableFX.cs" id="16_b8nuk"]
 [ext_resource type="Script" path="res://Scripts/General/ClickDamage.cs" id="16_rcee8"]
+[ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="17_72r20"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/SpawnDropSplashFX.cs" id="18_o6dr5"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/LimitRigidBodySpeed.cs" id="19_hb4un"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/ShadowMover.cs" id="20_xmld3"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHit.cs" id="21_ngxlc"]
 
 [sub_resource type="Curve2D" id="Curve2D_aguop"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, -4, -1079, 0, 0, 0, 0, -2, 7)
 }
 point_count = 2
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5c0u3"]
+friction = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ikqf"]
+radius = 32.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_unfdr"]
 animations = [{
@@ -54,60 +70,121 @@ z_index = 3
 [node name="SpawnDrop" type="Node2D" parent="." node_paths=PackedStringArray("dropFollow")]
 script = ExtResource("6_cpks1")
 dropSpeed = 1.0
-dropFollow = NodePath("Path2D/BobEntity")
+dropFollow = NodePath("Path2D/PathFollow")
 opt_enabler = NodePath("SpawnDropEnabler")
 
-[node name="Path2D" type="Path2D" parent="SpawnDrop"]
-curve = SubResource("Curve2D_aguop")
-
-[node name="Shadow" type="Sprite2D" parent="SpawnDrop/Path2D"]
+[node name="Shadow" type="Sprite2D" parent="SpawnDrop"]
 self_modulate = Color(1, 1, 1, 0.392157)
 z_index = 3
 position = Vector2(0, 18)
 texture = ExtResource("3_ris6g")
 
-[node name="BobEntity" type="PathFollow2D" parent="SpawnDrop/Path2D"]
+[node name="Path2D" type="Path2D" parent="SpawnDrop"]
+curve = SubResource("Curve2D_aguop")
+
+[node name="PathFollow" type="PathFollow2D" parent="SpawnDrop/Path2D"]
 z_index = 3
 position = Vector2(-4, -1079)
 rotates = false
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnDrop/Path2D/BobEntity"]
+[node name="Bob" type="RigidBody2D" parent="SpawnDrop/Path2D/PathFollow"]
+physics_material_override = SubResource("PhysicsMaterial_5c0u3")
+gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/PathFollow/Bob"]
+shape = SubResource("CircleShape2D_0ikqf")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnDrop/Path2D/PathFollow/Bob"]
 z_index = 3
 sprite_frames = SubResource("SpriteFrames_unfdr")
-animation = &"submerged"
 
-[node name="Hitbox" type="Area2D" parent="SpawnDrop/Path2D/BobEntity"]
+[node name="Hitbox" type="Area2D" parent="SpawnDrop/Path2D/PathFollow/Bob"]
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/BobEntity/Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnDrop/Path2D/PathFollow/Bob/Hitbox"]
 position = Vector2(-0.5, -9)
 shape = SubResource("RectangleShape2D_cjwty")
 
-[node name="Clickable" type="Node" parent="SpawnDrop/Path2D/BobEntity/Hitbox"]
+[node name="Clickable" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Hitbox"]
 script = ExtResource("8_056ox")
 
-[node name="ClickDamage" type="Node" parent="SpawnDrop/Path2D/BobEntity/Hitbox/Clickable" node_paths=PackedStringArray("clickable", "health")]
+[node name="ClickDamage" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Hitbox/Clickable" node_paths=PackedStringArray("clickable", "health")]
 script = ExtResource("16_rcee8")
+Damage = 5
 clickable = NodePath("..")
 health = NodePath("../../../Health")
 
-[node name="Hitter" type="Node2D" parent="SpawnDrop/Path2D/BobEntity" node_paths=PackedStringArray("collider")]
+[node name="Hitter" type="Node2D" parent="SpawnDrop/Path2D/PathFollow/Bob" node_paths=PackedStringArray("collider")]
 script = ExtResource("8_0tdsc")
 collider = NodePath("../Hitbox")
 
-[node name="Health" type="Node2D" parent="SpawnDrop/Path2D/BobEntity"]
+[node name="Health" type="Node2D" parent="SpawnDrop/Path2D/PathFollow/Bob"]
 script = ExtResource("10_emnqa")
-Amount = 2
-Max = 2
+Amount = 10
+Max = 10
 
-[node name="HealthFX" parent="SpawnDrop/Path2D/BobEntity/Health" node_paths=PackedStringArray("health") instance=ExtResource("12_8dvas")]
+[node name="HealthFX" parent="SpawnDrop/Path2D/PathFollow/Bob/Health" node_paths=PackedStringArray("health") instance=ExtResource("12_8dvas")]
 health = NodePath("..")
 
-[node name="QueueFreeDeath" type="Node" parent="SpawnDrop/Path2D/BobEntity/Health" node_paths=PackedStringArray("health", "target")]
+[node name="QueueFreeDeath" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Health" node_paths=PackedStringArray("health", "target")]
 script = ExtResource("12_eera1")
 health = NodePath("..")
-target = NodePath("../../../../..")
+target = NodePath("../../../../../..")
+
+[node name="Grabbable" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob"]
+script = ExtResource("15_cfirm")
+
+[node name="GrabChuck" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Grabbable" node_paths=PackedStringArray("grabbale", "chuckable")]
+script = ExtResource("14_gje70")
+grabbale = NodePath("..")
+chuckable = NodePath("Chuckable")
+
+[node name="Chuckable" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Grabbable/GrabChuck" node_paths=PackedStringArray("rigidbody2D")]
+script = ExtResource("13_1ifro")
+rigidbody2D = NodePath("../../..")
+
+[node name="GrabbableFX" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Grabbable" node_paths=PackedStringArray("animatedSprite", "grabbable")]
+script = ExtResource("16_b8nuk")
+animatedSprite = NodePath("../../AnimatedSprite2D")
+grabbable = NodePath("..")
+
+[node name="GrabFollowGrabber" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Grabbable" node_paths=PackedStringArray("grabbable", "target")]
+script = ExtResource("17_72r20")
+grabbable = NodePath("..")
+target = NodePath("../..")
+
+[node name="ShadowMover" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob/Grabbable" node_paths=PackedStringArray("entity", "shadow", "grabbable")]
+script = ExtResource("20_xmld3")
+entity = NodePath("../..")
+shadow = NodePath("../../../../../Shadow")
+grabbable = NodePath("..")
+shadowOffsetOnEntity = Vector2(0, 30)
+
+[node name="LimitRigidBodySpeed" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob" node_paths=PackedStringArray("rigidBody2D")]
+script = ExtResource("19_hb4un")
+maxLinearSpeed = 1000.0
+rigidBody2D = NodePath("..")
+
+[node name="DamageHealthOnHitDetector" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob" node_paths=PackedStringArray("physicsBody2D", "health")]
+script = ExtResource("9_etsv0")
+physicsBody2D = NodePath("..")
+health = NodePath("../Health")
+
+[node name="DamageOnHit" type="Node" parent="SpawnDrop/Path2D/PathFollow/Bob"]
+script = ExtResource("21_ngxlc")
+Damage = 1
 
 [node name="SpawnDropEnabler" type="Node" parent="SpawnDrop"]
 script = ExtResource("10_feq07")
-enablers = [NodePath("../Path2D/BobEntity/Hitbox")]
+enablers = [NodePath("../Path2D/PathFollow/Bob/Hitbox"), NodePath("../Path2D/PathFollow/Bob/CollisionShape2D")]
+
+[node name="SpawnDropSplashFX" type="Node" parent="SpawnDrop/SpawnDropEnabler" node_paths=PackedStringArray("animatedSprite", "spawnDrop")]
+script = ExtResource("18_o6dr5")
+animatedSprite = NodePath("../../Path2D/PathFollow/Bob/AnimatedSprite2D")
+spawnDrop = NodePath("../..")

@@ -17,10 +17,11 @@ namespace Game
 
         public override void _Process(double delta)
         {
-            base._Process(delta);
             int playerIndex = PlayerStaticData.Number - 1;
-            Held = Input.IsActionPressed(PrefixInput("Grab"));
+            Held = Input.IsActionPressed(PrefixInput("grab"));
+            HalfSpeed = !Input.IsActionPressed(PrefixInput("sprint"));
             movementDirection = Input.GetVector(PrefixInput("left"), PrefixInput("right"), PrefixInput("up"), PrefixInput("down"));
+            base._Process(delta);
         }
     }
 }
