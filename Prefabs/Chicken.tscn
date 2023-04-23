@@ -88,6 +88,7 @@ texture = ExtResource("1_co7vu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
 z_index = 5
+y_sort_enabled = true
 rotation = -3.14159
 sprite_frames = SubResource("SpriteFrames_qa7e8")
 animation = &"shooting"
@@ -138,7 +139,7 @@ position = Vector2(55, -6)
 script = ExtResource("13_r2npq")
 Damage = 1
 
-[node name="SpawnWalkEnabler" type="Node2D" parent="."]
+[node name="SpawnWalkEnabler" type="Node" parent="."]
 script = ExtResource("12_me4gh")
 enablers = [NodePath("SpawnWalkStoppedFX"), NodePath("AmandaShooter")]
 
@@ -149,11 +150,11 @@ stoppedAnim = "shooting"
 animatedSprite = NodePath("../../SpawnWalk/Path2D/PathFollow2D/Chicken/AnimatedSprite2D")
 spawnWalk = NodePath("../../SpawnWalk")
 
-[node name="AmandaShooter" type="Node2D" parent="SpawnWalkEnabler" node_paths=PackedStringArray("originPoint", "shootTimer")]
+[node name="AmandaShooter" type="Node" parent="SpawnWalkEnabler" node_paths=PackedStringArray("originPoint", "shootTimer")]
 script = ExtResource("15_tsgs0")
 obstacleToShoot = ExtResource("16_k7ldu")
 originPoint = NodePath("../../SpawnWalk/Path2D/PathFollow2D/Chicken/Mouth")
-velocity = Vector2(-10, 0)
+velocity = Vector2(-500, 0)
 shootTimer = NodePath("../../Timer")
 
 [node name="Timer" type="Timer" parent="."]

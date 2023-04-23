@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://o67y8uabunu6"]
+[gd_scene load_steps=12 format=3 uid="uid://o67y8uabunu6"]
 
 [ext_resource type="Texture2D" uid="uid://byggciyipad1" path="res://Art/Entities/amanda_1.png" id="1_glwu6"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="1_nt2i3"]
-[ext_resource type="Script" path="res://Prefabs/TestExistence.cs" id="1_wdja8"]
 [ext_resource type="Texture2D" uid="uid://dh0ktofcvp3au" path="res://Art/Entities/amanda_2.png" id="2_s2sqj"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHitDetector.cs" id="3_pq03x"]
 [ext_resource type="Script" path="res://Scripts/General/Health.cs" id="5_n7xa4"]
@@ -31,15 +30,14 @@ radius = 20.0
 height = 50.0
 
 [node name="Amanda" type="RigidBody2D"]
-collision_layer = 2
+collision_layer = 4
 collision_mask = 2
 physics_material_override = SubResource("PhysicsMaterial_d4f0p")
+gravity_scale = 0.0
 max_contacts_reported = 1
 contact_monitor = true
 lock_rotation = true
-freeze = true
 freeze_mode = 1
-script = ExtResource("1_wdja8")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.392157)
@@ -49,6 +47,7 @@ texture = ExtResource("1_nt2i3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 4
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_20m2e")
 frame_progress = 0.0958906
 

@@ -13,4 +13,9 @@ public partial class TestExistence : RigidBody2D
         GD.Print(Name + " at " + GlobalPosition);
         GD.Print(" Parent is " + GetParent().Name);
     }
+
+    public override void _ExitTree()
+    {
+        GD.Print("Goodbye, world!");
+    }
 }

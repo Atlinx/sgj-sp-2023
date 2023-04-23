@@ -23,11 +23,9 @@ public partial class ShootObstacle : Node
         {
             RigidBody2D rb = (RigidBody2D)obstacleToShoot.Instantiate();
 
-            rb.Position = originPoint.Position;
+            rb.GlobalPosition = originPoint.GlobalPosition;
             rb.LinearVelocity = velocity;
-
-            GD.Print("Shot " + rb);
-            GD.Print(rb.LinearVelocity);
+            AddChild(rb);
         }
         catch (InvalidCastException)
         {
