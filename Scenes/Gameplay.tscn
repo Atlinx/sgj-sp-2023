@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="15_q5bg3"]
 [ext_resource type="PackedScene" uid="uid://dci26krurj6iv" path="res://Prefabs/Bob.tscn" id="16_og6h3"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleDropper.cs" id="17_71qxc"]
-[ext_resource type="PackedScene" uid="uid://dxfi5i52hxso7" path="res://Prefabs/Bowl.tscn" id="18_hcua7"]
+[ext_resource type="PackedScene" uid="uid://rdi4myva60pq" path="res://Prefabs/Bowl.tscn" id="18_hcua7"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/World.cs" id="19_nmpuv"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHit.cs" id="20_lw2f3"]
 [ext_resource type="PackedScene" uid="uid://o67y8uabunu6" path="res://Prefabs/Amanda.tscn" id="21_daukt"]

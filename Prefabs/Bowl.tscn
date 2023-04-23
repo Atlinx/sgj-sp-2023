@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxfi5i52hxso7"]
+[gd_scene load_steps=14 format=3 uid="uid://rdi4myva60pq"]
 
 [ext_resource type="Script" path="res://Scripts/Bowl.cs" id="1_stter"]
 [ext_resource type="Texture2D" uid="uid://des3pkmhkou8q" path="res://Art/BG/bowl_fill_1.png" id="2_1kx4d"]
@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://cgre66qi3c8sh" path="res://Art/BG/bowl_fill_3.png" id="4_7yrw1"]
 [ext_resource type="Texture2D" uid="uid://bhpo1f8uyj3yn" path="res://Art/BG/bowl.png" id="4_kb4lb"]
 [ext_resource type="Texture2D" uid="uid://c0mgobjiwiqgs" path="res://Art/BG/bowl_fill_4.png" id="5_rbyd0"]
-[ext_resource type="Texture2D" uid="uid://cf0ac0ij2c6w8" path="res://Art/BG/center_1.png" id="8_utpni"]
-[ext_resource type="Texture2D" uid="uid://do5fq2j3lpkcu" path="res://Art/BG/center_2.png" id="9_i0hxi"]
+[ext_resource type="Texture2D" uid="uid://k2vhrycitmek" path="res://Art/BG/center_1.png" id="8_utpni"]
+[ext_resource type="Texture2D" uid="uid://dhrdmghxlqdkw" path="res://Art/BG/center_2.png" id="9_i0hxi"]
+[ext_resource type="Texture2D" uid="uid://cewg5yb7cwscr" path="res://Art/BG/center_3.png" id="10_ul614"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g2rhm"]
 animations = [{
@@ -38,6 +39,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("9_i0hxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ul614")
 }],
 "loop": true,
 "name": &"centerpoint",
@@ -73,8 +77,10 @@ texture = ExtResource("4_kb4lb")
 [node name="CenterPoint" type="Node2D" parent="."]
 
 [node name="CenterPointSprite" type="AnimatedSprite2D" parent="CenterPoint"]
+position = Vector2(5, 0)
 sprite_frames = SubResource("SpriteFrames_kbru4")
 animation = &"centerpoint"
+frame_progress = 0.795241
 
 [node name="Area2D" type="Area2D" parent="."]
 
