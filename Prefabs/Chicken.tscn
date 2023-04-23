@@ -1,0 +1,119 @@
+[gd_scene load_steps=17 format=3 uid="uid://b5t6u7qi465vq"]
+
+[ext_resource type="Texture2D" uid="uid://bxogbp4xvkuoy" path="res://Art/Entities/chicken_fire_1.png" id="1_aghpd"]
+[ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="1_co7vu"]
+[ext_resource type="Texture2D" uid="uid://c7vsjbxi1e4ri" path="res://Art/Entities/chicken_fire_2.png" id="2_qf6mt"]
+[ext_resource type="Texture2D" uid="uid://cd5fglb4v8pb" path="res://Art/Entities/chicken_wlk_1.png" id="3_5ngvp"]
+[ext_resource type="Texture2D" uid="uid://rshqhltjk8kn" path="res://Art/Entities/chicken_wlk_2.png" id="4_lfbac"]
+[ext_resource type="Script" path="res://Scripts/Clickable.cs" id="6_gss5s"]
+[ext_resource type="Script" path="res://Scripts/General/ClickDamage.cs" id="7_dyta2"]
+[ext_resource type="Script" path="res://Scripts/General/Health.cs" id="8_lg45w"]
+[ext_resource type="PackedScene" uid="uid://5s1xwctvmkay" path="res://Prefabs/FX/SimpleHealthFX.tscn" id="9_33q27"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/QueueFreeDeath.cs" id="10_e8x4e"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHitDetector.cs" id="11_1usfv"]
+
+[sub_resource type="Curve2D" id="Curve2D_n3qnr"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 362, -2, 0, 0, 0, 0, 2, -2)
+}
+point_count = 2
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sw42i"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qa7e8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_aghpd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qf6mt")
+}],
+"loop": true,
+"name": &"shooting",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_5ngvp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lfbac")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ukx0"]
+size = Vector2(73, 99)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8nqns"]
+size = Vector2(73, 99)
+
+[node name="Chicken" type="Node2D"]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_n3qnr")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(362, -2)
+rotation = 3.14159
+
+[node name="Chicken" type="RigidBody2D" parent="Path2D/PathFollow2D"]
+physics_material_override = SubResource("PhysicsMaterial_sw42i")
+contact_monitor = true
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+
+[node name="Shadow" type="Sprite2D" parent="Path2D/PathFollow2D/Chicken"]
+self_modulate = Color(1, 1, 1, 0.392157)
+z_index = 1
+position = Vector2(-3, -53)
+texture = ExtResource("1_co7vu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D/Chicken"]
+z_index = 1
+rotation = -3.14159
+sprite_frames = SubResource("SpriteFrames_qa7e8")
+animation = &"walking"
+
+[node name="Click Box" type="Area2D" parent="Path2D/PathFollow2D/Chicken"]
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Chicken/Click Box"]
+z_index = 1
+position = Vector2(-7.5, -7.5)
+shape = SubResource("RectangleShape2D_4ukx0")
+
+[node name="Clickable" type="Node" parent="Path2D/PathFollow2D/Chicken/Click Box"]
+script = ExtResource("6_gss5s")
+
+[node name="ClickDamage" type="Node" parent="Path2D/PathFollow2D/Chicken/Click Box/Clickable" node_paths=PackedStringArray("clickable", "health")]
+script = ExtResource("7_dyta2")
+Damage = 5
+clickable = NodePath("..")
+health = NodePath("../../../Health")
+
+[node name="Health" type="Node2D" parent="Path2D/PathFollow2D/Chicken"]
+script = ExtResource("8_lg45w")
+Amount = 15
+Max = 15
+
+[node name="HealthFX" parent="Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health") instance=ExtResource("9_33q27")]
+health = NodePath("..")
+
+[node name="QueueFreeDeath" type="Node" parent="Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health", "target")]
+script = ExtResource("10_e8x4e")
+health = NodePath("..")
+target = NodePath("../../../../..")
+
+[node name="DamageHealthOnHitDetector" type="Node" parent="Path2D/PathFollow2D/Chicken" node_paths=PackedStringArray("physicsBody2D", "health")]
+script = ExtResource("11_1usfv")
+physicsBody2D = NodePath("..")
+health = NodePath("../Health")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Chicken"]
+position = Vector2(-7.5, -7.5)
+shape = SubResource("RectangleShape2D_8nqns")

@@ -19,6 +19,7 @@ namespace Game
             {
                 if (body.TryGetComponent(out DamageHealthOnHit damageHealthOnHit)) 
                 {
+                    GD.Print("Took" + damageHealthOnHit.Damage + " damage!");
                     health.Damage(damageHealthOnHit.Damage);
                 }
             }; 
