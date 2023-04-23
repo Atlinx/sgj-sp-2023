@@ -124,12 +124,12 @@ shape = SubResource("CircleShape2D_ikcq1")
 position = Vector2(-1, -5)
 
 [node name="ColorSprite" type="AnimatedSprite2D" parent="Sprites"]
-z_index = 4
+z_index = 9
 sprite_frames = SubResource("SpriteFrames_4h5k8")
 animation = &"open"
 
 [node name="BaseSprite" type="AnimatedSprite2D" parent="Sprites"]
-z_index = 4
+z_index = 10
 sprite_frames = SubResource("SpriteFrames_1vwh8")
 animation = &"open"
 

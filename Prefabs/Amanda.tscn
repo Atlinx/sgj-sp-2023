@@ -1,19 +1,14 @@
-[gd_scene load_steps=18 format=3 uid="uid://o67y8uabunu6"]
+[gd_scene load_steps=13 format=3 uid="uid://o67y8uabunu6"]
 
 [ext_resource type="Texture2D" uid="uid://byggciyipad1" path="res://Art/Entities/amanda_1.png" id="1_glwu6"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="1_nt2i3"]
+[ext_resource type="Script" path="res://Prefabs/TestExistence.cs" id="1_wdja8"]
 [ext_resource type="Texture2D" uid="uid://dh0ktofcvp3au" path="res://Art/Entities/amanda_2.png" id="2_s2sqj"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHitDetector.cs" id="3_pq03x"]
 [ext_resource type="Script" path="res://Scripts/General/Health.cs" id="5_n7xa4"]
 [ext_resource type="PackedScene" uid="uid://5s1xwctvmkay" path="res://Prefabs/FX/SimpleHealthFX.tscn" id="6_ijcgf"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/QueueFreeDeath.cs" id="7_p0vs8"]
 [ext_resource type="Script" path="res://Scripts/Grabbable/Hitter.cs" id="8_pks5l"]
-[ext_resource type="Script" path="res://Scripts/Grabbable.cs" id="10_poqxs"]
-[ext_resource type="Script" path="res://Scripts/Obstacles/GrabChuck.cs" id="11_wlk8g"]
-[ext_resource type="Script" path="res://Scripts/Obstacles/Chuckable.cs" id="12_66olg"]
-[ext_resource type="Script" path="res://Scripts/Obstacles/GrabbableFX.cs" id="13_rku6e"]
-[ext_resource type="Script" path="res://Scripts/Grabbable/GrabFollowGrabber.cs" id="14_d22pf"]
-[ext_resource type="Script" path="res://Scripts/Obstacles/ShadowMover.cs" id="15_ro65p"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d4f0p"]
 
@@ -44,15 +39,16 @@ contact_monitor = true
 lock_rotation = true
 freeze = true
 freeze_mode = 1
-linear_velocity = Vector2(-10, 0)
+script = ExtResource("1_wdja8")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.392157)
 z_index = 3
-position = Vector2(0, 18)
+position = Vector2(0, 36)
 texture = ExtResource("1_nt2i3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 4
 sprite_frames = SubResource("SpriteFrames_20m2e")
 frame_progress = 0.0958906
 
@@ -89,32 +85,3 @@ collider = NodePath("../Hitbox")
 position = Vector2(2, 1)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_wia6c")
-
-[node name="Grabbable" type="Node" parent="."]
-script = ExtResource("10_poqxs")
-
-[node name="GrabChuck" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbale", "chuckable")]
-script = ExtResource("11_wlk8g")
-grabbale = NodePath("..")
-chuckable = NodePath("Chuckable")
-
-[node name="Chuckable" type="Node" parent="Grabbable/GrabChuck" node_paths=PackedStringArray("rigidbody2D")]
-script = ExtResource("12_66olg")
-rigidbody2D = NodePath("../../..")
-
-[node name="GrabbableFX" type="Node" parent="Grabbable" node_paths=PackedStringArray("animatedSprite", "grabbable")]
-script = ExtResource("13_rku6e")
-animatedSprite = NodePath("../../AnimatedSprite2D")
-grabbable = NodePath("..")
-
-[node name="GrabFollowGrabber" type="Node" parent="Grabbable" node_paths=PackedStringArray("grabbable", "target")]
-script = ExtResource("14_d22pf")
-grabbable = NodePath("..")
-target = NodePath("../..")
-
-[node name="ShadowMover" type="Node" parent="Grabbable" node_paths=PackedStringArray("entity", "shadow", "grabbable")]
-script = ExtResource("15_ro65p")
-entity = NodePath("../..")
-shadow = NodePath("../../Shadow")
-grabbable = NodePath("..")
-shadowOffsetOnEntity = Vector2(0, 30)

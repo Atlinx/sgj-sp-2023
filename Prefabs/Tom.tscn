@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b08h848l2fjjh"]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Obstacles/Tom.cs" id="1_1ix48"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/SpawnDrop.cs" id="2_yxuu2"]

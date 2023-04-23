@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c1s64ehd3c7n6"]
+[gd_scene load_steps=27 format=3 uid="uid://c1s64ehd3c7n6"]
 
 [ext_resource type="Theme" uid="uid://bnrvklk5pruhq" path="res://Art/Misc/theme.tres" id="1_xjl48"]
 [ext_resource type="Script" path="res://Scripts/BowlUI.cs" id="2_r2fbe"]
@@ -15,12 +15,13 @@
 [ext_resource type="PackedScene" uid="uid://gmx8hc6ba3bn" path="res://Prefabs/Player/Inputs/PlayerMouseDragInput.tscn" id="13_lgeca"]
 [ext_resource type="PackedScene" uid="uid://cdgha5y0xwt2x" path="res://Prefabs/Player/Inputs/PlayerActionInput.tscn" id="14_bmjt7"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleManager.cs" id="15_q5bg3"]
-[ext_resource type="PackedScene" uid="uid://dci26krurj6iv" path="res://Prefabs/Bob.tscn" id="16_og6h3"]
+[ext_resource type="PackedScene" uid="uid://c62v6py7lfect" path="res://Prefabs/Bob.tscn" id="16_og6h3"]
+[ext_resource type="PackedScene" uid="uid://b5t6u7qi465vq" path="res://Prefabs/Chicken.tscn" id="17_2xabi"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleDropper.cs" id="17_71qxc"]
 [ext_resource type="PackedScene" uid="uid://rdi4myva60pq" path="res://Prefabs/Bowl.tscn" id="18_hcua7"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/ObstacleWalker.cs" id="19_dnoc2"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/World.cs" id="19_nmpuv"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHit.cs" id="20_lw2f3"]
-[ext_resource type="PackedScene" uid="uid://o67y8uabunu6" path="res://Prefabs/Amanda.tscn" id="21_daukt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_77iy3"]
 shader = ExtResource("4_emjdf")
@@ -170,7 +171,7 @@ manager = NodePath("..")
 
 [node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
 script = ExtResource("15_q5bg3")
-obstaclePrefabs = Array[PackedScene]([ExtResource("16_og6h3")])
+obstaclePrefabs = Array[PackedScene]([ExtResource("16_og6h3"), ExtResource("17_2xabi")])
 DifficultyRampInterval = 10.0
 SpawnInterval = 5.0
 SpawnAmount = 1
@@ -179,7 +180,7 @@ MinSpawnInterval = 1
 MaxObstacles = 30
 gameManager = NodePath("..")
 obstacleContainer = NodePath("ObstacleContainer")
-obstacleSpawners = [NodePath("ObstacleDropper")]
+obstacleSpawners = [NodePath("ObstacleDropper"), NodePath("ObstacleWalker")]
 
 [node name="ObstacleContainer" type="Node2D" parent="GameManager/ObstacleManager"]
 
@@ -187,6 +188,13 @@ obstacleSpawners = [NodePath("ObstacleDropper")]
 script = ExtResource("17_71qxc")
 bowl = NodePath("../../Bowl")
 gameManager = NodePath("../..")
+
+[node name="ObstacleWalker" type="Node" parent="GameManager/ObstacleManager" node_paths=PackedStringArray("gameManager")]
+script = ExtResource("19_dnoc2")
+gameManager = NodePath("../..")
+minHeight = -600.0
+maxHeight = 600.0
+sidewaysDisplacement = 1000.0
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
 
@@ -221,6 +229,3 @@ shape = SubResource("RectangleShape2D_a6bpc")
 [node name="DamageHealthOnHit" type="Node" parent="Collision/Walls"]
 script = ExtResource("20_lw2f3")
 Damage = 1
-
-[node name="Amanda" parent="." instance=ExtResource("21_daukt")]
-position = Vector2(395, -112)

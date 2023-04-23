@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://b5t6u7qi465vq"]
+[gd_scene load_steps=23 format=3 uid="uid://b5t6u7qi465vq"]
 
 [ext_resource type="Texture2D" uid="uid://bxogbp4xvkuoy" path="res://Art/Entities/chicken_fire_1.png" id="1_aghpd"]
 [ext_resource type="Texture2D" uid="uid://bpcq63ms07ffu" path="res://Art/Entities/64px_shadow.png" id="1_co7vu"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/SpawnWalk.cs" id="1_tbani"]
 [ext_resource type="Texture2D" uid="uid://c7vsjbxi1e4ri" path="res://Art/Entities/chicken_fire_2.png" id="2_qf6mt"]
 [ext_resource type="Texture2D" uid="uid://cd5fglb4v8pb" path="res://Art/Entities/chicken_wlk_1.png" id="3_5ngvp"]
 [ext_resource type="Texture2D" uid="uid://rshqhltjk8kn" path="res://Art/Entities/chicken_wlk_2.png" id="4_lfbac"]
@@ -11,6 +12,11 @@
 [ext_resource type="PackedScene" uid="uid://5s1xwctvmkay" path="res://Prefabs/FX/SimpleHealthFX.tscn" id="9_33q27"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/QueueFreeDeath.cs" id="10_e8x4e"]
 [ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHitDetector.cs" id="11_1usfv"]
+[ext_resource type="Script" path="res://Scripts/General/GeneralEnabler.cs" id="12_me4gh"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/SpawnWalkStoppedFX.cs" id="13_3jskl"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/DamageHealthOnHit.cs" id="13_r2npq"]
+[ext_resource type="Script" path="res://Scripts/Obstacles/ShootObstacle.cs" id="15_tsgs0"]
+[ext_resource type="PackedScene" uid="uid://o67y8uabunu6" path="res://Prefabs/Amanda.tscn" id="16_k7ldu"]
 
 [sub_resource type="Curve2D" id="Curve2D_n3qnr"]
 _data = {
@@ -53,67 +59,103 @@ size = Vector2(73, 99)
 
 [node name="Chicken" type="Node2D"]
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="SpawnWalk" type="Node2D" parent="." node_paths=PackedStringArray("walkFollow")]
+script = ExtResource("1_tbani")
+walkSpeed = 1.0
+walkFollow = NodePath("Path2D/PathFollow2D")
+opt_enabler = NodePath("../SpawnWalkEnabler")
+
+[node name="Path2D" type="Path2D" parent="SpawnWalk"]
 curve = SubResource("Curve2D_n3qnr")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="PathFollow2D" type="PathFollow2D" parent="SpawnWalk/Path2D"]
 position = Vector2(362, -2)
 rotation = 3.14159
 
-[node name="Chicken" type="RigidBody2D" parent="Path2D/PathFollow2D"]
+[node name="Chicken" type="RigidBody2D" parent="SpawnWalk/Path2D/PathFollow2D"]
 physics_material_override = SubResource("PhysicsMaterial_sw42i")
+max_contacts_reported = 5
 contact_monitor = true
 lock_rotation = true
 freeze = true
 freeze_mode = 1
 
-[node name="Shadow" type="Sprite2D" parent="Path2D/PathFollow2D/Chicken"]
+[node name="Shadow" type="Sprite2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
 self_modulate = Color(1, 1, 1, 0.392157)
 z_index = 1
 position = Vector2(-3, -53)
 texture = ExtResource("1_co7vu")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D/Chicken"]
-z_index = 1
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
+z_index = 5
 rotation = -3.14159
 sprite_frames = SubResource("SpriteFrames_qa7e8")
-animation = &"walking"
+animation = &"shooting"
 
-[node name="Click Box" type="Area2D" parent="Path2D/PathFollow2D/Chicken"]
+[node name="Click Box" type="Area2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Chicken/Click Box"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken/Click Box"]
 z_index = 1
 position = Vector2(-7.5, -7.5)
 shape = SubResource("RectangleShape2D_4ukx0")
 
-[node name="Clickable" type="Node" parent="Path2D/PathFollow2D/Chicken/Click Box"]
+[node name="Clickable" type="Node" parent="SpawnWalk/Path2D/PathFollow2D/Chicken/Click Box"]
 script = ExtResource("6_gss5s")
 
-[node name="ClickDamage" type="Node" parent="Path2D/PathFollow2D/Chicken/Click Box/Clickable" node_paths=PackedStringArray("clickable", "health")]
+[node name="ClickDamage" type="Node" parent="SpawnWalk/Path2D/PathFollow2D/Chicken/Click Box/Clickable" node_paths=PackedStringArray("clickable", "health")]
 script = ExtResource("7_dyta2")
 Damage = 5
 clickable = NodePath("..")
 health = NodePath("../../../Health")
 
-[node name="Health" type="Node2D" parent="Path2D/PathFollow2D/Chicken"]
+[node name="Health" type="Node2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
 script = ExtResource("8_lg45w")
 Amount = 15
 Max = 15
 
-[node name="HealthFX" parent="Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health") instance=ExtResource("9_33q27")]
+[node name="HealthFX" parent="SpawnWalk/Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health") instance=ExtResource("9_33q27")]
 health = NodePath("..")
 
-[node name="QueueFreeDeath" type="Node" parent="Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health", "target")]
+[node name="QueueFreeDeath" type="Node" parent="SpawnWalk/Path2D/PathFollow2D/Chicken/Health" node_paths=PackedStringArray("health", "target")]
 script = ExtResource("10_e8x4e")
 health = NodePath("..")
-target = NodePath("../../../../..")
+target = NodePath("../../../../../..")
 
-[node name="DamageHealthOnHitDetector" type="Node" parent="Path2D/PathFollow2D/Chicken" node_paths=PackedStringArray("physicsBody2D", "health")]
+[node name="DamageHealthOnHitDetector" type="Node" parent="SpawnWalk/Path2D/PathFollow2D/Chicken" node_paths=PackedStringArray("physicsBody2D", "health")]
 script = ExtResource("11_1usfv")
 physicsBody2D = NodePath("..")
 health = NodePath("../Health")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Chicken"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
 position = Vector2(-7.5, -7.5)
 shape = SubResource("RectangleShape2D_8nqns")
+
+[node name="Mouth" type="Node2D" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
+position = Vector2(55, -6)
+
+[node name="DamageOnHit" type="Node" parent="SpawnWalk/Path2D/PathFollow2D/Chicken"]
+script = ExtResource("13_r2npq")
+Damage = 1
+
+[node name="SpawnWalkEnabler" type="Node2D" parent="."]
+script = ExtResource("12_me4gh")
+enablers = [NodePath("SpawnWalkStoppedFX"), NodePath("AmandaShooter")]
+
+[node name="SpawnWalkStoppedFX" type="Node" parent="SpawnWalkEnabler" node_paths=PackedStringArray("animatedSprite", "spawnWalk")]
+script = ExtResource("13_3jskl")
+defaultAnim = "walking"
+stoppedAnim = "shooting"
+animatedSprite = NodePath("../../SpawnWalk/Path2D/PathFollow2D/Chicken/AnimatedSprite2D")
+spawnWalk = NodePath("../../SpawnWalk")
+
+[node name="AmandaShooter" type="Node2D" parent="SpawnWalkEnabler" node_paths=PackedStringArray("originPoint", "shootTimer")]
+script = ExtResource("15_tsgs0")
+obstacleToShoot = ExtResource("16_k7ldu")
+originPoint = NodePath("../../SpawnWalk/Path2D/PathFollow2D/Chicken/Mouth")
+velocity = Vector2(-10, 0)
+shootTimer = NodePath("../../Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
