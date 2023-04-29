@@ -2,23 +2,23 @@
 
 namespace Game
 {
-    public partial class SpawnDropSplashFX : Node
+    public partial class SpawnWalkStoppedFX : Node
     {
         [ExportCategory("Settings")]
         [Export]
         private string defaultAnim = "default";
         [Export]
-        private string submergedAnim = "submerged";
+        private string stoppedAnim = "stopped";
 
         [ExportCategory("Dependencies")]
         [Export]
         private AnimatedSprite2D animatedSprite;
         [Export]
-        private SpawnDrop spawnDrop;
+        private SpawnWalk spawnWalk;
 
         public override void _Ready()
         {
-            spawnDrop.SpawnDropLanding += () => animatedSprite.Play(submergedAnim);
+            spawnWalk.SpawnWalkStopped += () => animatedSprite.Play(stoppedAnim);
             animatedSprite.Play(defaultAnim);
         }
     }
