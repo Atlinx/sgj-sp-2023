@@ -173,7 +173,7 @@ manager = NodePath("..")
 [node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
 script = ExtResource("15_q5bg3")
 obstaclePrefabs = Array[PackedScene]([ExtResource("16_og6h3"), ExtResource("17_2xabi")])
-DifficultyRampInterval = 20.0
+DifficultyRampInterval = 16.0
 SpawnInterval = 10.0
 SpawnAmount = 1
 MaxSpawnAmount = 5
@@ -193,8 +193,8 @@ gameManager = NodePath("../..")
 [node name="ObstacleWalker" type="Node" parent="GameManager/ObstacleManager" node_paths=PackedStringArray("gameManager")]
 script = ExtResource("19_dnoc2")
 gameManager = NodePath("../..")
-minHeight = -600.0
-maxHeight = 600.0
+minHeight = -500.0
+maxHeight = 500.0
 sidewaysDisplacement = 1000.0
 
 [node name="Camera2D" type="Camera2D" parent="GameManager"]
