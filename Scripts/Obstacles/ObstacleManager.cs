@@ -83,6 +83,11 @@ namespace Game
 
         public void SpawnObstacles()
         {
+            if (obstacleContainer.GetChildCount() + SpawnAmount > MaxObstacles)
+            {
+                SpawnAmount = MaxObstacles - obstacleContainer.GetChildCount();
+            }
+
             for (int i = 0; i < SpawnAmount; i++)
             {
                 var prefab = RandomObstaclePrefab();

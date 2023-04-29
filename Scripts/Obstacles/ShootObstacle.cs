@@ -1,35 +1,40 @@
 using Godot;
 using System;
 
-public partial class ShootObstacle : Node
-{
-    [Export]
-    private PackedScene obstacleToShoot;
-    [Export]
-    private Node2D originPoint;
-    [Export]
-    private Vector2 velocity;
-    [Export]
-    private Timer shootTimer;
+namespace Game {
 
-    public override void _Ready()
+    public partial class ShootObstacle : Node
     {
-        shootTimer.Timeout += Shoot;
-    }
+        [Export]
+        private PackedScene obstacleToShoot;
+        [Export]
+        private Node2D originPoint;
+        [Export]
+        private Vector2 velocity;
+        [Export]
+        private Timer shootTimer;
+        private World world;
 
-    private void Shoot()
-    {
-        try
+        public override void _Ready()
         {
-            RigidBody2D rb = (RigidBody2D)obstacleToShoot.Instantiate();
-
-            rb.GlobalPosition = originPoint.GlobalPosition;
-            rb.LinearVelocity = velocity;
-            AddChild(rb);
+            shootTimer.Timeout += Shoot;
+            world = ServiceLocator.Global.GetService<World>();
         }
-        catch (InvalidCastException)
+
+        private void Shoot()
         {
-            GD.Print("Can only shoot rigidbodies ATM");
+            try
+            {
+                RigidBody2D rb = (RigidBody2D)obstacleToShoot.Instantiate();
+
+                rb.GlobalPosition = originPoint.GlobalPosition;
+                rb.LinearVelocity = velocity;
+                world.AddNode(rb);
+            }
+            catch (InvalidCastException)
+            {
+                GD.Print("Can only shoot rigidbodies ATM");
+            }
         }
     }
 }

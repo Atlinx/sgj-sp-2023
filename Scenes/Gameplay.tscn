@@ -146,6 +146,7 @@ horizontal_alignment = 2
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("playerManager", "obstacleManager", "bowl", "scoreLabel")]
 script = ExtResource("6_3x2w3")
 GameDuration = 100.0
+WhiskTickScore = 100
 playerManager = NodePath("PlayerManager")
 obstacleManager = NodePath("ObstacleManager")
 bowl = NodePath("Bowl")
@@ -172,11 +173,11 @@ manager = NodePath("..")
 [node name="ObstacleManager" type="Node2D" parent="GameManager" node_paths=PackedStringArray("gameManager", "obstacleContainer")]
 script = ExtResource("15_q5bg3")
 obstaclePrefabs = Array[PackedScene]([ExtResource("16_og6h3"), ExtResource("17_2xabi")])
-DifficultyRampInterval = 10.0
-SpawnInterval = 5.0
+DifficultyRampInterval = 20.0
+SpawnInterval = 10.0
 SpawnAmount = 1
-MaxSpawnAmount = 10
-MinSpawnInterval = 1
+MaxSpawnAmount = 5
+MinSpawnInterval = 5
 MaxObstacles = 30
 gameManager = NodePath("..")
 obstacleContainer = NodePath("ObstacleContainer")

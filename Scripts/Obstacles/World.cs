@@ -39,7 +39,13 @@ namespace Game
         {
             var categoryNode = GetCategory(category);
             if (categoryNode != null)
-                node.Reparent(categoryNode);
+            {
+                if (node.GetParent() == null)
+                {
+                    AddChild(node);
+                }
+                else node.Reparent(categoryNode);
+            } 
         }
 
         public void RemoveNode(Node node) => RemoveNode(node, Category.Default);
