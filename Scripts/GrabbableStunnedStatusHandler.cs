@@ -6,6 +6,7 @@ namespace Game
     public class StunnedStatus : IStatus
     {
         public float Duration { get; set; }
+        public float Time { get; set; } = 0;
 
         public StunnedStatus(float duration)
         {

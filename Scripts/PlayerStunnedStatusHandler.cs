@@ -17,6 +17,8 @@ namespace Game
 
         public override void AddStatus(IStatus status)
         {
+            StunnedStatus stunnedStatus = status as StunnedStatus;
+            stunnedStatus.Time = 0;
             base.AddStatus(status);
             if (!player.Disabled)
             {
@@ -41,8 +43,8 @@ namespace Game
             foreach (var status in HandledStatuses)
                 if (status is StunnedStatus stunnedStatus)
                 {
-                    stunnedStatus.Duration -= (float)delta;
-                    if (stunnedStatus.Duration <= 0)
+                    stunnedStatus.Time -= (float)delta;
+                    if (stunnedStatus.Time <= 0)
                         statusHolder.RemoveStatus(stunnedStatus);
                 }
         }
